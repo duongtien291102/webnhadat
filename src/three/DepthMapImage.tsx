@@ -72,6 +72,7 @@ const ShaderPlane = ({ imagePath }: { imagePath: string }) => {
 
   // Tính toán scale để ảnh hiển thị trọn vẹn (giống object-fit: contain)
   // Như vậy sẽ lấy được cả cảnh 2 bên ngoài trời mà không bị crop
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const img = texture.image as any;
   const imageAspect = img ? img.width / img.height : 1;
   const viewportAspect = viewport.width / viewport.height;
@@ -109,7 +110,9 @@ export default function DepthMapImage({ imagePath }: { imagePath: string }) {
 
   useEffect(() => {
     // Bật hiệu ứng intro sau khi component mount
-    setMounted(true);
+    setTimeout(() => {
+      setMounted(true);
+    }, 0);
     
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
