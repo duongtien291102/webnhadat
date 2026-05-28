@@ -2,7 +2,7 @@ name: Docker Build and Publish
 
 on:
   push:
-    branches: [ "main" ] # Chỉ trigger CI/CD đẩy lên Docker khi merge vào nhánh main
+    branches: [ "develop" ] # Chỉ trigger CI/CD đẩy lên Docker khi merge vào nhánh develop
 
 env:
   REGISTRY: ghcr.io
