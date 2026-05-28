@@ -1,13 +1,14 @@
 import DepthMapImage from "@/three/DepthMapImage";
+import BimSolutions from "@/components/BimSolutions";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
     <main style={{ backgroundColor: "#000", minHeight: "200vh" }}>
       <DepthMapImage imagePath="/asset/background.png" />
-      <div style={{ height: "100vh", display: "flex", alignItems: "center", justifyContent: "center", color: "white" }}>
-        <h2 style={{ fontFamily: "sans-serif", fontWeight: "300", letterSpacing: "2px", opacity: 0.5 }}>
-          [ Các section nội dung khác sẽ nằm ở đây ]
-        </h2>
+      <div style={{ position: 'relative', zIndex: 1, marginTop: '100vh', backgroundColor: '#f6f7f9' }}>
+        <BimSolutions />
+        <Footer />
       </div>
     </main>
   );
