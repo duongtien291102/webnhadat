@@ -18,13 +18,12 @@ function RotatingAbstractShape() {
   return (
     <mesh ref={meshRef} position={[2, 0, 0]} scale={1.5}>
       <octahedronGeometry args={[1.5, 0]} />
-      <meshPhysicalMaterial 
-        thickness={0.5} 
-        roughness={0.2} 
-        transmission={0.9} 
-        ior={1.2} 
+      <meshStandardMaterial 
+        roughness={0.1}
+        metalness={0.5}
         transparent={true}
-        color="#fdf8f8"
+        opacity={0.4}
+        color="#ffffff"
       />
     </mesh>
   );
@@ -32,17 +31,16 @@ function RotatingAbstractShape() {
 
 export default function ThreeCanvas() {
   return (
-    <div className="absolute inset-0 z-[1] opacity-70 pointer-events-none">
+    <div className="absolute inset-0 z-[1] pointer-events-none">
       <Canvas 
         camera={{ position: [0, 0, 5], fov: 45 }}
-        dpr={[1, 1.5]}
+        dpr={[1, 2]}
         performance={{ min: 0.5 }}
       >
-        <ambientLight intensity={0.5} />
-        <directionalLight position={[10, 10, 10]} intensity={1} />
+        <ambientLight intensity={0.8} />
+        <directionalLight position={[10, 10, 10]} intensity={1.5} />
         <directionalLight position={[-10, -10, -10]} intensity={0.5} />
         <RotatingAbstractShape />
-        <Environment preset="city" />
       </Canvas>
     </div>
   );

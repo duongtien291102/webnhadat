@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Menu, X, ArrowUpRight, Inbox } from 'lucide-react';
 
 interface HeaderProps {
@@ -9,6 +9,21 @@ interface HeaderProps {
 
 export default function Header({ onNavClick, onOpenInbox, inboxCount }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Hiện header khi cuộn xuống quá 100px
+      if (window.scrollY > 100) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const toggleMobileMenu = () => setMobileMenuOpen(!mobileMenuOpen);
 
@@ -18,8 +33,15 @@ export default function Header({ onNavClick, onOpenInbox, inboxCount }: HeaderPr
   };
 
   return (
-    <header className="bg-brand-surface/90 backdrop-blur-md text-brand-primary sticky top-0 border-b border-brand-concrete-grey z-50 flex justify-between items-center w-full px-6 md:px-20 h-20 transition-all duration-300">
-      <div className="flex items-center gap-2 cursor-pointer" onClick={() => handleLinkClick('hero')}>
+    <header 
+      className={`fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 md:px-20 h-20 transition-all duration-500
+        ${isScrolled 
+          ? 'translate-y-0 opacity-100 bg-brand-surface/90 backdrop-blur-md border-b border-brand-concrete-grey text-brand-primary shadow-sm' 
+          : '-translate-y-full opacity-0 pointer-events-none'
+        }
+      `}
+    >
+      <div className="flex items-center gap-2 cursor-pointer pointer-events-auto" onClick={() => handleLinkClick('hero')}>
         <span className="text-lg font-bold tracking-[0.2em] uppercase font-sans">NOU DESIGN</span>
       </div>
 

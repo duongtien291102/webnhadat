@@ -22,7 +22,7 @@ export default function Hero({ onScrollToProjects }: HeroProps) {
       </div>
       
       {/* 3D Abstract Canvas */}
-      <ThreeCanvas />
+      {/* <ThreeCanvas /> */}
 
       {/* Hero Content */}
       <div className="relative z-10 max-w-4xl space-y-8 text-left">
