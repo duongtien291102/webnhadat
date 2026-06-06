@@ -1,32 +1,37 @@
-export interface Project {
+export interface Material {
   id: string;
-  title: string;
-  slug: string;
-  region: string;
-  year: string;
+  name: string;
+  vietnameseName: string;
   image: string;
   description: string;
-  fullStory: string;
-  materials: string[];
-  size: string;
+  details: string;
+  highlights: string[];
 }
 
-export interface Inquiry {
-  id: string;
-  clientName: string;
-  email: string;
-  projectType: string;
-  message: string;
-  estimatedPrice?: number;
-  estimatedTimeline?: string;
-  status: 'Chờ xử lý' | 'Đã liên hệ';
-  createdAt: string;
-}
-
-export interface Service {
+export interface Project {
   id: string;
   index: string;
   title: string;
+  tagline: string;
   description: string;
-  fullDetail: string;
+  bullets: string[];
+  highlightsHeader: string;
+  highlights: string[];
+  mainImage: string;
+  gallery: string[];
+  area: string;
+  location: string;
+}
+
+export interface Step {
+  number: string;
+  title: string;
+  description: string;
+}
+
+export interface PhilosophyCard {
+  title: string;
+  iconName: string;
+  description: string;
+  image: string;
 }

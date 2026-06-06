@@ -1,57 +1,42 @@
-@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Manrope:wght@200..800&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-serif: "EB Garamond", serif;
-  --font-sans: "Manrope", sans-serif;
-  --color-brand-surface: #fdf8f8;
-  --color-brand-surface-dim: #ddd9d8;
-  --color-brand-surface-bright: #fdf8f8;
-  --color-brand-surface-lowest: #ffffff;
-  --color-brand-surface-low: #f7f3f2;
-  --color-brand-surface-container: #f1edec;
-  --color-brand-surface-high: #ebe7e6;
-  --color-brand-surface-highest: #e5e2e1;
-  --color-brand-on-surface: #1c1b1b;
-  --color-brand-on-surface-variant: #444748;
-  --color-brand-inverse-surface: #313030;
-  --color-brand-inverse-on-surface: #f4f0ef;
-  --color-brand-outline: #747878;
-  --color-brand-outline-variant: #c4c7c7;
-  --color-brand-primary: #000000;
-  --color-brand-on-primary: #ffffff;
-  --color-brand-primary-container: #1c1b1b;
-  --color-brand-on-primary-container: #858383;
-  --color-brand-secondary: #685d4d;
-  --color-brand-on-secondary: #ffffff;
-  --color-brand-secondary-container: #eeddc9;
-  --color-brand-on-secondary-container: #6d6151;
-  --color-brand-warm-slate: #4A4A48;
-  --color-brand-concrete-grey: #D1D1CB;
-  --color-brand-bone-white: #F7F6F2;
-  --color-brand-soft-oak: #E5DED4;
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-serif: var(--font-serif), ui-serif, Georgia, Cambria, serif;
 }
 
-@layer base {
-  body {
-    background-color: var(--color-brand-surface);
-    color: var(--color-brand-on-surface);
-    font-family: var(--font-sans);
-  }
+body {
+  background-color: #fcfbf9; /* elegant light off-white tone matching high-end design */
+  color: #1a1a1a;
+  overflow-x: hidden;
 }
 
-.grain-overlay {
-  position: fixed;
-  top: 0; left: 0; width: 100%; height: 100%;
-  pointer-events: none;
-  z-index: 9999;
-  opacity: 0.035;
-  background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
-  transform: translateZ(0);
-  will-change: transform;
+/* Custom minimal scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }
 
-/* Smooth Scrolling */
-html {
-  scroll-behavior: smooth;
+::-webkit-scrollbar-track {
+  background: #fbfaf8;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e2dfda;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #c5c1b8;
+}
+
+/* Elegant text layout utilities */
+.editorial-title {
+  font-family: var(--font-serif);
+  letter-spacing: -0.02em;
+}
+
+.mono-tag {
+  letter-spacing: 0.15em;
+  font-size: 0.75rem;
 }
