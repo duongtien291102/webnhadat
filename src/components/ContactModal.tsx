@@ -180,7 +180,7 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
                   </div>
                   <h4 className="text-2xl font-serif font-medium text-neutral-900">Gửi Yêu Cầu Thành Công</h4>
                   <p className="text-sm text-neutral-600 max-w-sm leading-relaxed">
-                    Chào <strong className="text-neutral-900">{name}</strong>, chúng tôi đã ghi nhận yêu cầu tư vấn thiết kế căn hộ rộng <strong className="text-neutral-900">{area} m²</strong> theo phong cách <strong className="text-neutral-900">{style === 'minimalist' ? 'Tối Giản Japandi' : style === 'modern' ? 'Hiện Đại Cân Bằng' : 'Độc Bản Ấm Cúng'}</strong>.
+                    Chào <strong className="text-neutral-900">{name}</strong>, chúng tôi đã ghi nhận yêu cầu tư vấn của bạn.
                   </p>
                   <p className="text-xs text-neutral-400 leading-relaxed">
                     Kiến trúc sư của <strong className="text-neutral-900">Nou Architects</strong> sẽ trực tiếp kết nối với bạn qua số điện thoại <span className="text-neutral-900 font-mono font-medium">{phone}</span> trong vòng 1-2 giờ làm việc tới.

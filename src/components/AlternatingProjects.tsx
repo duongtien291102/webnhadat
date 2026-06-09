@@ -185,15 +185,6 @@ const ProjectImageSlider = ({ project, onClick }: { project: Project, onClick: (
         </>
       )}
 
-      {/* NOU DESIGN Brand Tags */}
-      <div className="absolute top-4 left-4 z-20 flex flex-wrap gap-2 pointer-events-none">
-        <div className="bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-sm text-[10px] text-white tracking-widest border border-white/10 uppercase font-mono shadow-sm">
-          NOU DESIGN
-        </div>
-        <div className="bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-sm text-[10px] text-neutral-900 tracking-widest border border-black/5 font-bold uppercase shadow-sm">
-          {project.title} • {project.area}
-        </div>
-      </div>
 
       {/* Interactive Heart Icon */}
       <button
