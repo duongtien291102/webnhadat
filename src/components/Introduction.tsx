@@ -112,7 +112,7 @@ export default function Introduction() {
             ref={containerRef}
             onMouseMove={handleMouseMove}
             onTouchMove={handleTouchMove}
-            className="relative w-full h-[320px] md:h-[480px] lg:h-[550px] bg-neutral-200 overflow-hidden cursor-ew-resize select-none border border-neutral-200 rounded-sm"
+            className="relative w-full h-[320px] md:h-[480px] lg:h-[550px] bg-neutral-200 overflow-hidden cursor-ew-resize select-none border border-neutral-200 rounded-sm touch-pan-y"
           >
             {/* Before Stage (CAD Blueprint) */}
             <div className="absolute inset-0 w-full h-full">

@@ -24,9 +24,9 @@ export default function Navbar({ onOpenContact }: NavbarProps) {
   }, []);
 
   const navLinks = [
-    { name: 'TRANG CHỦ', href: '#home' },
-    { name: 'GIỚI THIỆU', href: '#introduction' },
-    { name: 'PHONG CÁCH', href: '#projects' },
+    { name: 'TRANG CHỦ', href: '/' },
+    { name: 'GIỚI THIỆU', href: '/about' },
+    { name: 'PHONG CÁCH', href: '/style/all' },
   ];
 
   return (
@@ -40,7 +40,7 @@ export default function Navbar({ onOpenContact }: NavbarProps) {
       >
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
           {/* Logo */}
-          <a href="#home" className="flex items-center gap-3 group">
+          <a href="/" className="flex items-center gap-3 group">
             <img
               src="/asset/logo.png"
               alt="NOU Architects Logo"
@@ -59,14 +59,16 @@ export default function Navbar({ onOpenContact }: NavbarProps) {
           {/* Desktop Nav Links */}
           <nav className="hidden lg:flex items-center gap-10">
             {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className={`text-xs tracking-widest font-semibold hover:opacity-100 transition-opacity relative py-2 ${isScrolled ? 'text-neutral-700 hover:text-black opacity-80' : 'text-[#f5f1ea] hover:text-white opacity-85'
-                  }`}
-              >
-                {link.name}
-              </a>
+              <div key={link.name} className="relative group py-2">
+                <a
+                  href={link.href}
+                  className={`text-xs tracking-widest font-semibold hover:opacity-100 transition-opacity relative py-2 ${isScrolled ? 'text-neutral-700 hover:text-black opacity-80' : 'text-[#f5f1ea] hover:text-white opacity-85'
+                    }`}
+                >
+                  {link.name}
+                </a>
+
+              </div>
             ))}
           </nav>
 
@@ -112,17 +114,19 @@ export default function Navbar({ onOpenContact }: NavbarProps) {
           >
             <div className="flex flex-col space-y-6 text-center pt-8">
               {navLinks.map((link, idx) => (
-                <motion.a
-                  key={link.name}
-                  href={link.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: idx * 0.05 }}
-                  className="text-lg tracking-widest font-serif font-medium text-neutral-800 hover:text-black py-2 border-b border-neutral-200/50"
-                >
-                  {link.name}
-                </motion.a>
+                <div key={link.name} className="flex flex-col border-b border-neutral-200/50">
+                  <motion.a
+                    href={link.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: idx * 0.05 }}
+                    className="text-lg tracking-widest font-serif font-medium text-neutral-800 hover:text-black py-3"
+                  >
+                    {link.name}
+                  </motion.a>
+
+                </div>
               ))}
             </div>
 

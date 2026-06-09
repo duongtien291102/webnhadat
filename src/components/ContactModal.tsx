@@ -26,16 +26,30 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
     }
   }, [initialMaterial]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !phone) return;
 
     setIsSubmitting(true);
-    // Simulate API request
-    setTimeout(() => {
-      setIsSubmitting(false);
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, phone, message }),
+      });
+
+      if (!res.ok) {
+        throw new Error('Lỗi gửi thông tin');
+      }
+
       setIsSuccess(true);
-    }, 1200);
+    } catch (error) {
+      console.error('Lỗi khi submit form:', error);
+      alert('Đã xảy ra lỗi khi gửi yêu cầu. Vui lòng thử lại sau.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const resetForm = () => {
@@ -50,7 +64,7 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex justify-end">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -60,19 +74,19 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
             className="absolute inset-0 bg-neutral-900/60 backdrop-blur-sm"
           />
 
-          {/* Drawer Content */}
+          {/* Modal Content */}
           <motion.div
-            initial={{ x: '100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '100%' }}
-            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="relative z-10 w-full max-w-xl bg-[#fcfbf9] shadow-2xl h-full flex flex-col border-l border-neutral-200"
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            className="relative z-10 w-full max-w-2xl max-h-[95vh] bg-[#fcfbf9] shadow-2xl rounded-sm flex flex-col overflow-hidden border border-neutral-200"
           >
             {/* Header */}
             <div className="p-6 border-b border-neutral-200 flex justify-between items-center bg-[#f7f5f0]">
               <div>
                 <span className="mono-tag text-xs text-neutral-500 uppercase">Nou Architects</span>
-                <h3 className="text-2xl font-serif text-neutral-900 font-medium">Đặt Lịch Tư Vấn</h3>
+                <h3 className="text-2xl font-serif text-neutral-900 font-medium">Để lại thông tin để chúng mình tư vấn nha</h3>
               </div>
               <button
                 onClick={onClose}
@@ -89,10 +103,7 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
                 <form onSubmit={handleSubmit} className="space-y-6">
                   {/* Client Info */}
                   <div className="space-y-4">
-                    <h4 className="text-sm font-semibold uppercase tracking-wider text-neutral-400 flex items-center gap-2">
-                      <Home size={16} /> Thông tin khách hàng
-                    </h4>
-                    
+
                     <div>
                       <label className="block text-xs font-medium text-neutral-600 mb-1">Họ và tên của bạn *</label>
                       <input
@@ -119,85 +130,7 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
                     </div>
                   </div>
 
-                  {/* Configurator Details */}
-                  <div className="space-y-4 pt-4 border-t border-neutral-100">
-                    <h4 className="text-sm font-semibold uppercase tracking-wider text-neutral-400 flex items-center gap-2">
-                      <Sliders size={16} /> Quy mô & Phong cách
-                    </h4>
 
-                    {/* Area Slider */}
-                    <div>
-                      <div className="flex justify-between items-center mb-1">
-                        <label className="block text-xs font-medium text-neutral-600">Diện tích ước lượng (m²)</label>
-                        <span className="text-sm font-bold text-neutral-800">{area} m²</span>
-                      </div>
-                      <input
-                        type="range"
-                        min="30"
-                        max="500"
-                        value={area}
-                        onChange={(e) => setArea(Number(e.target.value))}
-                        className="w-full h-1 bg-neutral-200 rounded-lg appearance-none cursor-pointer accent-neutral-950"
-                      />
-                      <div className="flex justify-between text-[10px] text-neutral-400 mt-1">
-                        <span>Chung cư (30m²)</span>
-                        <span>Biệt thự (500m²+)</span>
-                      </div>
-                    </div>
-
-                    {/* Preferred Style */}
-                    <div>
-                      <label className="block text-xs font-medium text-neutral-600 mb-2">Định hướng phong cách</label>
-                      <div className="grid grid-cols-3 gap-2">
-                        {[
-                          { id: 'minimalist', label: 'Tối Giản Japandi' },
-                          { id: 'modern', label: 'Hiện Đại Tinh Tế' },
-                          { id: 'cozy', label: 'Ấm Cúng Độc Bản' },
-                        ].map((s) => (
-                          <button
-                            key={s.id}
-                            type="button"
-                            onClick={() => setStyle(s.id)}
-                            className={`py-2 px-1 text-center rounded text-xs border transition-all ${
-                              style === s.id
-                                ? 'bg-neutral-950 border-neutral-950 text-white shadow-sm'
-                                : 'bg-white border-neutral-200 text-neutral-600 hover:border-neutral-400'
-                            }`}
-                          >
-                            {s.label}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                    {/* Material Swatch Choice */}
-                    <div>
-                      <label className="block text-xs font-medium text-neutral-600 mb-2">Vật liệu chủ đạo quan tâm</label>
-                      <div className="grid grid-cols-2 gap-2">
-                        {[
-                          { id: 'nordic-oak', label: 'Gỗ Sồi Nordic Oak' },
-                          { id: 'micro-cement', label: 'Bê-tông Micro-cement' },
-                          { id: 'raw-linen', label: 'Vải Linen Tự Nhiên' },
-                          { id: 'oxidized-steel', label: 'Thép Độc Bản Oxidized' },
-                        ].map((m) => (
-                          <button
-                            key={m.id}
-                            type="button"
-                            onClick={() => setMaterial(m.id)}
-                            className={`py-3 px-3 text-left rounded-md border flex items-center justify-between text-xs transition-all ${
-                              material === m.id
-                                ? 'bg-neutral-950 border-neutral-950 text-white'
-                                : 'bg-white border-neutral-200 text-neutral-700 hover:border-neutral-400'
-                            }`}
-                          >
-                            <span>{m.label}</span>
-                            <div className={`w-3 h-3 rounded-full border ${
-                              material === m.id ? 'bg-white border-neutral-950' : 'bg-neutral-200 border-transparent'
-                            }`} />
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
 
                   {/* Message Field */}
                   <div className="space-y-2 pt-4 border-t border-neutral-100">

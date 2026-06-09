@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ChevronRight, ArrowRight, ArrowLeft, X, Calendar, MapPin, Ruler, Check, Maximize2 } from 'lucide-react';
+import { ChevronRight, ArrowRight, ArrowLeft, X, Calendar, MapPin, Ruler, Check, Maximize2, Heart } from 'lucide-react';
 import { Project } from '../types';
 
 interface AlternatingProjectsProps {
@@ -135,6 +135,7 @@ const projects: Project[] = [
 
 const ProjectImageSlider = ({ project, onClick }: { project: Project, onClick: () => void }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isFavorite, setIsFavorite] = useState(false);
   const images = project.gallery && project.gallery.length > 0 ? project.gallery : [project.mainImage];
 
   useEffect(() => {
@@ -158,12 +159,12 @@ const ProjectImageSlider = ({ project, onClick }: { project: Project, onClick: (
   return (
     <div
       onClick={onClick}
-      className="relative block group overflow-hidden bg-neutral-900 border border-neutral-200/60 shadow-xl cursor-pointer rounded-sm"
+      className="relative block group overflow-hidden bg-neutral-900 border border-neutral-200/60 shadow-xl cursor-pointer rounded-sm aspect-[4/3]"
     >
       <img
         src={images[currentIndex]}
         alt={project.title}
-        className="w-full h-[360px] md:h-[450px] object-cover filter brightness-95 group-hover:scale-104 group-hover:brightness-90 transition-all duration-700"
+        className="absolute inset-0 w-full h-full object-cover filter brightness-95 group-hover:scale-105 group-hover:brightness-90 transition-all duration-700"
         referrerPolicy="no-referrer"
       />
 
@@ -171,25 +172,39 @@ const ProjectImageSlider = ({ project, onClick }: { project: Project, onClick: (
         <>
           <button
             onClick={handlePrev}
-            className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/30 hover:bg-black/60 text-white flex items-center justify-center rounded-full z-20 transition-all opacity-0 group-hover:opacity-100"
+            className="absolute left-4 top-1/2 -translate-y-1/2 min-w-[44px] min-h-[44px] bg-black/30 hover:bg-black/60 text-white flex items-center justify-center rounded-full z-20 transition-all opacity-0 group-hover:opacity-100 cursor-pointer"
           >
             <ArrowLeft size={20} />
           </button>
           <button
             onClick={handleNext}
-            className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/30 hover:bg-black/60 text-white flex items-center justify-center rounded-full z-20 transition-all opacity-0 group-hover:opacity-100"
+            className="absolute right-4 top-1/2 -translate-y-1/2 min-w-[44px] min-h-[44px] bg-black/30 hover:bg-black/60 text-white flex items-center justify-center rounded-full z-20 transition-all opacity-0 group-hover:opacity-100 cursor-pointer"
           >
             <ArrowRight size={20} />
           </button>
         </>
       )}
 
-
-
-      {/* Expand icon in top right */}
-      <div className="absolute top-4 right-4 p-2.5 bg-black/50 backdrop-blur-md rounded-full text-white/80 opacity-0 group-hover:opacity-100 transition-all z-20 pointer-events-none">
-        <Maximize2 size={16} />
+      {/* NOU DESIGN Brand Tags */}
+      <div className="absolute top-4 left-4 z-20 flex flex-wrap gap-2 pointer-events-none">
+        <div className="bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-sm text-[10px] text-white tracking-widest border border-white/10 uppercase font-mono shadow-sm">
+          NOU DESIGN
+        </div>
+        <div className="bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-sm text-[10px] text-neutral-900 tracking-widest border border-black/5 font-bold uppercase shadow-sm">
+          {project.title} • {project.area}
+        </div>
       </div>
+
+      {/* Interactive Heart Icon */}
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsFavorite(!isFavorite);
+        }}
+        className="absolute top-4 right-4 z-20 min-w-[44px] min-h-[44px] bg-black/40 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-black/70 hover:scale-110 active:scale-95 transition-all cursor-pointer shadow-lg"
+      >
+        <Heart size={18} fill={isFavorite ? "#ef4444" : "transparent"} className={isFavorite ? "text-red-500" : "text-white"} />
+      </button>
     </div>
   );
 };
@@ -334,7 +349,7 @@ export default function AlternatingProjects({ onOpenConsultation }: AlternatingP
                           e.stopPropagation();
                           setActivePhotoIndex((prev) => (prev === 0 ? selectedProject.gallery.length - 1 : prev - 1));
                         }}
-                        className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/30 hover:bg-black/60 text-white flex items-center justify-center rounded-full z-20 transition-all opacity-0 group-hover:opacity-100 cursor-pointer"
+                        className="absolute left-4 top-1/2 -translate-y-1/2 min-w-[44px] min-h-[44px] bg-black/30 hover:bg-black/60 text-white flex items-center justify-center rounded-full z-20 transition-all opacity-0 group-hover:opacity-100 cursor-pointer"
                       >
                         <ArrowLeft size={20} />
                       </button>
@@ -343,7 +358,7 @@ export default function AlternatingProjects({ onOpenConsultation }: AlternatingP
                           e.stopPropagation();
                           setActivePhotoIndex((prev) => (prev + 1) % selectedProject.gallery.length);
                         }}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/30 hover:bg-black/60 text-white flex items-center justify-center rounded-full z-20 transition-all opacity-0 group-hover:opacity-100 cursor-pointer"
+                        className="absolute right-4 top-1/2 -translate-y-1/2 min-w-[44px] min-h-[44px] bg-black/30 hover:bg-black/60 text-white flex items-center justify-center rounded-full z-20 transition-all opacity-0 group-hover:opacity-100 cursor-pointer"
                       >
                         <ArrowRight size={20} />
                       </button>
@@ -388,10 +403,10 @@ export default function AlternatingProjects({ onOpenConsultation }: AlternatingP
                     {/* Close action */}
                     <button
                       onClick={() => setSelectedProject(null)}
-                      className="p-2.5 hover:bg-neutral-150 rounded-full transition-all text-neutral-500 hover:text-black cursor-pointer "
+                      className="min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-neutral-150 rounded-full transition-all text-neutral-500 hover:text-black cursor-pointer "
                       id="close-project-modal"
                     >
-                      <X size={18} />
+                      <X size={20} />
                     </button>
                   </div>
 

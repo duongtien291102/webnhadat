@@ -26,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="vi" className={`${playfair.variable} ${jakarta.variable}`}>
-      <body className="font-sans antialiased">
+      <body className="font-sans antialiased" suppressHydrationWarning>
         {children}
       </body>
     </html>
