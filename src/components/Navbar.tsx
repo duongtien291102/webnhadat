@@ -26,39 +26,33 @@ export default function Navbar({ onOpenContact }: NavbarProps) {
   const navLinks = [
     { name: 'TRANG CHỦ', href: '#home' },
     { name: 'GIỚI THIỆU', href: '#introduction' },
-    { name: 'TRIẾT LÝ THIẾT KẾ', href: '#philosophy' },
-    { name: 'DỰ ÁN', href: '#projects' },
+    { name: 'PHONG CÁCH', href: '#projects' },
   ];
 
   return (
     <>
       <header
-        className={`fixed top-0 left-0 w-full z-40 transition-all duration-300 ${
-          isScrolled
-            ? 'bg-[#fcfbf9]/95 backdrop-blur-md py-4 shadow-sm border-b border-neutral-100'
-            : 'bg-gradient-to-b from-black/50 to-transparent py-6 text-white'
-        }`}
+        className={`fixed top-0 left-0 w-full z-40 transition-all duration-300 ${isScrolled
+          ? 'bg-[#fcfbf9]/95 backdrop-blur-md py-4 shadow-sm border-b border-neutral-100'
+          : 'bg-gradient-to-b from-black/50 to-transparent py-6 text-white'
+          }`}
         id="app-navbar"
       >
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
           {/* Logo */}
           <a href="#home" className="flex items-center gap-3 group">
-            <img 
-              src="/asset/logo.png" 
-              alt="NOU Architects Logo" 
+            <img
+              src="/asset/logo.png"
+              alt="NOU Architects Logo"
               className="w-10 h-10 object-contain transition-transform hover:scale-105"
             />
             <div>
               <h1
-                className={`text-sm tracking-[0.25em] font-medium transition-colors ${
-                  isScrolled ? 'text-neutral-900' : 'text-white'
-                }`}
+                className={`text-sm tracking-[0.25em] font-medium transition-colors ${isScrolled ? 'text-neutral-900' : 'text-white'
+                  }`}
               >
                 NOU ARCHITECTS
               </h1>
-              <p className="text-[9px] tracking-[0.1em] text-neutral-400 font-sans uppercase">
-                Minimal Design Studio
-              </p>
             </div>
           </a>
 
@@ -68,9 +62,8 @@ export default function Navbar({ onOpenContact }: NavbarProps) {
               <a
                 key={link.name}
                 href={link.href}
-                className={`text-xs tracking-widest font-semibold hover:opacity-100 transition-opacity relative py-2 ${
-                  isScrolled ? 'text-neutral-700 hover:text-black opacity-80' : 'text-[#f5f1ea] hover:text-white opacity-85'
-                }`}
+                className={`text-xs tracking-widest font-semibold hover:opacity-100 transition-opacity relative py-2 ${isScrolled ? 'text-neutral-700 hover:text-black opacity-80' : 'text-[#f5f1ea] hover:text-white opacity-85'
+                  }`}
               >
                 {link.name}
               </a>
@@ -81,11 +74,10 @@ export default function Navbar({ onOpenContact }: NavbarProps) {
           <div className="hidden lg:block">
             <button
               onClick={onOpenContact}
-              className={`px-6 py-2.5 text-xs font-bold tracking-widest border transition-all cursor-pointer hover:scale-105 active:scale-95 ${
-                isScrolled
-                  ? 'border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white'
-                  : 'border-[#f5f1ea] text-[#f5f1ea] hover:bg-white hover:text-black'
-              }`}
+              className={`px-6 py-2.5 text-xs font-bold tracking-widest border transition-all cursor-pointer hover:scale-105 active:scale-95 ${isScrolled
+                ? 'border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white'
+                : 'border-[#f5f1ea] text-[#f5f1ea] hover:bg-white hover:text-black'
+                }`}
               id="desktop-contact-btn"
             >
               LIÊN HỆ

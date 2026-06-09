@@ -90,18 +90,7 @@ export default function HeroSlider({ onOpenContact }: HeroSliderProps) {
       <div className="absolute inset-0 z-20 flex flex-col justify-end pb-20 md:pb-28">
         <div className="max-w-7xl mx-auto px-6 md:px-12 w-full">
           <div className="max-w-3xl space-y-4 md:space-y-6">
-            {/* Meta tag */}
-            <motion.div
-              key={`meta-${currentIndex}`}
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.2, duration: 0.8 }}
-              className="inline-block"
-            >
-              <span className="mono-tag text-[10px] md:text-xs tracking-[0.2em] font-bold text-[#e1dfda] bg-white/10 backdrop-blur-md px-3.5 py-1.5 border border-white/20">
-                {slides[currentIndex].meta}
-              </span>
-            </motion.div>
+
 
             {/* Giant Heading */}
             <motion.div

@@ -1,0 +1,347 @@
+{
+  "ruleChain": {
+    "name": "Root Rule Chain",
+    "type": "CORE",
+    "firstRuleNodeId": null,
+    "root": false,
+    "debugMode": false,
+    "configuration": null,
+    "additionalInfo": null
+  },
+  "metadata": {
+    "version": 5,
+    "firstNodeIndex": 2,
+    "nodes": [
+      {
+        "type": "org.thingsboard.rule.engine.telemetry.TbMsgTimeseriesNode",
+        "name": "Save Timeseries",
+        "debugSettings": null,
+        "singletonMode": false,
+        "queueName": null,
+        "configurationVersion": 1,
+        "configuration": {
+          "defaultTTL": 0,
+          "useServerTs": false,
+          "processingSettings": {
+            "type": "ON_EVERY_MESSAGE"
+          }
+        },
+        "additionalInfo": {
+          "layoutX": 824,
+          "layoutY": 156
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.telemetry.TbMsgAttributesNode",
+        "name": "Save Client Attributes",
+        "debugSettings": null,
+        "singletonMode": false,
+        "queueName": null,
+        "configurationVersion": 3,
+        "configuration": {
+          "processingSettings": {
+            "type": "ON_EVERY_MESSAGE"
+          },
+          "scope": "CLIENT_SCOPE",
+          "notifyDevice": false,
+          "sendAttributesUpdatedNotification": false,
+          "updateAttributesOnlyOnValueChange": true
+        },
+        "additionalInfo": {
+          "layoutX": 825,
+          "layoutY": 52
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.filter.TbMsgTypeSwitchNode",
+        "name": "Message Type Switch",
+        "debugSettings": null,
+        "singletonMode": false,
+        "queueName": null,
+        "configurationVersion": 0,
+        "configuration": {
+          "version": 0
+        },
+        "additionalInfo": {
+          "layoutX": 347,
+          "layoutY": 149
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.action.TbLogNode",
+        "name": "Log RPC from Device",
+        "debugSettings": null,
+        "singletonMode": false,
+        "queueName": null,
+        "configurationVersion": 0,
+        "configuration": {
+          "scriptLang": "TBEL",
+          "jsScript": "return '\\nIncoming message:\\n' + JSON.stringify(msg) + '\\nIncoming metadata:\\n' + JSON.stringify(metadata);",
+          "tbelScript": "return '\\nIncoming message:\\n' + JSON.stringify(msg) + '\\nIncoming metadata:\\n' + JSON.stringify(metadata);"
+        },
+        "additionalInfo": {
+          "layoutX": 825,
+          "layoutY": 266
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.action.TbLogNode",
+        "name": "Log Other",
+        "debugSettings": null,
+        "singletonMode": false,
+        "queueName": null,
+        "configurationVersion": 0,
+        "configuration": {
+          "scriptLang": "TBEL",
+          "jsScript": "return '\\nIncoming message:\\n' + JSON.stringify(msg) + '\\nIncoming metadata:\\n' + JSON.stringify(metadata);",
+          "tbelScript": "return '\\nIncoming message:\\n' + JSON.stringify(msg) + '\\nIncoming metadata:\\n' + JSON.stringify(metadata);"
+        },
+        "additionalInfo": {
+          "layoutX": 825,
+          "layoutY": 379
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.rpc.TbSendRPCRequestNode",
+        "name": "RPC Call Request",
+        "debugSettings": null,
+        "singletonMode": false,
+        "queueName": null,
+        "configurationVersion": 0,
+        "configuration": {
+          "timeoutInSeconds": 60
+        },
+        "additionalInfo": {
+          "layoutX": 825,
+          "layoutY": 468
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.kafka.TbKafkaNode",
+        "name": "Kafka - Status Meter",
+        "debugSettings": null,
+        "singletonMode": false,
+        "queueName": null,
+        "configurationVersion": 1,
+        "configuration": {
+          "topicPattern": "evn.gateway.status.meter",
+          "keyPattern": null,
+          "bootstrapServers": "evniotp-kafka:9092",
+          "retries": 0,
+          "batchSize": 16384,
+          "linger": 0,
+          "bufferMemory": 33554432,
+          "acks": "-1",
+          "otherProperties": {
+            "security.protocol": "SASL_PLAINTEXT",
+            "sasl.mechanism": "PLAIN",
+            "sasl.jaas.config": "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"kafka_user\" password=\"kafka_123\";"
+          },
+          "addMetadataKeyValuesAsKafkaHeaders": false,
+          "kafkaHeadersCharset": "UTF-8"
+        },
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 1340,
+          "layoutY": 159
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.kafka.TbKafkaNode",
+        "name": "Gửi Data Register",
+        "debugSettings": null,
+        "singletonMode": false,
+        "queueName": null,
+        "configurationVersion": 1,
+        "configuration": {
+          "topicPattern": "evn.gateway.data.register",
+          "keyPattern": null,
+          "bootstrapServers": "evniotp-kafka:9092",
+          "retries": 0,
+          "batchSize": 16384,
+          "linger": 0,
+          "bufferMemory": 33554432,
+          "acks": "-1",
+          "otherProperties": {
+            "security.protocol": "SASL_PLAINTEXT",
+            "sasl.mechanism": "PLAIN",
+            "sasl.jaas.config": "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"kafka_user\" password=\"kafka_123\";"
+          },
+          "addMetadataKeyValuesAsKafkaHeaders": false,
+          "kafkaHeadersCharset": "UTF-8"
+        },
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 1348,
+          "layoutY": 247
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.kafka.TbKafkaNode",
+        "name": "Gửi Data Load Profile",
+        "debugSettings": null,
+        "singletonMode": false,
+        "queueName": null,
+        "configurationVersion": 1,
+        "configuration": {
+          "topicPattern": "evn.gateway.data.load_profile",
+          "keyPattern": null,
+          "bootstrapServers": "evniotp-kafka:9092",
+          "retries": 0,
+          "batchSize": 16384,
+          "linger": 0,
+          "bufferMemory": 33554432,
+          "acks": "-1",
+          "otherProperties": {
+            "security.protocol": "SASL_PLAINTEXT",
+            "sasl.mechanism": "PLAIN",
+            "sasl.jaas.config": "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"kafka_user\" password=\"kafka_123\";"
+          },
+          "addMetadataKeyValuesAsKafkaHeaders": false,
+          "kafkaHeadersCharset": "UTF-8"
+        },
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 1352,
+          "layoutY": 328
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.kafka.TbKafkaNode",
+        "name": "Gửi Data Billing",
+        "debugSettings": null,
+        "singletonMode": false,
+        "queueName": null,
+        "configurationVersion": 1,
+        "configuration": {
+          "topicPattern": "evn.gateway.data.billing",
+          "keyPattern": null,
+          "bootstrapServers": "evniotp-kafka:9092",
+          "retries": 0,
+          "batchSize": 16384,
+          "linger": 0,
+          "bufferMemory": 33554432,
+          "acks": "-1",
+          "otherProperties": {
+            "security.protocol": "SASL_PLAINTEXT",
+            "sasl.mechanism": "PLAIN",
+            "sasl.jaas.config": "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"kafka_user\" password=\"kafka_123\";"
+          },
+          "addMetadataKeyValuesAsKafkaHeaders": false,
+          "kafkaHeadersCharset": "UTF-8"
+        },
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 1359,
+          "layoutY": 410
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.kafka.TbKafkaNode",
+        "name": "Gửi Data Meter Event",
+        "debugSettings": null,
+        "singletonMode": false,
+        "queueName": null,
+        "configurationVersion": 1,
+        "configuration": {
+          "topicPattern": "evn.gateway.data.meter_event",
+          "keyPattern": null,
+          "bootstrapServers": "evniotp-kafka:9092",
+          "retries": 0,
+          "batchSize": 16384,
+          "linger": 0,
+          "bufferMemory": 33554432,
+          "acks": "-1",
+          "otherProperties": {
+            "security.protocol": "SASL_PLAINTEXT",
+            "sasl.mechanism": "PLAIN",
+            "sasl.jaas.config": "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"kafka_user\" password=\"kafka_123\";"
+          },
+          "addMetadataKeyValuesAsKafkaHeaders": false,
+          "kafkaHeadersCharset": "UTF-8"
+        },
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 1361,
+          "layoutY": 489
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.filter.TbJsSwitchNode",
+        "name": "Phân Loại Topic",
+        "debugSettings": null,
+        "singletonMode": false,
+        "queueName": null,
+        "configurationVersion": 0,
+        "configuration": {
+          "scriptLang": "TBEL",
+          "jsScript": "function nextRelation(metadata, msg) {\n    return ['one','nine'];\n}\nif(msgType === 'POST_TELEMETRY_REQUEST') {\n    return ['two'];\n}\nreturn nextRelation(metadata, msg);",
+          "tbelScript": "var payloadString = JSON.stringify(msg).toLowerCase();\r\n\r\nif (payloadString.includes(\"load_profile\")) {\r\n    return ['LoadProfile'];\r\n} else if (payloadString.includes(\"billing\")) {\r\n    return ['Billing'];\r\n} else if (payloadString.includes(\"meter_event\")) {\r\n    return ['MeterEvent'];\r\n} else if (payloadString.includes(\"status\")) {\r\n    return ['StatusMeter'];\r\n} else {\r\n    // Mặc định ném vào Register\r\n    return ['Register']; \r\n}\r\n"
+        },
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 1046,
+          "layoutY": 156
+        }
+      }
+    ],
+    "connections": [
+      {
+        "fromIndex": 0,
+        "toIndex": 11,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 2,
+        "toIndex": 0,
+        "type": "Post telemetry"
+      },
+      {
+        "fromIndex": 2,
+        "toIndex": 1,
+        "type": "Post attributes"
+      },
+      {
+        "fromIndex": 2,
+        "toIndex": 3,
+        "type": "RPC Request from Device"
+      },
+      {
+        "fromIndex": 2,
+        "toIndex": 4,
+        "type": "Other"
+      },
+      {
+        "fromIndex": 2,
+        "toIndex": 5,
+        "type": "RPC Request to Device"
+      },
+      {
+        "fromIndex": 11,
+        "toIndex": 6,
+        "type": "StatusMeter"
+      },
+      {
+        "fromIndex": 11,
+        "toIndex": 7,
+        "type": "Register"
+      },
+      {
+        "fromIndex": 11,
+        "toIndex": 8,
+        "type": "LoadProfile"
+      },
+      {
+        "fromIndex": 11,
+        "toIndex": 9,
+        "type": "Billing"
+      },
+      {
+        "fromIndex": 11,
+        "toIndex": 10,
+        "type": "MeterEvent"
+      }
+    ],
+    "ruleChainConnections": null
+  }
+}

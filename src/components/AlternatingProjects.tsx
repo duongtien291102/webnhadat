@@ -156,7 +156,7 @@ const ProjectImageSlider = ({ project, onClick }: { project: Project, onClick: (
   };
 
   return (
-    <div 
+    <div
       onClick={onClick}
       className="relative block group overflow-hidden bg-neutral-900 border border-neutral-200/60 shadow-xl cursor-pointer rounded-sm"
     >
@@ -184,21 +184,7 @@ const ProjectImageSlider = ({ project, onClick }: { project: Project, onClick: (
         </>
       )}
 
-      {/* Centered Overlay Glass Tag */}
-      <div className="absolute inset-0 flex items-center justify-center p-6 z-10 pointer-events-none">
-        <div className="bg-neutral-900/85 backdrop-blur-md border border-neutral-700/60 p-6 max-w-sm w-full text-center space-y-1 transform group-hover:scale-102 transition-transform duration-500 shadow-xl">
-          <span className="text-[10px] tracking-widest font-mono text-neutral-300 font-bold uppercase block">
-            NOU SPECIAL SELECTION
-          </span>
-          <h4 className="text-sm font-serif font-medium text-[#e9dcce] tracking-wide">
-            {project.tagline}
-          </h4>
-          <div className="w-10 h-px bg-neutral-500 mx-auto mt-2 opacity-50" />
-          <span className="text-[8px] tracking-[0.2em] font-sans text-neutral-400 font-medium uppercase mt-2 block">
-            Click để phóng to chi tiết
-          </span>
-        </div>
-      </div>
+
 
       {/* Expand icon in top right */}
       <div className="absolute top-4 right-4 p-2.5 bg-black/50 backdrop-blur-md rounded-full text-white/80 opacity-0 group-hover:opacity-100 transition-all z-20 pointer-events-none">
@@ -223,12 +209,12 @@ export default function AlternatingProjects({ onOpenConsultation }: AlternatingP
   return (
     <section className="py-24 space-y-24 md:space-y-36 bg-[#fcfbf9]" id="projects">
       <div className="max-w-7xl mx-auto px-6 md:px-12 space-y-20 md:space-y-28">
-        
+
         {/* Section Header */}
         <div className="text-center max-w-xl mx-auto space-y-3">
           <div className="w-12 h-px bg-neutral-400 mx-auto" />
           <h3 className="text-3xl font-serif text-neutral-900 font-normal tracking-wide">
-            Hồ sơ dự án tiêu biểu
+            Phong cách tiêu biểu
           </h3>
           <p className="text-xs text-neutral-500 font-sans tracking-widest leading-relaxed">
             Nơi hiện thực hóa những xúc cảm mộc mạc Japandi qua từng công trình thực vật mang đậm hơi thở bản ngã.
@@ -246,14 +232,13 @@ export default function AlternatingProjects({ onOpenConsultation }: AlternatingP
               >
                 {/* Text Content Column */}
                 <div
-                  className={`lg:col-span-6 space-y-6 flex flex-col justify-center order-2 ${
-                    isEven ? 'lg:order-1' : 'lg:order-2'
-                  }`}
+                  className={`lg:col-span-6 space-y-6 flex flex-col justify-center order-2 ${isEven ? 'lg:order-1' : 'lg:order-2'
+                    }`}
                 >
                   <span className="text-xs font-mono font-medium tracking-[0.25em] text-neutral-400 block uppercase">
-                    Dự án {project.index}
+                    Phong cách
                   </span>
-                  
+
                   <h3 className="text-4xl font-serif text-neutral-950 font-light tracking-tight leading-none uppercase">
                     {project.title}
                   </h3>
@@ -301,16 +286,15 @@ export default function AlternatingProjects({ onOpenConsultation }: AlternatingP
 
                 {/* Overlaid Image Visual Column */}
                 <div
-                  className={`lg:col-span-6 order-1 ${
-                    isEven ? 'lg:order-2' : 'lg:order-1'
-                  }`}
+                  className={`lg:col-span-6 order-1 ${isEven ? 'lg:order-2' : 'lg:order-1'
+                    }`}
                 >
-                  <ProjectImageSlider 
-                    project={project} 
+                  <ProjectImageSlider
+                    project={project}
                     onClick={() => {
                       setSelectedProject(project);
                       setActivePhotoIndex(0);
-                    }} 
+                    }}
                   />
                 </div>
               </div>
@@ -341,7 +325,7 @@ export default function AlternatingProjects({ onOpenConsultation }: AlternatingP
                     referrerPolicy="no-referrer"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
-                  
+
                   {/* Left / Right arrows */}
                   {selectedProject.gallery.length > 1 && (
                     <>
@@ -378,9 +362,8 @@ export default function AlternatingProjects({ onOpenConsultation }: AlternatingP
                     <button
                       key={tIdx}
                       onClick={() => setActivePhotoIndex(tIdx)}
-                      className={`relative w-20 h-full overflow-hidden border cursor-pointer hover:border-white transition-all shrink-0 rounded-sm ${
-                        activePhotoIndex === tIdx ? 'border-white ring-2 ring-white/10 scale-95' : 'border-neutral-700/60'
-                      }`}
+                      className={`relative w-20 h-full overflow-hidden border cursor-pointer hover:border-white transition-all shrink-0 rounded-sm ${activePhotoIndex === tIdx ? 'border-white ring-2 ring-white/10 scale-95' : 'border-neutral-700/60'
+                        }`}
                     >
                       <img
                         src={thumb}
