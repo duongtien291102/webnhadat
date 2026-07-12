@@ -117,7 +117,7 @@ export default function AlternatingProjects({ onOpenConsultation }: AlternatingP
                     Phong cách
                   </span>
 
-                  <h3 className="text-4xl font-serif text-neutral-950 font-light tracking-tight leading-none uppercase">
+                  <h3 className="text-4xl font-serif text-neutral-950 font-medium tracking-tight leading-none uppercase">
                     {project.title}
                   </h3>
 

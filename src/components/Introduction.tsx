@@ -89,7 +89,7 @@ export default function Introduction() {
             <div className="grid grid-cols-3 gap-6 pt-6 border-t border-neutral-200/80">
               {stats.map((stat, idx) => (
                 <div key={idx} className="space-y-1">
-                  <div className="text-2xl md:text-4xl font-serif font-light text-neutral-900">
+                  <div className="text-2xl md:text-4xl font-serif font-medium text-neutral-900">
                     {stat.value}
                   </div>
                   <div className="text-xs text-neutral-400 tracking-wide font-sans">
