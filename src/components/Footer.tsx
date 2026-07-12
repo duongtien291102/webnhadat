@@ -15,7 +15,7 @@ export default function Footer() {
         
         {/* Left main brand column */}
         <div className="lg:col-span-5 space-y-6">
-          <a href="#home" className="flex items-center gap-3">
+          <a href="#home" aria-label="Trang chủ NOU Architects" className="flex items-center gap-3">
             <div className="w-9 h-9 flex items-center justify-center font-serif text-sm font-bold border border-neutral-700 bg-neutral-900 text-white">
               NOU
             </div>
@@ -39,6 +39,7 @@ export default function Footer() {
               <a
                 key={idx}
                 href={social.href}
+                aria-label={`Theo dõi trên ${social.href.split('//')[1].split('.')[0]}`}
                 className={`w-9 h-9 border border-neutral-800 rounded-full flex items-center justify-center text-neutral-400 hover:border-neutral-200 transition-all duration-300 ${social.color}`}
                 target="_blank"
                 rel="noreferrer"

@@ -17,7 +17,7 @@ function CustomSelect({ label, value, options, onChange }: { label: string, valu
 
   return (
     <div className="relative flex flex-col gap-2" onMouseLeave={() => setIsOpen(false)}>
-      <label className="text-[10px] font-mono font-bold tracking-[0.2em] text-neutral-400 uppercase">{label}</label>
+      <label className="text-[10px] font-mono font-bold tracking-[0.2em] text-neutral-500 uppercase">{label}</label>
       <button 
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center justify-between w-48 border-b border-neutral-300 bg-transparent py-2 text-sm font-medium text-neutral-800 hover:border-neutral-900 focus:outline-none transition-colors cursor-pointer"
@@ -160,7 +160,8 @@ export default function StyleGalleryPage() {
                       e.stopPropagation();
                       toggleLike(project.id);
                     }}
-                    className="absolute top-5 right-5 w-10 h-10 bg-white/95 backdrop-blur-sm shadow-md rounded-full flex items-center justify-center text-neutral-400 hover:text-red-500 hover:bg-white hover:scale-105 transition-all z-20"
+                    aria-label={liked[project.id] ? "Bỏ yêu thích" : "Yêu thích"}
+                    className="absolute top-5 right-5 w-12 h-12 bg-white/95 backdrop-blur-sm shadow-md rounded-full flex items-center justify-center text-neutral-500 hover:text-red-500 hover:bg-white hover:scale-105 transition-all z-20 cursor-pointer"
                   >
                     <Heart size={16} fill={liked[project.id] ? "currentColor" : "none"} className={liked[project.id] ? "text-red-500" : ""} />
                   </button>

@@ -64,7 +64,8 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
                       e.stopPropagation();
                       setActivePhotoIndex((prev) => (prev === 0 ? project.gallery.length - 1 : prev - 1));
                     }}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 min-w-[44px] min-h-[44px] bg-black/30 hover:bg-black/60 text-white flex items-center justify-center rounded-full z-20 transition-all opacity-0 group-hover:opacity-100 cursor-pointer"
+                    aria-label="Ảnh trước"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 min-w-[48px] min-h-[48px] bg-black/30 hover:bg-black/60 text-white flex items-center justify-center rounded-full z-20 transition-all opacity-0 group-hover:opacity-100 cursor-pointer"
                   >
                     <ArrowLeft size={20} />
                   </button>
@@ -73,7 +74,8 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
                       e.stopPropagation();
                       setActivePhotoIndex((prev) => (prev + 1) % project.gallery.length);
                     }}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 min-w-[44px] min-h-[44px] bg-black/30 hover:bg-black/60 text-white flex items-center justify-center rounded-full z-20 transition-all opacity-0 group-hover:opacity-100 cursor-pointer"
+                    aria-label="Ảnh sau"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 min-w-[48px] min-h-[48px] bg-black/30 hover:bg-black/60 text-white flex items-center justify-center rounded-full z-20 transition-all opacity-0 group-hover:opacity-100 cursor-pointer"
                   >
                     <ArrowRight size={20} />
                   </button>
@@ -92,6 +94,7 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
                 <button
                   key={tIdx}
                   onClick={() => setActivePhotoIndex(tIdx)}
+                  aria-label={`Xem ảnh nhỏ ${tIdx + 1}`}
                   className={`relative w-20 h-full overflow-hidden border cursor-pointer hover:border-white transition-all shrink-0 rounded-sm ${
                     activePhotoIndex === tIdx ? 'border-white ring-2 ring-white/10 scale-95' : 'border-neutral-700/60'
                   }`}
@@ -120,7 +123,8 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
                 {/* Close action */}
                 <button
                   onClick={onClose}
-                  className="min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-neutral-150 rounded-full transition-all text-neutral-500 hover:text-black cursor-pointer"
+                  aria-label="Đóng chi tiết dự án"
+                  className="min-w-[48px] min-h-[48px] flex items-center justify-center hover:bg-neutral-150 rounded-full transition-all text-neutral-500 hover:text-black cursor-pointer"
                   id="close-project-modal"
                 >
                   <X size={20} />
@@ -173,7 +177,7 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
                 <span>LÊN DỰ TOÁN THEO CĂN HỘ NÀY</span>
                 <ChevronRight size={14} />
               </button>
-              <p className="text-[10px] text-center text-neutral-400 font-sans">
+              <p className="text-[10px] text-center text-neutral-500 font-sans">
                 * Được tư vấn trực tiếp cùng Kiến trúc sư trưởng của Nou Architects.
               </p>
             </div>

@@ -44,7 +44,7 @@ export default function Navbar({ onOpenContact, alwaysSolid = false }: NavbarPro
       >
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
           {/* Logo */}
-          <a href="/" className="flex items-center gap-3 group">
+          <a href="/" aria-label="Trang chủ NOU Architects" className="flex items-center gap-3 group">
             <div className="relative w-10 h-10 transition-transform hover:scale-105">
               <Image
                 src="/asset/logo.png"
@@ -95,8 +95,9 @@ export default function Navbar({ onOpenContact, alwaysSolid = false }: NavbarPro
           {/* Mobile Menu Toggle Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="lg:hidden p-2 rounded focus:outline-none cursor-pointer"
+            className="lg:hidden p-3 rounded focus:outline-none cursor-pointer"
             id="mobile-menu-toggle"
+            aria-label={isMobileMenuOpen ? "Đóng menu" : "Mở menu"}
           >
             {isMobileMenuOpen ? (
               <X size={24} className={isScrolledActive ? 'text-neutral-900' : 'text-white'} />

@@ -50,13 +50,15 @@ const ProjectImageSlider = ({ project, onClick }: { project: Project, onClick: (
         <>
           <button
             onClick={handlePrev}
-            className="absolute left-4 top-1/2 -translate-y-1/2 min-w-[44px] min-h-[44px] bg-black/30 hover:bg-black/60 text-white flex items-center justify-center rounded-full z-20 transition-all opacity-0 group-hover:opacity-100 cursor-pointer"
+            aria-label="Ảnh trước"
+            className="absolute left-4 top-1/2 -translate-y-1/2 min-w-[48px] min-h-[48px] bg-black/30 hover:bg-black/60 text-white flex items-center justify-center rounded-full z-20 transition-all opacity-0 group-hover:opacity-100 cursor-pointer"
           >
             <ArrowLeft size={20} />
           </button>
           <button
             onClick={handleNext}
-            className="absolute right-4 top-1/2 -translate-y-1/2 min-w-[44px] min-h-[44px] bg-black/30 hover:bg-black/60 text-white flex items-center justify-center rounded-full z-20 transition-all opacity-0 group-hover:opacity-100 cursor-pointer"
+            aria-label="Ảnh sau"
+            className="absolute right-4 top-1/2 -translate-y-1/2 min-w-[48px] min-h-[48px] bg-black/30 hover:bg-black/60 text-white flex items-center justify-center rounded-full z-20 transition-all opacity-0 group-hover:opacity-100 cursor-pointer"
           >
             <ArrowRight size={20} />
           </button>
@@ -69,7 +71,8 @@ const ProjectImageSlider = ({ project, onClick }: { project: Project, onClick: (
           e.stopPropagation();
           setIsFavorite(!isFavorite);
         }}
-        className="absolute top-4 right-4 z-20 min-w-[44px] min-h-[44px] bg-black/40 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-black/70 hover:scale-110 active:scale-95 transition-all cursor-pointer shadow-lg"
+        aria-label={isFavorite ? "Bỏ yêu thích" : "Yêu thích"}
+        className="absolute top-4 right-4 z-20 min-w-[48px] min-h-[48px] bg-black/40 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-black/70 hover:scale-110 active:scale-95 transition-all cursor-pointer shadow-lg"
       >
         <Heart size={18} fill={isFavorite ? "#ef4444" : "transparent"} className={isFavorite ? "text-red-500" : "text-white"} />
       </button>

@@ -90,7 +90,8 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
               </div>
               <button
                 onClick={onClose}
-                className="p-2 hover:bg-neutral-200 rounded-full transition-colors duration-200 text-neutral-500 hover:text-neutral-900"
+                aria-label="Đóng bảng liên hệ"
+                className="p-3 hover:bg-neutral-200 rounded-full transition-colors duration-200 text-neutral-500 hover:text-neutral-900 cursor-pointer min-w-[48px] min-h-[48px] flex items-center justify-center"
                 id="close-modal-btn"
               >
                 <X size={20} />

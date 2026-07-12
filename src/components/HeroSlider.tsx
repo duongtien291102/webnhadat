@@ -82,6 +82,7 @@ export default function HeroSlider({ onOpenContact }: HeroSliderProps) {
             src={slides[currentIndex].image}
             alt={slides[currentIndex].title}
             fill
+            priority
             className="object-cover object-center"
             referrerPolicy="no-referrer"
           />
@@ -150,14 +151,16 @@ export default function HeroSlider({ onOpenContact }: HeroSliderProps) {
       {/* Manual Layout Controllers */}
       <button
         onClick={handlePrev}
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-30 p-2.5 rounded-full border border-white/20 bg-black/20 hover:bg-black/50 text-white/75 hover:text-white transition-all cursor-pointer hidden md:block"
+        aria-label="Slide trước"
+        className="absolute left-4 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full border border-white/20 bg-black/20 hover:bg-black/50 text-white/75 hover:text-white transition-all cursor-pointer hidden md:block"
         id="hero-prev-arrow"
       >
         <ChevronLeft size={20} />
       </button>
       <button
         onClick={handleNext}
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-30 p-2.5 rounded-full border border-white/20 bg-black/20 hover:bg-black/50 text-white/75 hover:text-white transition-all cursor-pointer hidden md:block"
+        aria-label="Slide sau"
+        className="absolute right-4 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full border border-white/20 bg-black/20 hover:bg-black/50 text-white/75 hover:text-white transition-all cursor-pointer hidden md:block"
         id="hero-next-arrow"
       >
         <ChevronRight size={20} />
@@ -169,8 +172,9 @@ export default function HeroSlider({ onOpenContact }: HeroSliderProps) {
           {slides.map((slide, index) => (
             <button
               key={slide.id}
+              aria-label={`Chuyển đến slide ${index + 1}`}
               onClick={() => setCurrentIndex(index)}
-              className={`h-1.5 transition-all duration-300 rounded-full cursor-pointer ${
+              className={`h-2 transition-all duration-300 rounded-full cursor-pointer min-h-[16px] min-w-[16px] ${
                 index === currentIndex ? 'w-10 bg-white' : 'w-2 bg-white/40'
               }`}
               id={`hero-dot-${slide.id}`}
