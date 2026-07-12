@@ -4,9 +4,9 @@ import { Instagram, Facebook, Mail, Phone, MapPin, Globe } from 'lucide-react';
 
 export default function Footer() {
   const socialLinks = [
-    { icon: <Instagram size={18} />, href: 'https://instagram.com/nou.architects', color: 'hover:text-pink-500' },
-    { icon: <Facebook size={18} />, href: 'https://facebook.com/nou.architects', color: 'hover:text-blue-500' },
-    { icon: <Globe size={18} />, href: '#home', color: 'hover:text-[#dfd9ce]' },
+    { name: 'Instagram', icon: <Instagram size={18} />, href: 'https://instagram.com/nou.architects', color: 'hover:text-pink-500' },
+    { name: 'Facebook', icon: <Facebook size={18} />, href: 'https://facebook.com/nou.architects', color: 'hover:text-blue-500' },
+    { name: 'Website', icon: <Globe size={18} />, href: '#home', color: 'hover:text-[#dfd9ce]' },
   ];
 
   return (
@@ -39,7 +39,7 @@ export default function Footer() {
               <a
                 key={idx}
                 href={social.href}
-                aria-label={`Theo dõi trên ${social.href.split('//')[1].split('.')[0]}`}
+                aria-label={`Theo dõi trên ${social.name}`}
                 className={`w-9 h-9 border border-neutral-800 rounded-full flex items-center justify-center text-neutral-400 hover:border-neutral-200 transition-all duration-300 ${social.color}`}
                 target="_blank"
                 rel="noreferrer"

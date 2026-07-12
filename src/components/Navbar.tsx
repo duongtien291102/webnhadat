@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { AlignRight, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -44,7 +45,7 @@ export default function Navbar({ onOpenContact, alwaysSolid = false }: NavbarPro
       >
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
           {/* Logo */}
-          <a href="/" aria-label="Trang chủ NOU Architects" className="flex items-center gap-3 group">
+          <Link href="/" aria-label="Trang chủ NOU Architects" className="flex items-center gap-3 group">
             <div className="relative w-10 h-10 transition-transform hover:scale-105">
               <Image
                 src="/asset/logo.png"
@@ -61,19 +62,19 @@ export default function Navbar({ onOpenContact, alwaysSolid = false }: NavbarPro
                 NOU ARCHITECTS
               </h1>
             </div>
-          </a>
+          </Link>
 
           {/* Desktop Nav Links */}
           <nav className="hidden lg:flex items-center gap-10">
             {navLinks.map((link) => (
               <div key={link.name} className="relative group py-2">
-                <a
+                <Link
                   href={link.href}
                   className={`text-xs tracking-widest font-semibold hover:opacity-100 transition-opacity relative py-2 ${isScrolledActive ? 'text-neutral-700 hover:text-black opacity-80' : 'text-[#f5f1ea] hover:text-white opacity-85'
                     }`}
                 >
                   {link.name}
-                </a>
+                </Link>
               </div>
             ))}
           </nav>
@@ -122,16 +123,19 @@ export default function Navbar({ onOpenContact, alwaysSolid = false }: NavbarPro
             <div className="flex flex-col space-y-6 text-center pt-8">
               {navLinks.map((link, idx) => (
                 <div key={link.name} className="flex flex-col border-b border-neutral-200/50">
-                  <motion.a
+                  <Link
                     href={link.href}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: idx * 0.05 }}
                     className="text-lg tracking-widest font-serif font-medium text-neutral-800 hover:text-black py-3"
                   >
-                    {link.name}
-                  </motion.a>
+                    <motion.span
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: idx * 0.05 }}
+                    >
+                      {link.name}
+                    </motion.span>
+                  </Link>
                 </div>
               ))}
             </div>
