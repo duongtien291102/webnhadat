@@ -1,11 +1,15 @@
 "use client";
 import React, { useState } from 'react';
-import { Heart, ArrowLeft, ChevronDown } from 'lucide-react';
+import Image from 'next/image';
+import { Heart, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { usePathname } from 'next/navigation';
 import Navbar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
 import ContactModal from '../../../components/ContactModal';
+import ProjectDetailModal from '../../../components/ProjectDetailModal';
+import { projects } from '../../../lib/projectsData';
+import { Project } from '../../../types';
 
 function CustomSelect({ label, value, options, onChange }: { label: string, value: string, options: {value: string, label: string}[], onChange: (val: string) => void }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -49,73 +53,40 @@ function CustomSelect({ label, value, options, onChange }: { label: string, valu
 
 export default function StyleGalleryPage() {
   const pathname = usePathname();
-  const rawId = pathname.split('/').pop() || 'minimalism';
+  const rawId = pathname.split('/').pop() || 'all';
   const isAll = rawId.toLowerCase() === 'all';
-  const styleName = isAll ? 'TỔNG HỢP' : rawId.toUpperCase();
-  const pageTitle = isAll ? 'Tất cả không gian.' : 'Khám phá không gian.';
+  
+  // Style mapping for URL parameters
+  const styleFromUrl = rawId.toUpperCase();
 
   const [isContactOpen, setIsContactOpen] = useState(false);
-  const [liked, setLiked] = useState<Record<number, boolean>>({});
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [liked, setLiked] = useState<Record<string, boolean>>({});
 
-  const [filterStyle, setFilterStyle] = useState(isAll ? 'ALL' : styleName);
+  const [filterStyle, setFilterStyle] = useState(isAll ? 'ALL' : styleFromUrl);
   const [filterArea, setFilterArea] = useState('ALL');
 
-  const toggleLike = (idx: number) => {
-    setLiked(prev => ({ ...prev, [idx]: !prev[idx] }));
+  const toggleLike = (id: string) => {
+    setLiked(prev => ({ ...prev, [id]: !prev[id] }));
   };
 
-  const allProjects = [
-    {
-      id: 1,
-      image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80",
-      title: "Biệt thự Đồi Sứ",
-      area: "350 m²",
-      style: isAll ? "MINIMALISM" : styleName
-    },
-    {
-      id: 2,
-      image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
-      title: "Căn hộ Vinhomes",
-      area: "125 m²",
-      style: isAll ? "JAPANDI" : styleName
-    },
-    {
-      id: 3,
-      image: "https://images.unsplash.com/photo-1600607687644-aac4c15cecb1?auto=format&fit=crop&w=1200&q=80",
-      title: "Resort Ven Biển",
-      area: "500 m²",
-      style: isAll ? "SANTORINI" : styleName
-    },
-    {
-      id: 4,
-      image: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1200&q=80",
-      title: "Nhà phố Wabi",
-      area: "180 m²",
-      style: isAll ? "WABISABI" : styleName
-    },
-    {
-      id: 5,
-      image: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=80",
-      title: "Penthouse The Zei",
-      area: "210 m²",
-      style: isAll ? "MINIMALISM" : styleName
-    },
-    {
-      id: 6,
-      image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1200&q=80",
-      title: "Studio Nhiếp Ảnh",
-      area: "90 m²",
-      style: isAll ? "WABISABI" : styleName
+  // Helper to parse complex area strings like "8.7x9.5m", "66m2/ sàn", "270 m²" to numbers
+  const getAreaNumber = (areaStr: string): number => {
+    const cleanStr = areaStr.toLowerCase().replace(/\s/g, '');
+    if (cleanStr.includes('x')) {
+      const parts = cleanStr.replace(/[^\d.x]/g, '').split('x');
+      if (parts.length === 2) {
+        return parseFloat(parts[0]) * parseFloat(parts[1]);
+      }
     }
-  ];
+    return parseFloat(cleanStr.replace(/[^\d.]/g, '')) || 0;
+  };
 
-  const displayProjects = isAll ? allProjects : allProjects.slice(0, 4);
-
-  const filteredProjects = displayProjects.filter(p => {
+  const filteredProjects = projects.filter(p => {
     const matchStyle = filterStyle === 'ALL' || p.style === filterStyle;
     
     let matchArea = true;
-    const areaNum = parseInt(p.area);
+    const areaNum = getAreaNumber(p.area);
     if (filterArea === '<200') matchArea = areaNum < 200;
     else if (filterArea === '200-300') matchArea = areaNum >= 200 && areaNum <= 300;
     else if (filterArea === '>300') matchArea = areaNum > 300;
@@ -125,14 +96,15 @@ export default function StyleGalleryPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#fcfbf9]">
-      <Navbar onOpenContact={() => setIsContactOpen(true)} />
+      <Navbar onOpenContact={() => setIsContactOpen(true)} alwaysSolid />
 
       <main className="flex-1 pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto w-full">
         {/* Header and Filters */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 border-b border-neutral-100 pb-12">
           <div className="space-y-4">
+            <span className="text-[10px] font-mono font-bold tracking-[0.2em] text-neutral-400 uppercase">Bộ Sưu Tập</span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif text-neutral-900 font-normal leading-tight tracking-tight">
-              {pageTitle}
+              {isAll ? 'Tất cả không gian.' : 'Không gian tối giản.'}
             </h1>
           </div>
           
@@ -164,55 +136,89 @@ export default function StyleGalleryPage() {
         </div>
 
         {/* Gallery Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16">
-          {filteredProjects.map((project, idx) => (
-            <div key={project.id} className="group cursor-pointer">
-              {/* Image Container */}
-              <div className="relative aspect-[4/3] overflow-hidden mb-6 rounded-sm">
-                <img 
-                  src={project.image} 
-                  alt={project.title} 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
-                  referrerPolicy="no-referrer"
-                />
-                
-                {/* Heart Button */}
-                <button 
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleLike(idx);
-                  }}
-                  className="absolute top-6 left-6 w-10 h-10 bg-white/95 backdrop-blur-sm shadow-md rounded-full flex items-center justify-center text-neutral-400 hover:text-red-500 hover:bg-white transition-colors z-20"
-                >
-                  <Heart size={16} fill={liked[idx] ? "currentColor" : "none"} className={liked[idx] ? "text-red-500" : ""} />
-                </button>
+        {filteredProjects.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16">
+            {filteredProjects.map((project) => (
+              <div 
+                key={project.id} 
+                className="group cursor-pointer flex flex-col"
+                onClick={() => setSelectedProject(project)}
+              >
+                {/* Image Container */}
+                <div className="relative aspect-[4/3] overflow-hidden mb-5 rounded-sm bg-neutral-100 shadow-md">
+                  <Image 
+                    src={project.mainImage} 
+                    alt={project.title} 
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-1000 filter brightness-95 group-hover:brightness-90"
+                    referrerPolicy="no-referrer"
+                  />
+                  
+                  {/* Heart Button */}
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleLike(project.id);
+                    }}
+                    className="absolute top-5 right-5 w-10 h-10 bg-white/95 backdrop-blur-sm shadow-md rounded-full flex items-center justify-center text-neutral-400 hover:text-red-500 hover:bg-white hover:scale-105 transition-all z-20"
+                  >
+                    <Heart size={16} fill={liked[project.id] ? "currentColor" : "none"} className={liked[project.id] ? "text-red-500" : ""} />
+                  </button>
 
-                {/* Dark Overlay Box */}
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <div className="bg-black/70 backdrop-blur-sm px-10 py-6 text-center w-3/4 max-w-sm border border-white/10 group-hover:bg-black/80 transition-colors duration-500 shadow-xl">
-                    <p className="text-[9px] font-mono tracking-[0.3em] text-neutral-400 uppercase mb-3">NOU DESIGN</p>
-                    <h3 className="text-lg md:text-xl font-serif text-white mb-2">{project.title}</h3>
-                    <p className="text-[10px] font-mono text-neutral-400 tracking-[0.1em] uppercase">DIỆN TÍCH: {project.area}</p>
-                    <p className="text-[10px] font-mono text-neutral-400 tracking-[0.1em] uppercase mt-1">PHONG CÁCH: {project.style}</p>
+                  {/* Minimalist Hover Indicator overlay */}
+                  <div className="absolute inset-0 bg-neutral-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <span className="px-5 py-2.5 bg-white/95 backdrop-blur-sm text-[10px] tracking-widest uppercase font-bold text-neutral-900 border border-neutral-200">
+                      Xem Chi Tiết Dự Án
+                    </span>
+                  </div>
+                </div>
+
+                {/* Caption / Project Info */}
+                <div className="flex justify-between items-start pt-1 font-sans">
+                  <div className="space-y-1">
+                    <h4 className="text-base font-serif font-medium text-neutral-900 group-hover:text-neutral-700 transition-colors">
+                      {project.title}
+                    </h4>
+                    <p className="text-xs text-neutral-400 leading-none">
+                      {project.location} • {project.area}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-[10px] font-mono tracking-widest text-neutral-500 bg-neutral-100 px-2.5 py-1 uppercase rounded-sm border border-neutral-200/50">
+                      {project.style}
+                    </span>
                   </div>
                 </div>
               </div>
-
-              {/* Caption */}
-              <div className="text-center mt-6">
-                <h4 className="text-base font-serif text-neutral-600 group-hover:text-black transition-colors">{project.title}</h4>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-24 space-y-4">
+            <p className="text-lg text-neutral-500 font-serif">Không tìm thấy không gian phù hợp với bộ lọc.</p>
+            <button 
+              onClick={() => { setFilterStyle('ALL'); setFilterArea('ALL'); }}
+              className="text-xs font-mono font-bold tracking-widest text-neutral-900 hover:underline uppercase"
+            >
+              Đặt lại bộ lọc
+            </button>
+          </div>
+        )}
       </main>
 
       <Footer />
 
+      {/* Consult Consultation Form dialog */}
       <ContactModal
         isOpen={isContactOpen}
         onClose={() => setIsContactOpen(false)}
         initialMaterial=""
+      />
+
+      {/* Real Project details slideshow modal */}
+      <ProjectDetailModal 
+        project={selectedProject}
+        onClose={() => setSelectedProject(null)}
+        onOpenConsultation={() => setIsContactOpen(true)}
       />
     </div>
   );

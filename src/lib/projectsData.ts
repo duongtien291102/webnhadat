@@ -1,0 +1,130 @@
+import { Project } from '../types';
+
+export const projects: Project[] = [
+  {
+    id: 'gamuda-36',
+    index: '01',
+    title: 'MILIMALISM',
+    tagline: 'Villa • Diện tích: 270 m²',
+    description: 'Một không gian sống đủ kín để riêng tư, nhưng cũng đủ mở để được chạm vào thiên nhiên.',
+    mainImage: '/asset/du_an1/anh1_duan1.png',
+    bullets: [
+      'KHI KIẾN TRÚC LÀ SỰ CÂN BẰNG GIỮA TĨNH VÀ ĐỘNG.',
+      'Không cần phô trương, căn Villa này là sự kết hợp giữa khối kiến trúc dứt khoát và những khoảng thở đầy ý đồ.',
+      'Điểm nhấn tới từ vách đá xuyên sáng cùng hệ cầu thang điêu khắc tạo nên dòng chảy thị giác xuyên suốt.',
+      'Chúng tôi không chỉ xây những bức tường, mà còn kiến tạo những trải nghiệm sống khác biệt để đưa thiên nhiên vào từng nhịp sống.',
+    ],
+    highlightsHeader: 'THÔNG TIN DỰ ÁN:',
+    highlights: [
+      'Loại hình: Villa',
+      'Địa điểm: Hà Nội',
+      'Diện tích: 270m2',
+      'Thiết kế & thi công: NOU.Architects',
+    ],
+    location: 'Hà Nội',
+    area: '270 m²',
+    style: 'MINIMALISM',
+    gallery: [
+      '/asset/du_an1/anh1_duan1.png',
+      '/asset/du_an1/anh2_duan1.png',
+      '/asset/du_an1/anh3_duan1.png',
+      '/asset/du_an1/anh4_duan1.png',
+      '/asset/du_an1/anh5_duan1.png',
+      '/asset/du_an1/anh6_duan1.png',
+      '/asset/du_an1/anh7_duan1.png',
+      '/asset/du_an1/anh8_duan1.png',
+      '/asset/du_an1/anh9_duan1.png',
+      '/asset/du_an1/anh10_duan1.png',
+      '/asset/du_an1/anh11_duan1.png',
+    ]
+  },
+  {
+    id: 'hillside-villa',
+    index: '02',
+    title: 'NHẸ NHÀNG NHƯNG ĐỦ KHÁC BIỆT',
+    tagline: 'Nhà đất • Diện tích: 66m2/ sàn',
+    description: 'Kiến trúc mang hơi thở Địa Trung Hải đương đại, gây ấn tượng bằng những đường cong mềm mại.',
+    mainImage: '/asset/du_an2/anh1_duan2.png',
+    bullets: [
+      'Kiến trúc mang hơi thở Địa Trung Hải đương đại, gây ấn tượng bằng những đường cong mềm mại, hình khối tối giản và tỷ lệ tinh tế.',
+      'Màu trắng kem chủ đạo tạo nền cho những mảng bo tròn uyển chuyển, điểm xuyết sắc nâu đất ấm áp, gợi cảm giác gần gũi và an yên.',
+      'Kiến trúc không chỉ để nhìn, mà là để cảm nhận và sử dụng mỗi ngày.',
+    ],
+    highlightsHeader: 'THÔNG TIN DỰ ÁN: Nhà đất',
+    highlights: [
+      'Địa điểm: TP Lạng Sơn',
+      'Diện tích: 66m2/ sàn',
+      'Thiết kế & thi công: NOU.Architects',
+    ],
+    location: 'TP Lạng Sơn',
+    area: '66m2/ sàn',
+    style: 'SANTORINI',
+    gallery: [
+      '/asset/du_an2/anh1_duan2.png',
+      '/asset/du_an2/anh2_duan2.png',
+      '/asset/du_an2/anh3_duan2.png',
+      '/asset/du_an2/anh4_duan2.png',
+      '/asset/du_an2/anh5_duan2.png',
+      '/asset/du_an2/anh6_duan2.png',
+    ]
+  },
+  {
+    id: 'duplex-horizon',
+    index: '03',
+    title: 'NGÔI NHÀ 3 TẦNG – CHUẨN MỰC CHO SỐNG ĐẸP & SỐNG XANH',
+    tagline: 'Nhà phố • Diện tích: 100 m2',
+    description: 'Một thiết kế dung hòa giữa đường cong mềm mại, ánh sáng tự nhiên và mảng xanh len lỏi ở mọi tầng.',
+    mainImage: '/asset/du_an3/anh1_duan3.png',
+    bullets: [
+      'Một thiết kế dung hòa giữa đường cong mềm mại, ánh sáng tự nhiên và mảng xanh len lỏi ở mọi tầng, mang đến không gian sống tinh tế giữa phố thị.',
+      'Một thiết kế không chỉ để ở — mà để tận hưởng, để tìm lại sự cân bằng trong nhịp sống bận rộn.',
+    ],
+    highlightsHeader: 'THÔNG TIN DỰ ÁN: Nhà phố',
+    highlights: [
+      'Địa điểm: Hà Nội',
+      'Diện tích: 100 m2',
+      'Thiết kế & thi công: NOUDesign',
+    ],
+    location: 'Hà Nội',
+    area: '100 m2',
+    style: 'JAPANDI',
+    gallery: [
+      '/asset/du_an3/anh1_duan3.png',
+      '/asset/du_an3/anh2_duan3.png',
+      '/asset/du_an3/anh3_duan3.png',
+      '/asset/du_an3/anh4_duan3.png',
+      '/asset/du_an3/anh5_duan3.png',
+      '/asset/du_an3/anh6_duan3.png',
+    ]
+  },
+  {
+    id: 'penthouse-zen',
+    index: '04',
+    title: '"Tháo bỏ" định kiến về nhà ống chật hẹp',
+    tagline: 'Nhà ống • Diện tích: 8.7x9.5m',
+    description: 'Giống như số đông gia chủ sở hữu nhà ống thường khá e ngại việc thiết kế và sử dụng không gian với thực trạng hẹp dài, vị khách lần này tìm đến Nou với mong muốn tối ưu hóa công trình trên diện tích xây dựng 8.7x9.5m.',
+    mainImage: '/asset/du_an4/anh1_duan4.png',
+    bullets: [
+      'Đứng trước một thử thách thú vị như vậy luôn là niềm khao khát được thử nghiệm, khám phá những khía cạnh mới, những cách tiếp cận sáng tạo của đội ngũ nhà Nou.',
+      'Từ việc khai thác cá tính và sở thích của chủ nhân căn hộ, các kiến trúc sư đã giữ lại phần "xương sống" của căn nhà, nhưng "biến tấu" mặt tiền bằng cách đưa không gian tiểu cảnh, khu sân vườn ngập sắc xanh tươi mát.',
+      'Thiết kế cửa kính to xử lý triệt để việc thiếu sáng, xóa bỏ định kiến về mô típ nhà ống xưa. Tone màu trung tính, kết hợp với phong cách, vật liệu hiện đại vừa vẹn toàn về mặt thẩm mỹ mà còn tạo cảm giác thoải mái, thư thái cho mỗi thành viên trong gia đình.',
+      'Nhắn Nou nếu muốn khẳng định phong cách sống bắt đầu từ chính trong căn nhà của mình, bạn nhé!',
+    ],
+    highlightsHeader: 'THÔNG TIN DỰ ÁN:',
+    highlights: [
+      'Loại hình: Nhà ống',
+      'Diện tích: 8.7x9.5m',
+      'Thiết kế & thi công: Nou.Architects',
+    ],
+    location: 'Hà Nội',
+    area: '8.7x9.5m',
+    style: 'WABISABI',
+    gallery: [
+      '/asset/du_an4/anh1_duan4.png',
+      '/asset/du_an4/anh2_duan4.png',
+      '/asset/du_an4/anh3_duan4.png',
+      '/asset/du_an4/anh4_duan4.png',
+      '/asset/du_an4/anh5_duan4.png',
+    ]
+  }
+];

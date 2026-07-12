@@ -1,13 +1,15 @@
 "use client";
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { AlignRight, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 interface NavbarProps {
   onOpenContact: () => void;
+  alwaysSolid?: boolean;
 }
 
-export default function Navbar({ onOpenContact }: NavbarProps) {
+export default function Navbar({ onOpenContact, alwaysSolid = false }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -29,10 +31,12 @@ export default function Navbar({ onOpenContact }: NavbarProps) {
     { name: 'PHONG CÁCH', href: '/style/all' },
   ];
 
+  const isScrolledActive = isScrolled || alwaysSolid;
+
   return (
     <>
       <header
-        className={`fixed top-0 left-0 w-full z-40 transition-all duration-300 ${isScrolled
+        className={`fixed top-0 left-0 w-full z-40 transition-all duration-300 ${isScrolledActive
           ? 'bg-[#fcfbf9]/95 backdrop-blur-md py-4 shadow-sm border-b border-neutral-100'
           : 'bg-gradient-to-b from-black/50 to-transparent py-6 text-white'
           }`}
@@ -41,14 +45,17 @@ export default function Navbar({ onOpenContact }: NavbarProps) {
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
           {/* Logo */}
           <a href="/" className="flex items-center gap-3 group">
-            <img
-              src="/asset/logo.png"
-              alt="NOU Architects Logo"
-              className="w-10 h-10 object-contain transition-transform hover:scale-105"
-            />
+            <div className="relative w-10 h-10 transition-transform hover:scale-105">
+              <Image
+                src="/asset/logo.png"
+                alt="NOU Architects Logo"
+                fill
+                className="object-contain"
+              />
+            </div>
             <div>
               <h1
-                className={`text-sm tracking-[0.25em] font-medium transition-colors ${isScrolled ? 'text-neutral-900' : 'text-white'
+                className={`text-sm tracking-[0.25em] font-medium transition-colors ${isScrolledActive ? 'text-neutral-900' : 'text-white'
                   }`}
               >
                 NOU ARCHITECTS
@@ -62,12 +69,11 @@ export default function Navbar({ onOpenContact }: NavbarProps) {
               <div key={link.name} className="relative group py-2">
                 <a
                   href={link.href}
-                  className={`text-xs tracking-widest font-semibold hover:opacity-100 transition-opacity relative py-2 ${isScrolled ? 'text-neutral-700 hover:text-black opacity-80' : 'text-[#f5f1ea] hover:text-white opacity-85'
+                  className={`text-xs tracking-widest font-semibold hover:opacity-100 transition-opacity relative py-2 ${isScrolledActive ? 'text-neutral-700 hover:text-black opacity-80' : 'text-[#f5f1ea] hover:text-white opacity-85'
                     }`}
                 >
                   {link.name}
                 </a>
-
               </div>
             ))}
           </nav>
@@ -76,7 +82,7 @@ export default function Navbar({ onOpenContact }: NavbarProps) {
           <div className="hidden lg:block">
             <button
               onClick={onOpenContact}
-              className={`px-6 py-2.5 text-xs font-bold tracking-widest border transition-all cursor-pointer hover:scale-105 active:scale-95 ${isScrolled
+              className={`px-6 py-2.5 text-xs font-bold tracking-widest border transition-all cursor-pointer hover:scale-105 active:scale-95 ${isScrolledActive
                 ? 'border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white'
                 : 'border-[#f5f1ea] text-[#f5f1ea] hover:bg-white hover:text-black'
                 }`}
@@ -93,9 +99,9 @@ export default function Navbar({ onOpenContact }: NavbarProps) {
             id="mobile-menu-toggle"
           >
             {isMobileMenuOpen ? (
-              <X size={24} className={isScrolled ? 'text-neutral-900' : 'text-white'} />
+              <X size={24} className={isScrolledActive ? 'text-neutral-900' : 'text-white'} />
             ) : (
-              <AlignRight size={24} className={isScrolled ? 'text-neutral-900' : 'text-white'} />
+              <AlignRight size={24} className={isScrolledActive ? 'text-neutral-900' : 'text-white'} />
             )}
           </button>
         </div>
@@ -125,7 +131,6 @@ export default function Navbar({ onOpenContact }: NavbarProps) {
                   >
                     {link.name}
                   </motion.a>
-
                 </div>
               ))}
             </div>

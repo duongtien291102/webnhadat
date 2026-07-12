@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { Material } from '../types';
 
 interface MaterialsSectionProps {
@@ -73,10 +74,11 @@ export default function MaterialsSection({ onSelectMaterial }: MaterialsSectionP
               <div
                 className="relative w-28 h-28 rounded-full overflow-hidden mb-4 border border-neutral-300 transition-all duration-300 transform group-hover:scale-105 group-hover:border-neutral-900 group-hover:ring-4 group-hover:ring-neutral-400/10 shadow-sm"
               >
-                <img
+                <Image
                   src={material.image}
                   alt={material.name}
-                  className="w-full h-full object-cover grayscale brightness-95 group-hover:grayscale-0 transition-all duration-500"
+                  fill
+                  className="object-cover grayscale brightness-95 group-hover:grayscale-0 transition-all duration-500"
                   referrerPolicy="no-referrer"
                 />
                 

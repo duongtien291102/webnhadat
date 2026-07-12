@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useRef } from 'react';
+import Image from 'next/image';
 import { motion } from 'motion/react';
 import { Compass, Sun, Home, MoveHorizontal } from 'lucide-react';
 import { PhilosophyCard } from '../types';
@@ -116,10 +117,11 @@ export default function Introduction() {
           >
             {/* Before Stage (CAD Blueprint) */}
             <div className="absolute inset-0 w-full h-full">
-              <img 
+              <Image 
                 src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1200&q=80" 
                 alt="CAD Architectural Draft" 
-                className="w-full h-full object-cover object-center grayscale opacity-80"
+                fill
+                className="object-cover object-center grayscale opacity-80"
                 referrerPolicy="no-referrer"
               />
               <div className="absolute left-6 top-6 bg-black/60 backdrop-blur-md px-3 py-1.5 text-[10px] text-[#f5f1ea] border border-white/10 tracking-widest">
@@ -133,10 +135,11 @@ export default function Introduction() {
               style={{ width: `${sliderPosition}%` }}
             >
               <div className="absolute inset-0 w-full h-full min-w-[320px] md:min-w-[768px] lg:min-w-[1200px]">
-                <img 
+                <Image 
                   src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80" 
                   alt="Finished Architectural Rendering" 
-                  className="w-full h-full object-cover object-center"
+                  fill
+                  className="object-cover object-center"
                   referrerPolicy="no-referrer"
                 />
                 <div className="absolute right-6 top-6 bg-neutral-900 px-3 py-1.5 text-[10px] text-[#e9dcce] border border-neutral-700 tracking-widest whitespace-nowrap">
@@ -180,11 +183,12 @@ export default function Introduction() {
                 </div>
 
                 {/* Card thumbnail image */}
-                <div className="h-44 w-full overflow-hidden border-t border-neutral-100 mt-2">
-                  <img
+                <div className="relative h-44 w-full overflow-hidden border-t border-neutral-100 mt-2">
+                  <Image
                     src={card.image}
                     alt={card.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
                     referrerPolicy="no-referrer"
                   />
                 </div>

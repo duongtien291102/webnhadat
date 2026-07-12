@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronLeft, ChevronRight, ArrowRight, Play } from 'lucide-react';
 
@@ -77,10 +78,11 @@ export default function HeroSlider({ onOpenContact }: HeroSliderProps) {
           <div className="absolute inset-0 bg-neutral-950/45 z-10" />
           <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/80 via-transparent to-neutral-950/20 z-10" />
           
-          <img
+          <Image
             src={slides[currentIndex].image}
             alt={slides[currentIndex].title}
-            className="w-full h-full object-cover object-center"
+            fill
+            className="object-cover object-center"
             referrerPolicy="no-referrer"
           />
         </motion.div>

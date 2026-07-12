@@ -21,6 +21,7 @@ export interface Project {
   gallery: string[];
   area: string;
   location: string;
+  style: string;
 }
 
 export interface Step {
