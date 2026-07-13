@@ -51,6 +51,7 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
                 src={project.gallery[activePhotoIndex]}
                 alt={`Gallery angle of ${project.title}`}
                 fill
+                sizes="(max-width: 768px) 100vw, 60vw"
                 className="object-cover"
                 referrerPolicy="no-referrer"
               />
@@ -103,6 +104,7 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
                     src={thumb}
                     alt="thumbnail"
                     fill
+                    sizes="80px"
                     className="object-cover"
                     referrerPolicy="no-referrer"
                   />

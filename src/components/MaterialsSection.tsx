@@ -78,6 +78,7 @@ export default function MaterialsSection({ onSelectMaterial }: MaterialsSectionP
                   src={material.image}
                   alt={material.name}
                   fill
+                  sizes="112px"
                   className="object-cover grayscale brightness-95 group-hover:grayscale-0 transition-all duration-500"
                   referrerPolicy="no-referrer"
                 />

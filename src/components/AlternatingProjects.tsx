@@ -42,6 +42,7 @@ const ProjectImageSlider = ({ project, onClick }: { project: Project, onClick: (
         src={images[currentIndex]}
         alt={project.title}
         fill
+        sizes="(max-width: 1024px) 100vw, 50vw"
         className="object-cover filter brightness-95 group-hover:scale-105 group-hover:brightness-90 transition-all duration-700"
         referrerPolicy="no-referrer"
       />

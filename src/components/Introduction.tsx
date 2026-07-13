@@ -121,6 +121,7 @@ export default function Introduction() {
                 src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1200&q=80" 
                 alt="CAD Architectural Draft" 
                 fill
+                sizes="(max-width: 1280px) 100vw, 1280px"
                 className="object-cover object-center grayscale opacity-80"
                 referrerPolicy="no-referrer"
               />
@@ -139,6 +140,7 @@ export default function Introduction() {
                   src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80" 
                   alt="Finished Architectural Rendering" 
                   fill
+                  sizes="(max-width: 1280px) 100vw, 1280px"
                   className="object-cover object-center"
                   referrerPolicy="no-referrer"
                 />
@@ -188,6 +190,7 @@ export default function Introduction() {
                     src={card.image}
                     alt={card.title}
                     fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                     referrerPolicy="no-referrer"
                   />

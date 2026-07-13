@@ -83,6 +83,7 @@ export default function HeroSlider({ onOpenContact }: HeroSliderProps) {
             alt={slides[currentIndex].title}
             fill
             priority
+            sizes="100vw"
             className="object-cover object-center"
             referrerPolicy="no-referrer"
           />
