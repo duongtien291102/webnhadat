@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+import ProtectionWrapper from "@/components/ProtectionWrapper";
 
 const playfair = Playfair_Display({ 
   subsets: ["latin", "vietnamese"],
@@ -27,7 +28,9 @@ export default function RootLayout({
   return (
     <html lang="vi" className={`${playfair.variable} ${jakarta.variable}`}>
       <body className="font-sans antialiased" suppressHydrationWarning>
-        {children}
+        <ProtectionWrapper>
+          {children}
+        </ProtectionWrapper>
       </body>
     </html>
   );

@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { ArrowRight, ArrowLeft, Heart } from 'lucide-react';
+import { ArrowRight, ArrowLeft } from 'lucide-react';
 import { Project } from '../types';
 import { projects } from '../lib/projectsData';
 import ProjectDetailModal from './ProjectDetailModal';
@@ -12,7 +12,6 @@ interface AlternatingProjectsProps {
 
 const ProjectImageSlider = ({ project, onClick }: { project: Project, onClick: () => void }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isFavorite, setIsFavorite] = useState(false);
   const images = project.gallery && project.gallery.length > 0 ? project.gallery : [project.mainImage];
 
   useEffect(() => {
@@ -73,17 +72,6 @@ const ProjectImageSlider = ({ project, onClick }: { project: Project, onClick: (
         </>
       )}
 
-      {/* Interactive Heart Icon */}
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          setIsFavorite(!isFavorite);
-        }}
-        aria-label={isFavorite ? "Bỏ yêu thích" : "Yêu thích"}
-        className="absolute top-4 right-4 z-20 min-w-[48px] min-h-[48px] bg-black/40 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-black/70 hover:scale-110 active:scale-95 transition-all cursor-pointer shadow-lg"
-      >
-        <Heart size={18} fill={isFavorite ? "#ef4444" : "transparent"} className={isFavorite ? "text-red-500" : "text-white"} />
-      </button>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { Heart, ChevronDown } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { usePathname } from 'next/navigation';
 import Navbar from '../../../components/Navbar';
@@ -61,37 +61,11 @@ export default function StyleGalleryPage() {
 
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [liked, setLiked] = useState<Record<string, boolean>>({});
 
   const [filterStyle, setFilterStyle] = useState(isAll ? 'ALL' : styleFromUrl);
-  const [filterArea, setFilterArea] = useState('ALL');
-
-  const toggleLike = (id: string) => {
-    setLiked(prev => ({ ...prev, [id]: !prev[id] }));
-  };
-
-  // Helper to parse complex area strings like "8.7x9.5m", "66m2/ sàn", "270 m²" to numbers
-  const getAreaNumber = (areaStr: string): number => {
-    const cleanStr = areaStr.toLowerCase().replace(/\s/g, '');
-    if (cleanStr.includes('x')) {
-      const parts = cleanStr.replace(/[^\d.x]/g, '').split('x');
-      if (parts.length === 2) {
-        return parseFloat(parts[0]) * parseFloat(parts[1]);
-      }
-    }
-    return parseFloat(cleanStr.replace(/[^\d.]/g, '')) || 0;
-  };
 
   const filteredProjects = projects.filter(p => {
-    const matchStyle = filterStyle === 'ALL' || p.style === filterStyle;
-    
-    let matchArea = true;
-    const areaNum = getAreaNumber(p.area);
-    if (filterArea === '<200') matchArea = areaNum < 200;
-    else if (filterArea === '200-300') matchArea = areaNum >= 200 && areaNum <= 300;
-    else if (filterArea === '>300') matchArea = areaNum > 300;
-
-    return matchStyle && matchArea;
+    return filterStyle === 'ALL' || p.style === filterStyle;
   });
 
   return (
@@ -121,17 +95,6 @@ export default function StyleGalleryPage() {
                 { value: "WABISABI", label: "Wabi-Sabi" }
               ]}
             />
-            <CustomSelect 
-              label="Diện tích"
-              value={filterArea}
-              onChange={setFilterArea}
-              options={[
-                { value: "ALL", label: "Tất cả diện tích" },
-                { value: "<200", label: "Dưới 200 m²" },
-                { value: "200-300", label: "200 - 300 m²" },
-                { value: ">300", label: "Trên 300 m²" }
-              ]}
-            />
           </div>
         </div>
 
@@ -154,18 +117,6 @@ export default function StyleGalleryPage() {
                     referrerPolicy="no-referrer"
                   />
                   
-                  {/* Heart Button */}
-                  <button 
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleLike(project.id);
-                    }}
-                    aria-label={liked[project.id] ? "Bỏ yêu thích" : "Yêu thích"}
-                    className="absolute top-5 right-5 w-12 h-12 bg-white/95 backdrop-blur-sm shadow-md rounded-full flex items-center justify-center text-neutral-500 hover:text-red-500 hover:bg-white hover:scale-105 transition-all z-20 cursor-pointer"
-                  >
-                    <Heart size={16} fill={liked[project.id] ? "currentColor" : "none"} className={liked[project.id] ? "text-red-500" : ""} />
-                  </button>
-
                   {/* Minimalist Hover Indicator overlay */}
                   <div className="absolute inset-0 bg-neutral-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                     <span className="px-5 py-2.5 bg-white/95 backdrop-blur-sm text-[10px] tracking-widest uppercase font-bold text-neutral-900 border border-neutral-200">
@@ -197,7 +148,7 @@ export default function StyleGalleryPage() {
           <div className="text-center py-24 space-y-4">
             <p className="text-lg text-neutral-500 font-serif">Không tìm thấy không gian phù hợp với bộ lọc.</p>
             <button 
-              onClick={() => { setFilterStyle('ALL'); setFilterArea('ALL'); }}
+              onClick={() => { setFilterStyle('ALL'); }}
               className="text-xs font-mono font-bold tracking-widest text-neutral-900 hover:underline uppercase"
             >
               Đặt lại bộ lọc

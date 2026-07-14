@@ -181,7 +181,7 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
                 className="w-full bg-[#1a1a1a] hover:bg-neutral-850 text-white font-bold text-xs tracking-widest py-3.5 rounded-sm transition-all text-center flex items-center justify-center gap-2 cursor-pointer shadow-md"
                 id="pop-consult-trigger"
               >
-                <span>LÊN DỰ TOÁN THEO CĂN HỘ NÀY</span>
+                <span>NHẬN TƯ VẤN</span>
                 <ChevronRight size={14} />
               </button>
               <p className="text-[10px] text-center text-neutral-500 font-sans">
