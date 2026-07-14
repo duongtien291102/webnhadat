@@ -22,7 +22,7 @@ const slides: SlideData[] = [
     id: 'gamuda-36',
     title: 'MILIMALISM',
     tagline: 'Một không gian sống đủ kín để riêng tư, nhưng cũng đủ mở để được chạm vào thiên nhiên.',
-    image: '/asset/du_an1/anh1_duan1.png',
+    image: '/asset/du_an1/anh1_duan1.webp',
     meta: 'VILLA • 270 M² • HÀ NỘI',
     href: '#projects',
   },
@@ -30,7 +30,7 @@ const slides: SlideData[] = [
     id: 'hillside-villa',
     title: 'NHẸ NHÀNG NHƯNG ĐỦ KHÁC BIỆT',
     tagline: 'Kiến trúc mang hơi thở Địa Trung Hải đương đại, gây ấn tượng bằng những đường cong mềm mại.',
-    image: '/asset/du_an2/anh1_duan2.png',
+    image: '/asset/du_an2/anh1_duan2.webp',
     meta: 'NHÀ ĐẤT • 66 M²/SÀN • TP LẠNG SƠN',
     href: '#projects',
   },
@@ -38,7 +38,7 @@ const slides: SlideData[] = [
     id: 'duplex-horizon',
     title: 'NGÔI NHÀ 3 TẦNG',
     tagline: 'Một thiết kế dung hòa giữa đường cong mềm mại, ánh sáng tự nhiên và mảng xanh len lỏi ở mọi tầng.',
-    image: '/asset/du_an3/anh1_duan3.png',
+    image: '/asset/du_an3/anh1_duan3.webp',
     meta: 'NHÀ PHỐ • 100 M² • HÀ NỘI',
     href: '#projects',
   },
@@ -64,31 +64,34 @@ export default function HeroSlider({ onOpenContact }: HeroSliderProps) {
 
   return (
     <section className="relative h-screen min-h-[600px] w-full bg-black overflow-hidden" id="home">
-      {/* Slides with AnimatePresence */}
-      <AnimatePresence mode="wait">
+      {/* Background Images - Render all to prevent loading flash */}
+      {slides.map((slide, index) => (
         <motion.div
-          key={currentIndex}
-          initial={{ opacity: 0, scale: 1.05 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.98 }}
+          key={slide.id}
+          initial={false}
+          animate={{ 
+            opacity: index === currentIndex ? 1 : 0, 
+            scale: index === currentIndex ? 1 : (index > currentIndex ? 1.05 : 0.98),
+            zIndex: index === currentIndex ? 1 : 0
+          }}
           transition={{ duration: 1.2, ease: [0.33, 1, 0.68, 1] }}
-          className="absolute inset-0 w-full h-full"
+          className="absolute inset-0 w-full h-full pointer-events-none"
         >
           {/* Overlay Darkener */}
           <div className="absolute inset-0 bg-neutral-950/45 z-10" />
           <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/80 via-transparent to-neutral-950/20 z-10" />
           
           <Image
-            src={slides[currentIndex].image}
-            alt={slides[currentIndex].title}
+            src={slide.image}
+            alt={slide.title}
             fill
-            priority
+            priority={index === 0}
             sizes="100vw"
             className="object-cover object-center"
             referrerPolicy="no-referrer"
           />
         </motion.div>
-      </AnimatePresence>
+      ))}
 
       {/* Slide Visual Content Overlay */}
       <div className="absolute inset-0 z-20 flex flex-col justify-end pb-20 md:pb-28">

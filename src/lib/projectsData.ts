@@ -7,7 +7,7 @@ export const projects: Project[] = [
     title: 'MILIMALISM',
     tagline: 'Villa • Diện tích: 270 m²',
     description: 'Một không gian sống đủ kín để riêng tư, nhưng cũng đủ mở để được chạm vào thiên nhiên.',
-    mainImage: '/asset/du_an1/anh1_duan1.png',
+    mainImage: '/asset/du_an1/anh1_duan1.webp',
     bullets: [
       'KHI KIẾN TRÚC LÀ SỰ CÂN BẰNG GIỮA TĨNH VÀ ĐỘNG.',
       'Không cần phô trương, căn Villa này là sự kết hợp giữa khối kiến trúc dứt khoát và những khoảng thở đầy ý đồ.',
@@ -25,17 +25,17 @@ export const projects: Project[] = [
     area: '270 m²',
     style: 'MINIMALISM',
     gallery: [
-      '/asset/du_an1/anh1_duan1.png',
-      '/asset/du_an1/anh2_duan1.png',
-      '/asset/du_an1/anh3_duan1.png',
-      '/asset/du_an1/anh4_duan1.png',
-      '/asset/du_an1/anh5_duan1.png',
-      '/asset/du_an1/anh6_duan1.png',
-      '/asset/du_an1/anh7_duan1.png',
-      '/asset/du_an1/anh8_duan1.png',
-      '/asset/du_an1/anh9_duan1.png',
-      '/asset/du_an1/anh10_duan1.png',
-      '/asset/du_an1/anh11_duan1.png',
+      '/asset/du_an1/anh1_duan1.webp',
+      '/asset/du_an1/anh2_duan1.webp',
+      '/asset/du_an1/anh3_duan1.webp',
+      '/asset/du_an1/anh4_duan1.webp',
+      '/asset/du_an1/anh5_duan1.webp',
+      '/asset/du_an1/anh6_duan1.webp',
+      '/asset/du_an1/anh7_duan1.webp',
+      '/asset/du_an1/anh8_duan1.webp',
+      '/asset/du_an1/anh9_duan1.webp',
+      '/asset/du_an1/anh10_duan1.webp',
+      '/asset/du_an1/anh11_duan1.webp',
     ]
   },
   {
@@ -44,7 +44,7 @@ export const projects: Project[] = [
     title: 'NHẸ NHÀNG NHƯNG ĐỦ KHÁC BIỆT',
     tagline: 'Nhà đất • Diện tích: 66m2/ sàn',
     description: 'Kiến trúc mang hơi thở Địa Trung Hải đương đại, gây ấn tượng bằng những đường cong mềm mại.',
-    mainImage: '/asset/du_an2/anh1_duan2.png',
+    mainImage: '/asset/du_an2/anh1_duan2.webp',
     bullets: [
       'Kiến trúc mang hơi thở Địa Trung Hải đương đại, gây ấn tượng bằng những đường cong mềm mại, hình khối tối giản và tỷ lệ tinh tế.',
       'Màu trắng kem chủ đạo tạo nền cho những mảng bo tròn uyển chuyển, điểm xuyết sắc nâu đất ấm áp, gợi cảm giác gần gũi và an yên.',
@@ -60,12 +60,12 @@ export const projects: Project[] = [
     area: '66m2/ sàn',
     style: 'SANTORINI',
     gallery: [
-      '/asset/du_an2/anh1_duan2.png',
-      '/asset/du_an2/anh2_duan2.png',
-      '/asset/du_an2/anh3_duan2.png',
-      '/asset/du_an2/anh4_duan2.png',
-      '/asset/du_an2/anh5_duan2.png',
-      '/asset/du_an2/anh6_duan2.png',
+      '/asset/du_an2/anh1_duan2.webp',
+      '/asset/du_an2/anh2_duan2.webp',
+      '/asset/du_an2/anh3_duan2.webp',
+      '/asset/du_an2/anh4_duan2.webp',
+      '/asset/du_an2/anh5_duan2.webp',
+      '/asset/du_an2/anh6_duan2.webp',
     ]
   },
   {
@@ -74,7 +74,7 @@ export const projects: Project[] = [
     title: 'NGÔI NHÀ 3 TẦNG – CHUẨN MỰC CHO SỐNG ĐẸP & SỐNG XANH',
     tagline: 'Nhà phố • Diện tích: 100 m2',
     description: 'Một thiết kế dung hòa giữa đường cong mềm mại, ánh sáng tự nhiên và mảng xanh len lỏi ở mọi tầng.',
-    mainImage: '/asset/du_an3/anh1_duan3.png',
+    mainImage: '/asset/du_an3/anh1_duan3.webp',
     bullets: [
       'Một thiết kế dung hòa giữa đường cong mềm mại, ánh sáng tự nhiên và mảng xanh len lỏi ở mọi tầng, mang đến không gian sống tinh tế giữa phố thị.',
       'Một thiết kế không chỉ để ở — mà để tận hưởng, để tìm lại sự cân bằng trong nhịp sống bận rộn.',
@@ -89,12 +89,12 @@ export const projects: Project[] = [
     area: '100 m2',
     style: 'JAPANDI',
     gallery: [
-      '/asset/du_an3/anh1_duan3.png',
-      '/asset/du_an3/anh2_duan3.png',
-      '/asset/du_an3/anh3_duan3.png',
-      '/asset/du_an3/anh4_duan3.png',
-      '/asset/du_an3/anh5_duan3.png',
-      '/asset/du_an3/anh6_duan3.png',
+      '/asset/du_an3/anh1_duan3.webp',
+      '/asset/du_an3/anh2_duan3.webp',
+      '/asset/du_an3/anh3_duan3.webp',
+      '/asset/du_an3/anh4_duan3.webp',
+      '/asset/du_an3/anh5_duan3.webp',
+      '/asset/du_an3/anh6_duan3.webp',
     ]
   },
   {
@@ -103,7 +103,7 @@ export const projects: Project[] = [
     title: '"Tháo bỏ" định kiến về nhà ống chật hẹp',
     tagline: 'Nhà ống • Diện tích: 8.7x9.5m',
     description: 'Giống như số đông gia chủ sở hữu nhà ống thường khá e ngại việc thiết kế và sử dụng không gian với thực trạng hẹp dài, vị khách lần này tìm đến Nou với mong muốn tối ưu hóa công trình trên diện tích xây dựng 8.7x9.5m.',
-    mainImage: '/asset/du_an4/anh1_duan4.png',
+    mainImage: '/asset/du_an4/anh1_duan4.webp',
     bullets: [
       'Đứng trước một thử thách thú vị như vậy luôn là niềm khao khát được thử nghiệm, khám phá những khía cạnh mới, những cách tiếp cận sáng tạo của đội ngũ nhà Nou.',
       'Từ việc khai thác cá tính và sở thích của chủ nhân căn hộ, các kiến trúc sư đã giữ lại phần "xương sống" của căn nhà, nhưng "biến tấu" mặt tiền bằng cách đưa không gian tiểu cảnh, khu sân vườn ngập sắc xanh tươi mát.',
@@ -120,11 +120,11 @@ export const projects: Project[] = [
     area: '8.7x9.5m',
     style: 'WABISABI',
     gallery: [
-      '/asset/du_an4/anh1_duan4.png',
-      '/asset/du_an4/anh2_duan4.png',
-      '/asset/du_an4/anh3_duan4.png',
-      '/asset/du_an4/anh4_duan4.png',
-      '/asset/du_an4/anh5_duan4.png',
+      '/asset/du_an4/anh1_duan4.webp',
+      '/asset/du_an4/anh2_duan4.webp',
+      '/asset/du_an4/anh3_duan4.webp',
+      '/asset/du_an4/anh4_duan4.webp',
+      '/asset/du_an4/anh5_duan4.webp',
     ]
   }
 ];

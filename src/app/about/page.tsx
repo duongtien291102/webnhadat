@@ -107,6 +107,7 @@ export default function AboutPage() {
               src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=80" 
               alt="Studio interior" 
               fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover rounded-sm grayscale hover:grayscale-0 transition-all duration-700 shadow-lg" 
               referrerPolicy="no-referrer"
             />
@@ -204,6 +205,7 @@ export default function AboutPage() {
                   src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=800&q=80" 
                   alt="KTS. Lê Minh Tiến" 
                   fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover object-center grayscale group-hover:grayscale-0 transition-all duration-700"
                   referrerPolicy="no-referrer"
                 />
@@ -229,6 +231,7 @@ export default function AboutPage() {
                   src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=800&q=80" 
                   alt="KTS. Trần Mai Linh" 
                   fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover object-center grayscale group-hover:grayscale-0 transition-all duration-700"
                   referrerPolicy="no-referrer"
                 />

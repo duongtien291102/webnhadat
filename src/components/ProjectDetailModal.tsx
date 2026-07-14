@@ -47,15 +47,20 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
           <div className="md:w-3/5 bg-neutral-950 flex flex-col justify-between relative order-1">
             {/* Active display photo */}
             <div className="flex-1 w-full relative overflow-hidden group">
-              <Image
-                src={project.gallery[activePhotoIndex]}
-                alt={`Gallery angle of ${project.title}`}
-                fill
-                sizes="(max-width: 768px) 100vw, 60vw"
-                className="object-cover"
-                referrerPolicy="no-referrer"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
+              {project.gallery.map((src, idx) => (
+                <Image
+                  key={idx}
+                  src={src}
+                  alt={`Gallery angle ${idx + 1} of ${project.title}`}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 60vw"
+                  className={`object-cover transition-opacity duration-500 ${
+                    idx === activePhotoIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
+                  }`}
+                  referrerPolicy="no-referrer"
+                />
+              ))}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none z-10" />
 
               {/* Left / Right arrows */}
               {project.gallery.length > 1 && (

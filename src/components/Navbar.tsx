@@ -48,7 +48,7 @@ export default function Navbar({ onOpenContact, alwaysSolid = false }: NavbarPro
           <Link href="/" aria-label="Trang chủ NOU Architects" className="flex items-center gap-3 group">
             <div className="relative w-10 h-10 transition-transform hover:scale-105">
               <Image
-                src="/asset/logo.png"
+                src="/asset/logo.webp"
                 alt="NOU Architects Logo"
                 fill
                 className="object-contain"

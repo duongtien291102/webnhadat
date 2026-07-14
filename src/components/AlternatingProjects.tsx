@@ -38,14 +38,21 @@ const ProjectImageSlider = ({ project, onClick }: { project: Project, onClick: (
       onClick={onClick}
       className="relative block group overflow-hidden bg-neutral-900 border border-neutral-200/60 shadow-xl cursor-pointer rounded-sm aspect-[4/3]"
     >
-      <Image
-        src={images[currentIndex]}
-        alt={project.title}
-        fill
-        sizes="(max-width: 1024px) 100vw, 50vw"
-        className="object-cover filter brightness-95 group-hover:scale-105 group-hover:brightness-90 transition-all duration-700"
-        referrerPolicy="no-referrer"
-      />
+      {images.map((src, idx) => (
+        <Image
+          key={idx}
+          src={src}
+          alt={`${project.title} - ảnh ${idx + 1}`}
+          fill
+          sizes="(max-width: 1024px) 100vw, 50vw"
+          className={`object-cover filter transition-all duration-700 ${
+            idx === currentIndex 
+              ? 'opacity-100 brightness-95 group-hover:scale-105 group-hover:brightness-90 z-10' 
+              : 'opacity-0 z-0'
+          }`}
+          referrerPolicy="no-referrer"
+        />
+      ))}
 
       {images.length > 1 && (
         <>
