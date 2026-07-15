@@ -16,7 +16,7 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "NOU.Architects | Web Nhà Đất",
+  title: "NOU.Design | Cảm hứng sáng tạo là đam mê tuyệt đối",
   description: "Kiến tạo những không gian sống vượt thời gian",
 };
 

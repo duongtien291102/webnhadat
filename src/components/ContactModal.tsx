@@ -85,7 +85,7 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
             {/* Header */}
             <div className="p-6 border-b border-neutral-200 flex justify-between items-center bg-[#f7f5f0]">
               <div>
-                <span className="mono-tag text-xs text-neutral-500 uppercase">NOU.desgin</span>
+                <span className="mono-tag text-xs text-neutral-500 uppercase">NOU.Design</span>
                 <h3 className="text-2xl font-serif text-neutral-900 font-medium">Để lại thông tin để chúng mình tư vấn nha</h3>
               </div>
               <button
@@ -184,7 +184,7 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
                     Chào <strong className="text-neutral-900">{name}</strong>, chúng tôi đã ghi nhận yêu cầu tư vấn của bạn.
                   </p>
                   <p className="text-xs text-neutral-400 leading-relaxed">
-                    Kiến trúc sư của <strong className="text-neutral-900">NOU.desgin</strong> sẽ trực tiếp kết nối với bạn qua số điện thoại <span className="text-neutral-900 font-mono font-medium">{phone}</span> trong vòng 1-2 giờ làm việc tới.
+                    Kiến trúc sư của <strong className="text-neutral-900">NOU.Design</strong> sẽ trực tiếp kết nối với bạn qua số điện thoại <span className="text-neutral-900 font-mono font-medium">{phone}</span> trong vòng 1-2 giờ làm việc tới.
                   </p>
                   <button
                     onClick={resetForm}
@@ -200,7 +200,7 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
             {/* Footer */}
             <div className="p-4 bg-neutral-50 text-center border-t border-neutral-100">
               <p className="text-[10px] text-neutral-400">
-                Sản phẩm trí tuệ thuộc về © 2026 NOU.desgin. Đã đăng ký bản quyền.
+                Sản phẩm trí tuệ thuộc về © 2026 NOU.Design. Đã đăng ký bản quyền.
               </p>
             </div>
           </motion.div>

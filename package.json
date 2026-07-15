@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "optimize-images": "node scripts/convert-webp.mjs"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.3.0",
@@ -20,6 +21,7 @@
     "postcss": "^8.5.15",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "sharp": "^0.35.3",
     "tailwindcss": "^4.3.0"
   },
   "devDependencies": {

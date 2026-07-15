@@ -76,13 +76,13 @@ export default function Introduction() {
           <div className="lg:col-span-5 space-y-4">
             <span className="mono-tag text-xs font-semibold text-neutral-400 tracking-widest block">GIỚI THIỆU</span>
             <h3 className="text-3xl md:text-5xl font-serif text-neutral-900 font-normal leading-tight">
-              Thiết kế không gian với sự tĩnh lặng.
+              Thiết kế <span className="whitespace-nowrap">không gian</span><br />với sự tĩnh lặng.
             </h3>
           </div>
 
           <div className="lg:col-span-7 space-y-8 lg:pt-8">
             <p className="text-base text-neutral-600 leading-relaxed font-light">
-              <strong className="text-neutral-900 font-medium">NOU.desgin</strong> là một studio kiến trúc và nội thất theo đuổi phong cách tối giản <strong className="text-neutral-900 font-medium">Japandi</strong>. Chúng tôi tin rằng không gian sống nên là một tác phẩm nghệ thuật mang lại sự bình yên.
+              <strong className="text-neutral-900 font-medium">NOU.Design</strong> là một studio kiến trúc và nội thất theo đuổi phong cách tối giản <strong className="text-neutral-900 font-medium">Japandi</strong>. Chúng tôi tin rằng không gian sống nên là một tác phẩm nghệ thuật mang lại sự bình yên.
             </p>
 
             {/* Horizontal Stats Counter */}

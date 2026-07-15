@@ -41,12 +41,12 @@ export default function AboutPage() {
         >
           <div className="lg:pr-12">
             <h1 className="text-5xl lg:text-6xl font-serif text-neutral-900 font-normal leading-tight tracking-tight">
-              Thiết kế không gian<br />với sự tĩnh lặng.
+              Thiết kế <span className="whitespace-nowrap">không gian</span><br />với sự tĩnh lặng.
             </h1>
           </div>
           <div className="lg:pt-4">
             <p className="text-base text-neutral-600 font-light leading-relaxed max-w-lg">
-              <strong className="font-normal text-neutral-900">NOU DESIGN STUDIO</strong> là một studio thiết kế kiến trúc và nội thất, theo đuổi triết lý tối giản Japandi. Chúng tôi tin rằng không gian sống nên là một tác phẩm nghệ thuật mang lại sự bình yên.
+              <strong className="font-normal text-neutral-900">NOU.Design STUDIO</strong> là một studio thiết kế kiến trúc và nội thất, theo đuổi triết lý tối giản Japandi. Chúng tôi tin rằng không gian sống nên là một tác phẩm nghệ thuật mang lại sự bình yên.
             </p>
           </div>
         </motion.div>
@@ -108,7 +108,7 @@ export default function AboutPage() {
               alt="Studio interior" 
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover rounded-sm grayscale hover:grayscale-0 transition-all duration-700 shadow-lg" 
+              className="object-cover rounded-sm scale-100 hover:scale-105 transition-all duration-700 shadow-lg" 
               referrerPolicy="no-referrer"
             />
           </motion.div>
@@ -187,34 +187,34 @@ export default function AboutPage() {
               Những Người Sáng Tạo
             </h3>
             <p className="text-sm text-neutral-500 font-light leading-relaxed max-w-2xl">
-              "Nou" được lấy cảm hứng từ "Nouveau" (mới mẻ, tiên phong). Tại NOU DESIGN, chúng tôi tin rằng mỗi ngôi nhà đều sở hữu một câu chuyện và vẻ đẹp hoàn hảo riêng, chờ đợi được đánh thức bởi những khối óc sáng tạo.
+              "Nou" được lấy cảm hứng từ "Nouveau" (mới mẻ, tiên phong). Tại NOU.Design, chúng tôi tin rằng mỗi ngôi nhà đều sở hữu một câu chuyện và vẻ đẹp hoàn hảo riêng, chờ đợi được đánh thức bởi những khối óc sáng tạo.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 items-start">
+          <div className="flex flex-col gap-16 lg:gap-24">
             {/* Founder 1 */}
             <motion.div 
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: 0.1 }}
-              className="space-y-6 group"
+              className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-16 items-center group"
             >
-              <div className="relative aspect-[3/4] overflow-hidden bg-neutral-100 rounded-sm shadow-md">
+              <div className="md:col-span-5 relative aspect-[3/4] overflow-hidden bg-neutral-100 rounded-sm shadow-md">
                 <Image 
                   src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=800&q=80" 
                   alt="KTS. Lê Minh Tiến" 
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
-                  className="object-cover object-center grayscale group-hover:grayscale-0 transition-all duration-700"
+                  className="object-cover object-center scale-100 group-hover:scale-105 transition-transform duration-700"
                   referrerPolicy="no-referrer"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
-              <div className="space-y-2 border-l-2 border-neutral-900 pl-4">
-                <h4 className="text-2xl font-serif text-neutral-900">Lê Minh Tiến</h4>
+              <div className="md:col-span-7 space-y-4 border-l-2 border-neutral-900 pl-6">
+                <h4 className="text-3xl font-serif text-neutral-900">Lê Minh Tiến</h4>
                 <p className="text-xs tracking-widest text-neutral-500 uppercase font-semibold">Giám đốc / Kiến trúc sư trưởng</p>
-                <p className="text-sm text-neutral-600 font-light pt-2">Với hơn 10 năm kinh nghiệm trong kiến trúc cảnh quan và không gian, KTS Lê Minh Tiến mang đến góc nhìn hiện đại, tối giản nhưng đậm chất Á Đông trong từng nét phác thảo.</p>
+                <p className="text-base text-neutral-600 font-light pt-2 leading-relaxed">Với hơn 10 năm kinh nghiệm trong kiến trúc cảnh quan và không gian, KTS Lê Minh Tiến mang đến góc nhìn hiện đại, tối giản nhưng đậm chất Á Đông trong từng nét phác thảo.</p>
               </div>
             </motion.div>
 
@@ -224,26 +224,40 @@ export default function AboutPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: 0.3 }}
-              className="space-y-6 group md:mt-24"
+              className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-16 items-center group"
             >
-              <div className="relative aspect-[3/4] overflow-hidden bg-neutral-100 rounded-sm shadow-md">
+              <div className="md:col-span-5 md:order-2 relative aspect-[3/4] overflow-hidden bg-neutral-100 rounded-sm shadow-md">
                 <Image 
                   src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=800&q=80" 
                   alt="KTS. Trần Mai Linh" 
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
-                  className="object-cover object-center grayscale group-hover:grayscale-0 transition-all duration-700"
+                  className="object-cover object-center scale-100 group-hover:scale-105 transition-transform duration-700"
                   referrerPolicy="no-referrer"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
-              <div className="space-y-2 border-l-2 border-neutral-900 pl-4">
-                <h4 className="text-2xl font-serif text-neutral-900">Trần Mai Linh</h4>
+              <div className="md:col-span-7 md:order-1 space-y-4 border-l-2 md:border-l-0 md:border-r-2 border-neutral-900 pl-6 md:pl-0 md:pr-6 md:text-right">
+                <h4 className="text-3xl font-serif text-neutral-900">Trần Mai Linh</h4>
                 <p className="text-xs tracking-widest text-neutral-500 uppercase font-semibold">Nhà thiết kế Nội thất / Co-founder</p>
-                <p className="text-sm text-neutral-600 font-light pt-2">Là một người yêu thích cái đẹp tinh tế, KTS Trần Mai Linh thổi hồn vào các công trình qua nghệ thuật xếp đặt vật liệu, ánh sáng và triết lý Wabi-Sabi tự nhiên.</p>
+                <p className="text-base text-neutral-600 font-light pt-2 leading-relaxed">Là một người yêu thích cái đẹp tinh tế, KTS Trần Mai Linh thổi hồn vào các công trình qua nghệ thuật xếp đặt vật liệu, ánh sáng và triết lý Wabi-Sabi tự nhiên.</p>
               </div>
             </motion.div>
           </div>
+
+          {/* Team Note */}
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mt-24 pt-12 border-t border-neutral-200 text-center space-y-4"
+          >
+            <h4 className="text-2xl md:text-3xl font-serif text-neutral-900">Và hơn 20 cộng sự tài năng khác.</h4>
+            <p className="text-base text-neutral-500 font-light leading-relaxed max-w-2xl mx-auto">
+              Phía sau mỗi không gian tĩnh lặng là sự cống hiến không ngừng nghỉ của đội ngũ hơn 20 kiến trúc sư, kỹ sư và chuyên viên thiết kế nội thất mang trong mình ngọn lửa nhiệt huyết. Chúng tôi đồng hành cùng nhau để biến mọi ý tưởng thành hiện thực.
+            </p>
+          </motion.div>
         </div>
       </main>
 

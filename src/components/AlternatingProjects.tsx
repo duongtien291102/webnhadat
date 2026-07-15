@@ -96,7 +96,7 @@ export default function AlternatingProjects({ onOpenConsultation }: AlternatingP
 
         {/* Dynamic Alternating Project Blocks */}
         <div className="space-y-28 md:space-y-40">
-          {projects.map((project, index) => {
+          {projects.slice(0, 4).map((project, index) => {
             const isEven = index % 2 === 0;
             return (
               <div

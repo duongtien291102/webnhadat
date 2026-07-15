@@ -16,7 +16,7 @@ function CustomSelect({ label, value, options, onChange }: { label: string, valu
   const selectedLabel = options.find(o => o.value === value)?.label || options[0].label;
 
   return (
-    <div className="relative flex flex-col gap-2" onMouseLeave={() => setIsOpen(false)}>
+    <div className="relative flex flex-col gap-2">
       <label className="text-[10px] font-mono font-bold tracking-[0.2em] text-neutral-500 uppercase">{label}</label>
       <button 
         onClick={() => setIsOpen(!isOpen)}
@@ -26,6 +26,14 @@ function CustomSelect({ label, value, options, onChange }: { label: string, valu
         <ChevronDown size={14} className={`transition-transform duration-300 text-neutral-400 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
       
+      {/* Nền trong suốt để bấm ra ngoài thì đóng */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 z-20" 
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+
       <AnimatePresence>
         {isOpen && (
           <motion.div 
@@ -33,7 +41,7 @@ function CustomSelect({ label, value, options, onChange }: { label: string, valu
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
             transition={{ duration: 0.2 }}
-            className="absolute top-full left-0 mt-2 w-full bg-white shadow-xl border border-neutral-100 z-30 flex flex-col overflow-hidden"
+            className="absolute top-[100%] left-0 mt-1 w-full bg-white shadow-xl border border-neutral-100 z-30 flex flex-col overflow-hidden rounded-sm"
           >
             {options.map((opt) => (
               <button
@@ -68,6 +76,19 @@ export default function StyleGalleryPage() {
     return filterStyle === 'ALL' || p.style === filterStyle;
   });
 
+  const styleOptions = [
+    { value: "ALL", label: "Tất cả phong cách" },
+    { value: "HIEN_DAI", label: "Hiện Đại" },
+    { value: "JAPANDI", label: "Japandi" },
+    { value: "THUONG_MAI", label: "Thương Mại" },
+    { value: "WABISABI", label: "Wabi-Sabi" }
+  ];
+
+  const currentStyleLabel = styleOptions.find(o => o.value === filterStyle)?.label;
+  const pageTitle = filterStyle === 'ALL' 
+    ? 'Tất cả không gian.' 
+    : `Không gian ${currentStyleLabel}.`;
+
   return (
     <div className="min-h-screen flex flex-col bg-[#fcfbf9]">
       <Navbar onOpenContact={() => setIsContactOpen(true)} alwaysSolid />
@@ -78,7 +99,7 @@ export default function StyleGalleryPage() {
           <div className="space-y-4">
             <span className="text-[10px] font-mono font-bold tracking-[0.2em] text-neutral-400 uppercase">Bộ Sưu Tập</span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif text-neutral-900 font-normal leading-tight tracking-tight">
-              {isAll ? 'Tất cả không gian.' : 'Không gian tối giản.'}
+              {pageTitle}
             </h1>
           </div>
           
@@ -87,13 +108,7 @@ export default function StyleGalleryPage() {
               label="Phong cách"
               value={filterStyle}
               onChange={setFilterStyle}
-              options={[
-                { value: "ALL", label: "Tất cả phong cách" },
-                { value: "MINIMALISM", label: "Minimalism" },
-                { value: "JAPANDI", label: "Japandi" },
-                { value: "SANTORINI", label: "Santorini" },
-                { value: "WABISABI", label: "Wabi-Sabi" }
-              ]}
+              options={styleOptions}
             />
           </div>
         </div>
@@ -136,9 +151,16 @@ export default function StyleGalleryPage() {
                     </p>
                   </div>
                   <div className="text-right">
-                    <span className="text-[10px] font-mono tracking-widest text-neutral-500 bg-neutral-100 px-2.5 py-1 uppercase rounded-sm border border-neutral-200/50">
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setFilterStyle(project.style);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }}
+                      className="text-[10px] font-mono tracking-widest text-neutral-500 bg-neutral-100 hover:bg-neutral-200 hover:text-neutral-900 px-2.5 py-1 uppercase rounded-sm border border-neutral-200/50 transition-colors cursor-pointer"
+                    >
                       {project.style}
-                    </span>
+                    </button>
                   </div>
                 </div>
               </div>

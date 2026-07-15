@@ -4,24 +4,24 @@ import { Instagram, Facebook, Mail, Phone, MapPin, Globe } from 'lucide-react';
 
 export default function Footer() {
   const socialLinks = [
-    { name: 'Instagram', icon: <Instagram size={18} />, href: 'https://instagram.com/nou.architects', color: 'hover:text-pink-500' },
-    { name: 'Facebook', icon: <Facebook size={18} />, href: 'https://facebook.com/nou.architects', color: 'hover:text-blue-500' },
+    { name: 'Instagram', icon: <Instagram size={18} />, href: 'https://instagram.com/NOU.Design', color: 'hover:text-pink-500' },
+    { name: 'Facebook', icon: <Facebook size={18} />, href: 'https://facebook.com/NOU.Design', color: 'hover:text-blue-500' },
     { name: 'Website', icon: <Globe size={18} />, href: '#home', color: 'hover:text-[#dfd9ce]' },
   ];
 
   return (
     <footer className="bg-[#121212] text-neutral-400 py-16 border-t border-neutral-900" id="contact">
       <div className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-        
+
         {/* Left main brand column */}
         <div className="lg:col-span-5 space-y-6">
-          <a href="#home" aria-label="Trang chủ NOU.desgin" className="flex items-center gap-3">
+          <a href="#home" aria-label="Trang chủ NOU.Design" className="flex items-center gap-3">
             <div className="w-9 h-9 flex items-center justify-center font-serif text-sm font-bold border border-neutral-700 bg-neutral-900 text-white">
               NOU
             </div>
             <div>
               <h4 className="text-sm tracking-[0.2em] text-[#f5f1ea] font-medium font-sans">
-                NOU.desgin
+                NOU.Design
               </h4>
               <p className="text-[9px] tracking-[0.1em] text-neutral-500 font-sans uppercase">
                 Est. 2021 | Studio kiến trúc tối mộc
@@ -30,7 +30,7 @@ export default function Footer() {
           </a>
 
           <p className="text-xs text-neutral-400 leading-relaxed font-light max-w-sm">
-            Nou.Architects - Cảm hứng sáng tạo là đam mê tuyệt đối
+            NOU.Design - Cảm hứng sáng tạo là đam mê tuyệt đối
           </p>
 
           {/* Social Icons row */}
@@ -57,23 +57,8 @@ export default function Footer() {
           </h5>
           <ul className="space-y-3 text-xs font-sans">
             <li>
-              <a href="#introduction" className="hover:text-white transition-colors duration-200 block">
-                Băng thông thiết kế Japandi
-              </a>
-            </li>
-            <li>
-              <a href="#materials" className="hover:text-white transition-colors duration-200 block">
-                Tài liệu kỹ thuật vật liệu (PDF)
-              </a>
-            </li>
-            <li>
               <a href="#process" className="hover:text-white transition-colors duration-200 block">
-                Hồ sơ năng lực thi công
-              </a>
-            </li>
-            <li>
-              <a href="#projects" className="hover:text-white transition-colors duration-200 block">
-                Danh sách dự án đã bàn giao
+                Hồ sơ năng lực
               </a>
             </li>
           </ul>
@@ -100,7 +85,7 @@ export default function Footer() {
             <li className="flex items-start gap-2.5">
               <Mail size={15} className="text-neutral-500 shrink-0 mt-0.5" />
               <span>
-                Noudesign.interior@gmail.com
+                nou.design.mkt@gmail.com
               </span>
             </li>
           </ul>
@@ -111,7 +96,7 @@ export default function Footer() {
       {/* Underbar footer row */}
       <div className="max-w-7xl mx-auto px-6 md:px-12 mt-16 pt-8 border-t border-neutral-900/60 flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] text-neutral-500">
         <div>
-          <span>Thiết kế bởi Nou Studio • Hỗ trợ hoàn thiện kỹ thuật số bởi AI Studio</span>
+          <span>Thiết kế bởi đội ngũ thiết kế NOU.Design</span>
         </div>
         <div>
           <span>© 2026 Nou Design. All rights reserved.</span>

@@ -185,7 +185,7 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
                 <ChevronRight size={14} />
               </button>
               <p className="text-[10px] text-center text-neutral-500 font-sans">
-                * Được tư vấn trực tiếp cùng Kiến trúc sư trưởng của NOU.desgin.
+                * Được tư vấn trực tiếp cùng Kiến trúc sư trưởng của NOU.Design.
               </p>
             </div>
           </div>

@@ -13,7 +13,7 @@ git push origin develop
 ## Bước 2: Kéo code về máy chủ VPS
 Bạn mở PowerShell, đăng nhập vào máy chủ:
 ```bash
-ssh root@103.82.194.210
+ssh root@103.82.25.237
 ```
 *(Nếu nó hỏi mật khẩu thì bạn copy và dán mã Token `ghp_...` hoặc mật khẩu máy chủ tùy vào việc bạn dùng kho Public hay Private nhé).*
 
