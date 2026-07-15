@@ -45,11 +45,11 @@ export default function Navbar({ onOpenContact, alwaysSolid = false }: NavbarPro
       >
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
           {/* Logo */}
-          <Link href="/" aria-label="Trang chủ NOU Architects" className="flex items-center gap-3 group">
+          <Link href="/" aria-label="Trang chủ NOU.desgin" className="flex items-center gap-3 group">
             <div className="relative w-10 h-10 transition-transform hover:scale-105">
               <Image
                 src="/asset/logo.png"
-                alt="NOU Architects Logo"
+                alt="NOU.desgin Logo"
                 fill
                 className="object-contain"
               />
@@ -59,7 +59,7 @@ export default function Navbar({ onOpenContact, alwaysSolid = false }: NavbarPro
                 className={`text-sm tracking-[0.25em] font-medium transition-colors ${isScrolledActive ? 'text-neutral-900' : 'text-white'
                   }`}
               >
-                NOU ARCHITECTS
+                NOU.desgin
               </h1>
             </div>
           </Link>
@@ -152,7 +152,7 @@ export default function Navbar({ onOpenContact, alwaysSolid = false }: NavbarPro
                 LIÊN HỆ THỦ CÔNG
               </button>
               <p className="text-[10px] text-neutral-400 mt-2 font-sans">
-                NOU ARCHITECTS • PHONG CÁCH TỐI GIẢN JAPANDI • © 2026
+                NOU.desgin • PHONG CÁCH TỐI GIẢN JAPANDI • © 2026
               </p>
             </div>
           </motion.div>

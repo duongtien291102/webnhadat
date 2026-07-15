@@ -38,7 +38,7 @@ export async function POST(req: Request) {
     const htmlContent = `
       <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden;">
         <div style="background-color: #0a0a0a; color: white; padding: 24px; text-align: center;">
-          <h2 style="margin: 0; font-weight: 500; letter-spacing: 2px;">NOU ARCHITECTS</h2>
+          <h2 style="margin: 0; font-weight: 500; letter-spacing: 2px;">NOU.desgin</h2>
           <p style="margin: 8px 0 0; color: #a3a3a3; font-size: 14px;">YÊU CẦU TƯ VẤN MỚI</p>
         </div>
         <div style="padding: 32px 24px; background-color: #fcfbf9;">
@@ -54,7 +54,7 @@ export async function POST(req: Request) {
           <p style="font-size: 14px; color: #525252;">Hãy liên hệ với khách hàng trong thời gian sớm nhất nhé.</p>
         </div>
         <div style="background-color: #f5f5f5; padding: 16px; text-align: center; border-top: 1px solid #e5e7eb;">
-          <p style="margin: 0; font-size: 12px; color: #737373;">Email tự động gửi từ website NOU Architects</p>
+          <p style="margin: 0; font-size: 12px; color: #737373;">Email tự động gửi từ website NOU.desgin</p>
         </div>
       </div>
     `;

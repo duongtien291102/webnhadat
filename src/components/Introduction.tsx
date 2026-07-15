@@ -82,7 +82,7 @@ export default function Introduction() {
 
           <div className="lg:col-span-7 space-y-8 lg:pt-8">
             <p className="text-base text-neutral-600 leading-relaxed font-light">
-              <strong className="text-neutral-900 font-medium">NOU ARCHITECTS</strong> là một studio kiến trúc và nội thất theo đuổi phong cách tối giản <strong className="text-neutral-900 font-medium">Japandi</strong>. Chúng tôi tin rằng không gian sống nên là một tác phẩm nghệ thuật mang lại sự bình yên.
+              <strong className="text-neutral-900 font-medium">NOU.desgin</strong> là một studio kiến trúc và nội thất theo đuổi phong cách tối giản <strong className="text-neutral-900 font-medium">Japandi</strong>. Chúng tôi tin rằng không gian sống nên là một tác phẩm nghệ thuật mang lại sự bình yên.
             </p>
 
             {/* Horizontal Stats Counter */}

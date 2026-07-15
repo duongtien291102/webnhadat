@@ -15,13 +15,13 @@ export default function Footer() {
         
         {/* Left main brand column */}
         <div className="lg:col-span-5 space-y-6">
-          <a href="#home" aria-label="Trang chủ NOU Architects" className="flex items-center gap-3">
+          <a href="#home" aria-label="Trang chủ NOU.desgin" className="flex items-center gap-3">
             <div className="w-9 h-9 flex items-center justify-center font-serif text-sm font-bold border border-neutral-700 bg-neutral-900 text-white">
               NOU
             </div>
             <div>
               <h4 className="text-sm tracking-[0.2em] text-[#f5f1ea] font-medium font-sans">
-                NOU ARCHITECTS
+                NOU.desgin
               </h4>
               <p className="text-[9px] tracking-[0.1em] text-neutral-500 font-sans uppercase">
                 Est. 2021 | Studio kiến trúc tối mộc
