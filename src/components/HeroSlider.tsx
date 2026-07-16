@@ -42,6 +42,22 @@ const slides: SlideData[] = [
     meta: 'CHUNG CƯ • 87 M² • HÀ NỘI',
     href: '/project/13-oceanpark-r1-87m2',
   },
+  {
+    id: 'nhapho-thanhhoa',
+    title: 'NHÀ PHỐ THANH HÓA',
+    tagline: 'Thiết kế tinh giản, vật liệu tự nhiên kết hợp cùng ánh sáng để tạo nên không gian Wabi-sabi thanh tịnh.',
+    image: '/asset/anhweb/wabi-sabi/17. Nhà phố - 5x20 3 tầng - Thanh Hóa/1.webp',
+    meta: 'NHÀ PHỐ • 5X20 • THANH HÓA',
+    href: '/project/17-nha-pho-5x20-3-tang-thanh-hoa',
+  },
+  {
+    id: 'chungcu-giaiphong',
+    title: 'CHUNG CƯ 1277 GIẢI PHÓNG',
+    tagline: 'Sự giao thoa hoàn hảo giữa phong cách Japandi ấm áp, hiện đại mang đến không gian sống yên bình.',
+    image: '/asset/anhweb/japandi/14. Chung cư 1277 Giải Phóng - 66m2/1.webp',
+    meta: 'CHUNG CƯ • 66 M² • HÀ NỘI',
+    href: '/project/14-chung-cu-1277-giai-phong-66m2',
+  },
 ];
 
 export default function HeroSlider({ onOpenContact }: HeroSliderProps) {
@@ -133,7 +149,7 @@ export default function HeroSlider({ onOpenContact }: HeroSliderProps) {
             >
               <a
                 href="#projects"
-                className="bg-white hover:bg-neutral-150 text-neutral-900 px-8 py-4 font-bold text-xs tracking-widest flex items-center gap-2 group transition-all rounded-sm shadow-lg shadow-black/20"
+                className="bg-white dark:bg-[#121212] hover:bg-neutral-150 text-neutral-900 dark:text-neutral-100 px-8 py-4 font-bold text-xs tracking-widest flex items-center gap-2 group transition-all rounded-sm shadow-lg shadow-black/20"
                 id="hero-view-project"
               >
                 <span>XEM DỰ ÁN</span>
@@ -142,7 +158,7 @@ export default function HeroSlider({ onOpenContact }: HeroSliderProps) {
 
               <button
                 onClick={onOpenContact}
-                className="border border-white/70 hover:border-white hover:bg-white/10 text-white px-8 py-4 font-bold text-xs tracking-widest transition-all rounded-sm cursor-pointer"
+                className="border border-white/70 hover:border-white hover:bg-white dark:hover:bg-neutral-800/10 text-white px-8 py-4 font-bold text-xs tracking-widest transition-all rounded-sm cursor-pointer"
                 id="hero-request-consult"
               >
                 NHÂN TƯ VẤN
@@ -179,13 +195,13 @@ export default function HeroSlider({ onOpenContact }: HeroSliderProps) {
               aria-label={`Chuyển đến slide ${index + 1}`}
               onClick={() => setCurrentIndex(index)}
               className={`h-2 transition-all duration-300 rounded-full cursor-pointer min-h-[16px] min-w-[16px] ${
-                index === currentIndex ? 'w-10 bg-white' : 'w-2 bg-white/40'
+                index === currentIndex ? 'w-10 bg-white dark:bg-[#121212]' : 'w-2 bg-white dark:bg-[#121212]/40'
               }`}
               id={`hero-dot-${slide.id}`}
             />
           ))}
         </div>
-        <div className="text-neutral-300/80 tracking-widest font-mono">
+        <div className="text-neutral-300/80 tracking-widest font-sans">
           0{currentIndex + 1} <span className="opacity-40">/</span> 0{slides.length}
         </div>
       </div>

@@ -5,11 +5,19 @@ import Contact from '@/models/Contact';
 
 export async function POST(req: Request) {
   try {
-    const { name, phone, message } = await req.json();
+    const { name, phone, area, location, message } = await req.json();
 
-    if (!name || !phone) {
+    if (!name || !phone || !area || !location) {
       return NextResponse.json(
-        { error: 'Vui lòng cung cấp đầy đủ Tên và Số điện thoại' },
+        { error: 'Vui lòng cung cấp đầy đủ Tên, Số điện thoại, Diện tích và Vị trí' },
+        { status: 400 }
+      );
+    }
+
+    const phoneRegex = /^0(3|5|7|8|9)[0-9]{8}$/;
+    if (!phoneRegex.test(phone)) {
+      return NextResponse.json(
+        { error: 'Số điện thoại không hợp lệ. Vui lòng nhập đúng số Việt Nam.' },
         { status: 400 }
       );
     }
@@ -19,6 +27,8 @@ export async function POST(req: Request) {
     const newContact = await Contact.create({
       name,
       phone,
+      area,
+      location,
       message,
     });
 
@@ -48,6 +58,8 @@ export async function POST(req: Request) {
           <div style="background-color: white; border: 1px solid #e5e7eb; border-radius: 4px; padding: 16px; margin: 24px 0;">
             <p style="margin: 0 0 12px;"><strong>Họ và tên:</strong> ${name}</p>
             <p style="margin: 0 0 12px;"><strong>Số điện thoại:</strong> <span style="color: #0284c7;">${phone}</span></p>
+            <p style="margin: 0 0 12px;"><strong>Diện tích:</strong> ${area ? area + ' m²' : '<em>(Chưa cung cấp)</em>'}</p>
+            <p style="margin: 0 0 12px;"><strong>Vị trí:</strong> ${location ? location : '<em>(Chưa cung cấp)</em>'}</p>
             <p style="margin: 0;"><strong>Ghi chú:</strong> ${message ? message.replace(/\n/g, '<br/>') : '<em>(Không có)</em>'}</p>
           </div>
 

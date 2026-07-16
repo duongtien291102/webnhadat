@@ -12,7 +12,8 @@ interface ContactModalProps {
 export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: ContactModalProps) {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
-  const [area, setArea] = useState(85);
+  const [area, setArea] = useState<string>('');
+  const [location, setLocation] = useState('');
   const [material, setMaterial] = useState(initialMaterial || 'nordic-oak');
   const [style, setStyle] = useState('minimalist');
   const [message, setMessage] = useState('');
@@ -28,7 +29,7 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !phone) return;
+    if (!name || !phone || !area || !location) return;
 
     setIsSubmitting(true);
 
@@ -36,7 +37,7 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, phone, message }),
+        body: JSON.stringify({ name, phone, area, location, message }),
       });
 
       if (!res.ok) {
@@ -55,7 +56,8 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
   const resetForm = () => {
     setName('');
     setPhone('');
-    setArea(85);
+    setArea('');
+    setLocation('');
     setMessage('');
     setIsSuccess(false);
     onClose();
@@ -80,18 +82,18 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="relative z-10 w-full max-w-2xl max-h-[95vh] bg-[#fcfbf9] shadow-2xl rounded-sm flex flex-col overflow-hidden border border-neutral-200"
+            className="relative z-10 w-full max-w-2xl max-h-[95vh] bg-background shadow-2xl rounded-sm flex flex-col overflow-hidden border border-neutral-200 dark:border-neutral-800"
           >
             {/* Header */}
-            <div className="p-6 border-b border-neutral-200 flex justify-between items-center bg-[#f7f5f0]">
+            <div className="p-6 border-b border-neutral-200 dark:border-neutral-800 flex justify-between items-center bg-[#f7f5f0] dark:bg-[#1a1a1a]">
               <div>
-                <span className="mono-tag text-xs text-neutral-500 uppercase">NOU.Design</span>
-                <h3 className="text-2xl font-serif text-neutral-900 font-medium">Để lại thông tin để chúng mình tư vấn nha</h3>
+                <span className="mono-tag text-xs text-neutral-500 dark:text-neutral-400 uppercase">NOU.Design</span>
+                <h3 className="text-2xl font-serif text-neutral-900 dark:text-neutral-100 font-medium">Để lại thông tin để chúng mình tư vấn nha</h3>
               </div>
               <button
                 onClick={onClose}
                 aria-label="Đóng bảng liên hệ"
-                className="p-3 hover:bg-neutral-200 rounded-full transition-colors duration-200 text-neutral-500 hover:text-neutral-900 cursor-pointer min-w-[48px] min-h-[48px] flex items-center justify-center"
+                className="p-3 hover:bg-neutral-200 rounded-full transition-colors duration-200 text-neutral-500 hover:text-neutral-900 dark:text-neutral-100 cursor-pointer min-w-[48px] min-h-[48px] flex items-center justify-center"
                 id="close-modal-btn"
               >
                 <X size={20} />
@@ -106,46 +108,72 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
                   <div className="space-y-4">
 
                     <div>
-                      <label className="block text-xs font-medium text-neutral-600 mb-1">Họ và tên của bạn *</label>
+                      <label className="block text-xs font-medium text-neutral-600 dark:text-neutral-300 mb-1">Họ và tên của bạn *</label>
                       <input
                         type="text"
                         required
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder="Nguyễn Văn A"
-                        className="w-full px-4 py-3 bg-white border border-neutral-200 rounded-md focus:outline-none focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 transition-all text-sm"
+                        className="w-full px-4 py-3 bg-white dark:bg-[#121212] border border-neutral-200 dark:border-neutral-800 rounded-md focus:outline-none focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 transition-all text-sm"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-medium text-neutral-600 mb-1">Số điện thoại liên lạc *</label>
+                      <label className="block text-xs font-medium text-neutral-600 dark:text-neutral-300 mb-1">Số điện thoại liên lạc *</label>
                       <input
                         type="tel"
                         required
-                        pattern="[0-9]{10,11}"
+                        pattern="0(3|5|7|8|9)[0-9]{8}"
+                        title="Vui lòng nhập đúng định dạng số điện thoại Việt Nam (10 số, bắt đầu bằng 03, 05, 07, 08, hoặc 09)"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
                         placeholder="Số điện thoại (ví dụ: 0912345678)"
-                        className="w-full px-4 py-3 bg-white border border-neutral-200 rounded-md focus:outline-none focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 transition-all text-sm"
+                        className="w-full px-4 py-3 bg-white dark:bg-[#121212] border border-neutral-200 dark:border-neutral-800 rounded-md focus:outline-none focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 transition-all text-sm"
                       />
+                    </div>
+                    
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs font-medium text-neutral-600 dark:text-neutral-300 mb-1">Diện tích (m²) *</label>
+                        <input
+                          type="number"
+                          required
+                          value={area}
+                          onChange={(e) => setArea(e.target.value)}
+                          placeholder="Ví dụ: 80"
+                          className="w-full px-4 py-3 bg-white dark:bg-[#121212] border border-neutral-200 dark:border-neutral-800 rounded-md focus:outline-none focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 transition-all text-sm"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-neutral-600 dark:text-neutral-300 mb-1">Tỉnh / Thành phố *</label>
+                        <input
+                          type="text"
+                          required
+                          value={location}
+                          onChange={(e) => setLocation(e.target.value)}
+                          placeholder="Hà Nội, TP.HCM..."
+                          className="w-full px-4 py-3 bg-white dark:bg-[#121212] border border-neutral-200 dark:border-neutral-800 rounded-md focus:outline-none focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 transition-all text-sm"
+                        />
+                      </div>
                     </div>
                   </div>
 
 
 
                   {/* Message Field */}
-                  <div className="space-y-2 pt-4 border-t border-neutral-100">
-                    <h4 className="text-sm font-semibold uppercase tracking-wider text-neutral-400 flex items-center gap-2">
+                  <div className="space-y-2 pt-4 border-t border-neutral-100 dark:border-neutral-800">
+                    <h4 className="text-sm font-semibold uppercase tracking-wider text-neutral-400 dark:text-neutral-300 flex items-center gap-2">
                       <Layers size={16} /> Ghi chú thêm
                     </h4>
                     <div>
-                      <label className="block text-xs font-medium text-neutral-600 mb-1">Mô tả định hướng thiết kế (tùy chọn)</label>
+                      <label className="block text-xs font-medium text-neutral-600 dark:text-neutral-300 mb-1">Mô tả định hướng thiết kế (tùy chọn)</label>
                       <textarea
                         rows={3}
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
                         placeholder="Hãy chia sẻ thêm về những mong muốn và ý tưởng cho ngôi nhà tương lai của bạn..."
-                        className="w-full px-4 py-3 bg-white border border-neutral-200 rounded-md focus:outline-none focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 transition-all text-sm resize-none"
+                        className="w-full px-4 py-3 bg-white dark:bg-[#121212] border border-neutral-200 dark:border-neutral-800 rounded-md focus:outline-none focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 transition-all text-sm resize-none"
                       />
                     </div>
                   </div>
@@ -154,7 +182,7 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full bg-neutral-950 text-white hover:bg-neutral-850 py-4 px-6 rounded-md font-medium text-sm flex items-center justify-center gap-2 transition-all cursor-pointer shadow-md shadow-neutral-950/10 active:scale-98 disabled:opacity-55"
+                    className="w-full bg-neutral-950 dark:bg-white text-white dark:text-black hover:bg-neutral-850 dark:hover:bg-neutral-200 py-4 px-6 rounded-md font-medium text-sm flex items-center justify-center gap-2 transition-all cursor-pointer shadow-md shadow-neutral-950/10 active:scale-98 disabled:opacity-55"
                     id="submit-consult-btn"
                   >
                     {isSubmitting ? (
@@ -179,12 +207,12 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
                   <div className="w-16 h-16 bg-neutral-900 text-[#e9dcce] rounded-full flex items-center justify-center shadow-lg">
                     <CheckCircle2 size={36} strokeWidth={1.5} />
                   </div>
-                  <h4 className="text-2xl font-serif font-medium text-neutral-900">Gửi Yêu Cầu Thành Công</h4>
-                  <p className="text-sm text-neutral-600 max-w-sm leading-relaxed">
-                    Chào <strong className="text-neutral-900">{name}</strong>, chúng tôi đã ghi nhận yêu cầu tư vấn của bạn.
+                  <h4 className="text-2xl font-serif font-medium text-neutral-900 dark:text-neutral-100">Gửi Yêu Cầu Thành Công</h4>
+                  <p className="text-sm text-neutral-600 dark:text-neutral-300 max-w-sm leading-relaxed">
+                    Chào <strong className="text-neutral-900 dark:text-neutral-100">{name}</strong>, chúng tôi đã ghi nhận yêu cầu tư vấn của bạn.
                   </p>
-                  <p className="text-xs text-neutral-400 leading-relaxed">
-                    Kiến trúc sư của <strong className="text-neutral-900">NOU.Design</strong> sẽ trực tiếp kết nối với bạn qua số điện thoại <span className="text-neutral-900 font-mono font-medium">{phone}</span> trong vòng 1-2 giờ làm việc tới.
+                  <p className="text-xs text-neutral-400 dark:text-neutral-300 leading-relaxed">
+                    Kiến trúc sư của <strong className="text-neutral-900 dark:text-neutral-100">NOU.Design</strong> sẽ trực tiếp kết nối với bạn qua số điện thoại <span className="text-neutral-900 dark:text-neutral-100 font-sans font-medium">{phone}</span> trong vòng 1-2 giờ làm việc tới.
                   </p>
                   <button
                     onClick={resetForm}
@@ -198,8 +226,8 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
             </div>
 
             {/* Footer */}
-            <div className="p-4 bg-neutral-50 text-center border-t border-neutral-100">
-              <p className="text-[10px] text-neutral-400">
+            <div className="p-4 bg-neutral-50 dark:bg-[#1a1a1a] text-center border-t border-neutral-100 dark:border-neutral-800">
+              <p className="text-[10px] text-neutral-400 dark:text-neutral-300">
                 Sản phẩm trí tuệ thuộc về © 2026 NOU.Design. Đã đăng ký bản quyền.
               </p>
             </div>

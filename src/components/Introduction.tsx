@@ -20,30 +20,30 @@ export default function Introduction() {
       title: 'Vật liệu thật',
       iconName: 'compass',
       description: 'Sử dụng vật liệu tự nhiên để tôn vinh vẻ đẹp nguyên bản của thiết kế.',
-      image: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=800&q=80',
+      image: '/asset/anhweb/japandi/4. Chung cư Parkhome - 145m2/2.webp',
     },
     {
       title: 'Ánh sáng',
       iconName: 'sun',
       description: 'Tối đa hóa ánh sáng tự nhiên và thông gió, mang lại không gian sống thoáng đãng và trong lành.',
-      image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80',
+      image: '/asset/anhweb/hiện đại/12. Biệt thự Oceanpark - Hải Âu 230m2/2.webp',
     },
     {
       title: 'Sự sống',
       iconName: 'home',
       description: 'Tạo ra một hệ sinh thái trong không gian, nơi con người và thiên nhiên hòa quyện.',
-      image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=800&q=80',
+      image: '/asset/anhweb/wabi-sabi/17. Nhà phố - 5x20 3 tầng - Thanh Hóa/3.webp',
     },
   ];
 
   const renderIcon = (name: string) => {
     switch (name) {
       case 'compass':
-        return <Compass className="w-6 h-6 text-neutral-800" strokeWidth={1.5} />;
+        return <Compass className="w-6 h-6 text-neutral-800 dark:text-neutral-200" strokeWidth={1.5} />;
       case 'sun':
-        return <Sun className="w-6 h-6 text-neutral-800" strokeWidth={1.5} />;
+        return <Sun className="w-6 h-6 text-neutral-800 dark:text-neutral-200" strokeWidth={1.5} />;
       case 'home':
-        return <Home className="w-6 h-6 text-neutral-800" strokeWidth={1.5} />;
+        return <Home className="w-6 h-6 text-neutral-800 dark:text-neutral-200" strokeWidth={1.5} />;
       default:
         return null;
     }
@@ -68,31 +68,31 @@ export default function Introduction() {
   };
 
   return (
-    <section className="py-24 md:py-32 bg-[#fcfbf9] overflow-hidden" id="introduction">
+    <section className="py-24 md:py-32 bg-background overflow-hidden" id="introduction">
       <div className="max-w-7xl mx-auto px-6 md:px-12 space-y-24">
         
         {/* Intro Blocks - Two columns */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-start">
           <div className="lg:col-span-5 space-y-4">
-            <span className="mono-tag text-xs font-semibold text-neutral-400 tracking-widest block">GIỚI THIỆU</span>
-            <h3 className="text-3xl md:text-5xl font-serif text-neutral-900 font-normal leading-tight">
+            <span className="mono-tag text-xs font-semibold text-neutral-400 dark:text-neutral-300 tracking-widest block">GIỚI THIỆU</span>
+            <h3 className="text-3xl md:text-5xl font-serif text-neutral-900 dark:text-neutral-100 font-normal leading-tight">
               Thiết kế <span className="whitespace-nowrap">không gian</span><br />với sự tĩnh lặng.
             </h3>
           </div>
 
           <div className="lg:col-span-7 space-y-8 lg:pt-8">
-            <p className="text-base text-neutral-600 leading-relaxed font-light">
-              <strong className="text-neutral-900 font-medium">NOU.Design</strong> là một studio kiến trúc và nội thất theo đuổi phong cách tối giản <strong className="text-neutral-900 font-medium">Japandi</strong>. Chúng tôi tin rằng không gian sống nên là một tác phẩm nghệ thuật mang lại sự bình yên.
+            <p className="text-base text-neutral-600 dark:text-neutral-300 leading-relaxed font-light">
+              <strong className="text-neutral-900 dark:text-neutral-100 font-medium">NOU.Design</strong> là một studio kiến trúc và nội thất theo đuổi phong cách tối giản <strong className="text-neutral-900 dark:text-neutral-100 font-medium">Japandi</strong>. Chúng tôi tin rằng không gian sống nên là một tác phẩm nghệ thuật mang lại sự bình yên.
             </p>
 
             {/* Horizontal Stats Counter */}
-            <div className="grid grid-cols-3 gap-6 pt-6 border-t border-neutral-200/80">
+            <div className="grid grid-cols-3 gap-6 pt-6 border-t border-neutral-200 dark:border-neutral-800/80">
               {stats.map((stat, idx) => (
                 <div key={idx} className="space-y-1">
-                  <div className="text-2xl md:text-4xl font-serif font-medium text-neutral-900">
+                  <div className="text-2xl md:text-4xl font-serif font-medium text-neutral-900 dark:text-neutral-100">
                     {stat.value}
                   </div>
-                  <div className="text-xs text-neutral-400 tracking-wide font-sans">
+                  <div className="text-xs text-neutral-400 dark:text-neutral-300 tracking-wide font-sans">
                     {stat.label}
                   </div>
                 </div>
@@ -104,16 +104,16 @@ export default function Introduction() {
         {/* Before / After Interactive Slider Section */}
         <div className="space-y-6 pt-6">
           <div className="text-center max-w-xl mx-auto space-y-2">
-            <span className="mono-tag text-[10px] text-neutral-400 font-bold uppercase">Công cụ tương tác</span>
-            <h4 className="text-lg font-serif text-neutral-900 font-medium">Từ Bản Vẽ Kỹ Thuật Đến Hiện Thực</h4>
-            <p className="text-xs text-neutral-500">Kéo thanh trượt ngang để so sánh nét vẽ CAD và không gian hoàn thiện thực tế dồi dào sinh lực.</p>
+            <span className="mono-tag text-[10px] text-neutral-400 dark:text-neutral-300 font-bold uppercase">Công cụ tương tác</span>
+            <h4 className="text-lg font-serif text-neutral-900 dark:text-neutral-100 font-medium">Từ Bản Vẽ Kỹ Thuật Đến Hiện Thực</h4>
+            <p className="text-xs text-neutral-500 dark:text-neutral-400">Kéo thanh trượt ngang để so sánh nét vẽ CAD và không gian hoàn thiện thực tế dồi dào sinh lực.</p>
           </div>
 
           <div 
             ref={containerRef}
             onMouseMove={handleMouseMove}
             onTouchMove={handleTouchMove}
-            className="relative w-full h-[320px] md:h-[480px] lg:h-[550px] bg-neutral-200 overflow-hidden cursor-ew-resize select-none border border-neutral-200 rounded-sm touch-pan-y"
+            className="relative w-full h-[320px] md:h-[480px] lg:h-[550px] bg-neutral-200 overflow-hidden cursor-ew-resize select-none border border-neutral-200 dark:border-neutral-800 rounded-sm touch-pan-y"
           >
             {/* Before Stage (CAD Blueprint) */}
             <div className="absolute inset-0 w-full h-full">
@@ -152,10 +152,10 @@ export default function Introduction() {
 
             {/* Slider Saparator Bar and Button */}
             <div 
-              className="absolute top-0 bottom-0 w-0.5 bg-white/70 z-20 pointer-events-none"
+              className="absolute top-0 bottom-0 w-0.5 bg-white dark:bg-[#121212]/70 z-20 pointer-events-none"
               style={{ left: `${sliderPosition}%` }}
             >
-              <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-10 h-10 bg-white shadow-xl rounded-full flex items-center justify-center text-neutral-800 border-2 border-neutral-200 pointer-events-auto cursor-ew-resize">
+              <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-10 h-10 bg-white dark:bg-[#121212] shadow-xl rounded-full flex items-center justify-center text-neutral-800 dark:text-neutral-200 border-2 border-neutral-200 dark:border-neutral-800 pointer-events-auto cursor-ew-resize">
                 <MoveHorizontal size={16} />
               </div>
             </div>
@@ -165,8 +165,8 @@ export default function Introduction() {
         {/* Philosophy Segment */}
         <div className="space-y-12 pt-12 border-t border-neutral-150" id="philosophy">
           <div className="text-center max-w-lg mx-auto space-y-3">
-            <span className="mono-tag text-xs font-semibold text-neutral-400 tracking-widest block uppercase">TRIẾT LÝ THIẾT KẾ</span>
-            <h3 className="text-2xl md:text-3xl font-serif text-neutral-900 font-medium">
+            <span className="mono-tag text-xs font-semibold text-neutral-400 dark:text-neutral-300 tracking-widest block uppercase">TRIẾT LÝ THIẾT KẾ</span>
+            <h3 className="text-2xl md:text-3xl font-serif text-neutral-900 dark:text-neutral-100 font-medium">
               Cân bằng & Tinh tế
             </h3>
           </div>
@@ -174,18 +174,18 @@ export default function Introduction() {
           {/* 3 cards row */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {philosophyCards.map((card, idx) => (
-              <div key={idx} className="bg-white border border-neutral-100 flex flex-col justify-between group overflow-hidden hover:shadow-xl hover:shadow-neutral-950/5 hover:-translate-y-1 transition-all duration-300">
+              <div key={idx} className="bg-white dark:bg-[#121212] border border-neutral-100 dark:border-neutral-800 flex flex-col justify-between group overflow-hidden hover:shadow-xl hover:shadow-neutral-950/5 hover:-translate-y-1 transition-all duration-300">
                 {/* Header card info */}
                 <div className="p-8 space-y-4">
-                  <div className="w-12 h-12 rounded-full bg-[#f7f5f0] flex items-center justify-center border border-neutral-200/50">
+                  <div className="w-12 h-12 rounded-full bg-[#f7f5f0] dark:bg-[#1a1a1a] flex items-center justify-center border border-neutral-200 dark:border-neutral-800/50">
                     {renderIcon(card.iconName)}
                   </div>
-                  <h4 className="text-lg font-serif font-medium text-neutral-900">{card.title}</h4>
-                  <p className="text-xs text-neutral-500 leading-relaxed font-light">{card.description}</p>
+                  <h4 className="text-lg font-serif font-medium text-neutral-900 dark:text-neutral-100">{card.title}</h4>
+                  <p className="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed font-light">{card.description}</p>
                 </div>
 
                 {/* Card thumbnail image */}
-                <div className="relative h-44 w-full overflow-hidden border-t border-neutral-100 mt-2">
+                <div className="relative h-44 w-full overflow-hidden border-t border-neutral-100 dark:border-neutral-800 mt-2">
                   <Image
                     src={card.image}
                     alt={card.title}

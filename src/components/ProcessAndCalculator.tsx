@@ -25,45 +25,45 @@ const steps: Step[] = [
 
 export default function ProcessAndCalculator({ onOpenWithBudget }: ProcessSectionProps) {
   return (
-    <section className="py-24 bg-[#fcfbf9]" id="process">
+    <section className="py-24 bg-background" id="process">
       <div className="max-w-7xl mx-auto px-6 md:px-12 space-y-12">
         
         {/* Step-by-Step Quy Trình matching Image layout */}
         <div className="space-y-12">
           <div className="text-center space-y-3">
-            <span className="mono-tag text-xs font-semibold text-neutral-400 tracking-widest block uppercase">QUY TRÌNH</span>
-            <h3 className="text-2xl md:text-3xl font-serif text-neutral-900 font-medium">
+            <span className="mono-tag text-xs font-semibold text-neutral-400 dark:text-neutral-300 tracking-widest block uppercase">QUY TRÌNH</span>
+            <h3 className="text-2xl md:text-3xl font-serif text-neutral-900 dark:text-neutral-100 font-medium">
               Cách chúng tôi làm việc.
             </h3>
           </div>
 
           {/* Bordered box wrapping process slides */}
-          <div className="border border-neutral-200/80 bg-[#fbfaf8] p-8 md:p-12 lg:p-16 rounded-sm">
+          <div className="border border-neutral-200 dark:border-neutral-800/80 bg-[#fbfaf8] dark:bg-[#151515] p-8 md:p-12 lg:p-16 rounded-sm">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-16 relative">
               {steps.map((step, idx) => (
                 <div key={idx} className="space-y-6 relative group">
                   
                   {/* Step Header Ring badge */}
                   <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-full bg-[#dfd9ce] font-mono text-xs font-bold text-neutral-800 flex items-center justify-center border border-neutral-300">
+                    <div className="w-10 h-10 rounded-full bg-[#dfd9ce] dark:bg-[#2a2a2a] font-sans text-xs font-bold text-neutral-800 dark:text-neutral-200 flex items-center justify-center border border-neutral-300 dark:border-neutral-700">
                       {step.number}
                     </div>
-                    <h4 className="text-sm font-semibold tracking-wider text-neutral-700 uppercase">Giai Đoạn {step.number}</h4>
+                    <h4 className="text-sm font-semibold tracking-wider text-neutral-700 dark:text-neutral-300 uppercase">Giai Đoạn {step.number}</h4>
                   </div>
 
                   {/* Step Content */}
                   <div className="space-y-2">
-                    <h5 className="text-md font-bold text-neutral-900 font-sans group-hover:text-black transition-colors">
+                    <h5 className="text-md font-bold text-neutral-900 dark:text-neutral-100 font-sans group-hover:text-black transition-colors">
                       {step.title}
                     </h5>
-                    <p className="text-xs text-neutral-500 leading-relaxed font-light">
+                    <p className="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed font-light">
                       {step.description}
                     </p>
                   </div>
 
                   {/* Horizontal Connector lines for desktop */}
                   {idx < 2 && (
-                    <div className="hidden md:block absolute top-5 -right-8 lg:-right-12 w-10 lg:w-12 h-px bg-neutral-200" />
+                    <div className="hidden md:block absolute top-5 -right-8 lg:-right-12 w-10 lg:w-12 h-px bg-neutral-200 dark:bg-neutral-800" />
                   )}
                 </div>
               ))}

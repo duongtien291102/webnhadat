@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import ProtectionWrapper from "@/components/ProtectionWrapper";
+import { Providers } from "./providers";
 
 const playfair = Playfair_Display({ 
   subsets: ["latin", "vietnamese"],
@@ -26,11 +27,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="vi" className={`${playfair.variable} ${jakarta.variable}`}>
+    <html lang="vi" className={`${playfair.variable} ${jakarta.variable}`} suppressHydrationWarning>
       <body className="font-sans antialiased" suppressHydrationWarning>
+        <Providers>
         <ProtectionWrapper>
           {children}
         </ProtectionWrapper>
+        </Providers>
       </body>
     </html>
   );

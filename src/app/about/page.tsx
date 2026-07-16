@@ -28,7 +28,7 @@ export default function AboutPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-[#fcfbf9]">
+    <div className="min-h-screen flex flex-col justify-between bg-background">
       <Navbar onOpenContact={() => setIsContactOpen(true)} alwaysSolid />
 
       <main className="flex-1 pt-24 md:pt-32 px-6 md:px-12 max-w-7xl mx-auto w-full">
@@ -37,16 +37,16 @@ export default function AboutPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start pt-16 border-b border-neutral-100 pb-16"
+          className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start pt-16 border-b border-neutral-100 dark:border-neutral-800 pb-16"
         >
           <div className="lg:pr-12">
-            <h1 className="text-5xl lg:text-6xl font-serif text-neutral-900 font-normal leading-tight tracking-tight">
+            <h1 className="text-5xl lg:text-6xl font-serif text-neutral-900 dark:text-neutral-100 font-normal leading-tight tracking-tight">
               Thiết kế <span className="whitespace-nowrap">không gian</span><br />với sự tĩnh lặng.
             </h1>
           </div>
           <div className="lg:pt-4">
-            <p className="text-base text-neutral-600 font-light leading-relaxed max-w-lg">
-              <strong className="font-normal text-neutral-900">NOU.Design STUDIO</strong> là một studio thiết kế kiến trúc và nội thất, theo đuổi triết lý tối giản Japandi. Chúng tôi tin rằng không gian sống nên là một tác phẩm nghệ thuật mang lại sự bình yên.
+            <p className="text-base text-neutral-600 dark:text-neutral-300 font-light leading-relaxed max-w-lg">
+              <strong className="font-normal text-neutral-900 dark:text-neutral-100">NOU.Design STUDIO</strong> là một studio thiết kế kiến trúc và nội thất, theo đuổi triết lý tối giản Japandi. Chúng tôi tin rằng không gian sống nên là một tác phẩm nghệ thuật mang lại sự bình yên.
             </p>
           </div>
         </motion.div>
@@ -62,35 +62,35 @@ export default function AboutPage() {
           >
             <div className="space-y-12">
               {/* Story */}
-              <div className="space-y-6 border-b border-neutral-200 pb-12">
-                <span className="text-xs font-mono font-bold tracking-[0.2em] text-neutral-400 uppercase">Câu chuyện của chúng tôi</span>
-                <h3 className="text-2xl lg:text-3xl font-serif text-neutral-900 font-semibold">Khởi nguồn từ sự trân trọng những điều giản đơn.</h3>
-                <div className="text-base text-neutral-500 font-light leading-relaxed space-y-4">
+              <div className="space-y-6 border-b border-neutral-200 dark:border-neutral-800 pb-12">
+                <span className="text-xs font-sans font-bold tracking-[0.2em] text-neutral-400 dark:text-neutral-300 uppercase">Câu chuyện của chúng tôi</span>
+                <h3 className="text-2xl lg:text-3xl font-serif text-neutral-900 dark:text-neutral-100 font-semibold">Khởi nguồn từ sự trân trọng những điều giản đơn.</h3>
+                <div className="text-base text-neutral-500 dark:text-neutral-400 font-light leading-relaxed space-y-4">
                   <p>Thành lập vào năm 2018, NOU bắt đầu từ một nhóm nhỏ các kiến trúc sư cùng chung một niềm đam mê với vật liệu tự nhiên và ánh sáng tự nhiên. Chúng tôi không chạy theo xu hướng, mà tập trung vào việc tạo ra những không gian vượt thời gian.</p>
                   <p>Mỗi dự án tại NOU đều là một quá trình gạn lọc tinh tế, loại bỏ những chi tiết thừa thãi để giữ lại cốt lõi của không gian: sự cân bằng, công năng và xúc cảm.</p>
                 </div>
               </div>
               
               {/* Warm minimalism */}
-              <div className="space-y-4 border-b border-neutral-200 pb-12">
-                <h3 className="text-2xl lg:text-3xl font-serif text-neutral-900 font-semibold italic">Tối giản ấm áp</h3>
-                <p className="text-base text-neutral-500 font-light leading-relaxed">Những không gian được tạo nên bằng những lựa chọn cẩn thận. Từng vật liệu, từng tia sáng đều có ý nghĩa. Kiến trúc là sự lắng nghe – sự sống của gia đình, đất đai, ánh sáng tự nhiên.</p>
+              <div className="space-y-4 border-b border-neutral-200 dark:border-neutral-800 pb-12">
+                <h3 className="text-2xl lg:text-3xl font-serif text-neutral-900 dark:text-neutral-100 font-semibold italic">Tối giản ấm áp</h3>
+                <p className="text-base text-neutral-500 dark:text-neutral-400 font-light leading-relaxed">Những không gian được tạo nên bằng những lựa chọn cẩn thận. Từng vật liệu, từng tia sáng đều có ý nghĩa. Kiến trúc là sự lắng nghe – sự sống của gia đình, đất đai, ánh sáng tự nhiên.</p>
               </div>
             </div>
 
             {/* Stats */}
             <div className="grid grid-cols-3 gap-6 pt-12 pb-4">
               <div className="space-y-1 text-left">
-                <div className="text-3xl md:text-4xl font-serif font-bold text-neutral-900">12+</div>
-                <div className="text-[10px] md:text-xs text-neutral-400 tracking-widest font-sans uppercase font-semibold">Dự án</div>
+                <div className="text-3xl md:text-4xl font-serif font-bold text-neutral-900 dark:text-neutral-100">12+</div>
+                <div className="text-[10px] md:text-xs text-neutral-400 dark:text-neutral-300 tracking-widest font-sans uppercase font-semibold">Dự án</div>
               </div>
               <div className="space-y-1 text-left">
-                <div className="text-3xl md:text-4xl font-serif font-bold text-neutral-900">5 năm</div>
-                <div className="text-[10px] md:text-xs text-neutral-400 tracking-widest font-sans uppercase font-semibold">Kinh nghiệm</div>
+                <div className="text-3xl md:text-4xl font-serif font-bold text-neutral-900 dark:text-neutral-100">5 năm</div>
+                <div className="text-[10px] md:text-xs text-neutral-400 dark:text-neutral-300 tracking-widest font-sans uppercase font-semibold">Kinh nghiệm</div>
               </div>
               <div className="space-y-1 text-left">
-                <div className="text-3xl md:text-4xl font-serif font-bold text-neutral-900">1</div>
-                <div className="text-[10px] md:text-xs text-neutral-400 tracking-widest font-sans uppercase font-semibold">Thành phố</div>
+                <div className="text-3xl md:text-4xl font-serif font-bold text-neutral-900 dark:text-neutral-100">1</div>
+                <div className="text-[10px] md:text-xs text-neutral-400 dark:text-neutral-300 tracking-widest font-sans uppercase font-semibold">Thành phố</div>
               </div>
             </div>
           </motion.div>
@@ -116,13 +116,13 @@ export default function AboutPage() {
 
         {/* Process Section */}
         <div className="pt-24 lg:pt-32 pb-16">
-          <div className="border-t border-b border-neutral-200 py-16 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
+          <div className="border-t border-b border-neutral-200 dark:border-neutral-800 py-16 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
             <motion.div 
               {...fadeInUp}
               className="lg:col-span-4 space-y-4"
             >
-              <span className="text-[10px] font-mono font-bold tracking-[0.2em] text-neutral-400 uppercase">Quy trình</span>
-              <h3 className="text-3xl lg:text-4xl font-serif text-neutral-900 font-normal leading-tight">
+              <span className="text-[10px] font-sans font-bold tracking-[0.2em] text-neutral-400 dark:text-neutral-300 uppercase">Quy trình</span>
+              <h3 className="text-3xl lg:text-4xl font-serif text-neutral-900 dark:text-neutral-100 font-normal leading-tight">
                 Cách chúng tôi<br />làm việc.
               </h3>
             </motion.div>
@@ -135,29 +135,29 @@ export default function AboutPage() {
               className="lg:col-span-8 space-y-12"
             >
               {/* Step 1 */}
-              <motion.div variants={fadeInUp} className="flex flex-col md:flex-row gap-6 md:gap-12 border-b border-neutral-100 pb-12">
-                <span className="text-xs font-mono font-bold text-neutral-400">01</span>
+              <motion.div variants={fadeInUp} className="flex flex-col md:flex-row gap-6 md:gap-12 border-b border-neutral-100 dark:border-neutral-800 pb-12">
+                <span className="text-xs font-sans font-bold text-neutral-400 dark:text-neutral-300">01</span>
                 <div className="space-y-3">
-                  <h4 className="text-xl font-serif text-neutral-900 font-semibold">Khám phá & Lắng nghe</h4>
-                  <p className="text-sm text-neutral-500 font-light leading-relaxed">Mọi dự án bắt đầu bằng việc hiểu rõ phong cách sống, thói quen sinh hoạt và bối cảnh tâm hồn của gia chủ. Chúng tôi dành trọn vẹn thời gian đầu để phân tích sâu, đồng điệu nhịp đập và phác thảo những giải pháp định vị đầu tiên.</p>
+                  <h4 className="text-xl font-serif text-neutral-900 dark:text-neutral-100 font-semibold">Khám phá & Lắng nghe</h4>
+                  <p className="text-sm text-neutral-500 dark:text-neutral-400 font-light leading-relaxed">Mọi dự án bắt đầu bằng việc hiểu rõ phong cách sống, thói quen sinh hoạt và bối cảnh tâm hồn của gia chủ. Chúng tôi dành trọn vẹn thời gian đầu để phân tích sâu, đồng điệu nhịp đập và phác thảo những giải pháp định vị đầu tiên.</p>
                 </div>
               </motion.div>
 
               {/* Step 2 */}
-              <motion.div variants={fadeInUp} className="flex flex-col md:flex-row gap-6 md:gap-12 border-b border-neutral-100 pb-12">
-                <span className="text-xs font-mono font-bold text-neutral-400">02</span>
+              <motion.div variants={fadeInUp} className="flex flex-col md:flex-row gap-6 md:gap-12 border-b border-neutral-100 dark:border-neutral-800 pb-12">
+                <span className="text-xs font-sans font-bold text-neutral-400 dark:text-neutral-300">02</span>
                 <div className="space-y-3">
-                  <h4 className="text-xl font-serif text-neutral-900 font-semibold">Thiết kế ý tưởng</h4>
-                  <p className="text-sm text-neutral-500 font-light leading-relaxed">Chuyển hóa nhu cầu vô hình thành bố cục không gian ba chiều rõ nét. Giai đoạn này đặt nặng trọng tâm vào nghiên cứu luồng di chuyển, sự hợp lý của mặt bằng và khả năng tối ưu hóa vùng tương tác của ánh sáng.</p>
+                  <h4 className="text-xl font-serif text-neutral-900 dark:text-neutral-100 font-semibold">Thiết kế ý tưởng</h4>
+                  <p className="text-sm text-neutral-500 dark:text-neutral-400 font-light leading-relaxed">Chuyển hóa nhu cầu vô hình thành bố cục không gian ba chiều rõ nét. Giai đoạn này đặt nặng trọng tâm vào nghiên cứu luồng di chuyển, sự hợp lý của mặt bằng và khả năng tối ưu hóa vùng tương tác của ánh sáng.</p>
                 </div>
               </motion.div>
 
               {/* Step 3 */}
               <motion.div variants={fadeInUp} className="flex flex-col md:flex-row gap-6 md:gap-12">
-                <span className="text-xs font-mono font-bold text-neutral-400">03</span>
+                <span className="text-xs font-sans font-bold text-neutral-400 dark:text-neutral-300">03</span>
                 <div className="space-y-3">
-                  <h4 className="text-xl font-serif text-neutral-900 font-semibold">Triển khai chi tiết</h4>
-                  <p className="text-sm text-neutral-500 font-light leading-relaxed">Hoàn thiện các hệ thống bản vẽ kỹ thuật chuyên sâu bằng độ chính xác tuyệt đối. Chọn lựa kỹ mộc chi tiết thiết bị, loại thảm thô bản, ánh sáng và quản lý cấu kiện thi công thực địa để bảo thạch linh hồn dự án được lưu giữ trọn vẹn.</p>
+                  <h4 className="text-xl font-serif text-neutral-900 dark:text-neutral-100 font-semibold">Triển khai chi tiết</h4>
+                  <p className="text-sm text-neutral-500 dark:text-neutral-400 font-light leading-relaxed">Hoàn thiện các hệ thống bản vẽ kỹ thuật chuyên sâu bằng độ chính xác tuyệt đối. Chọn lựa kỹ mộc chi tiết thiết bị, loại thảm thô bản, ánh sáng và quản lý cấu kiện thi công thực địa để bảo thạch linh hồn dự án được lưu giữ trọn vẹn.</p>
                 </div>
               </motion.div>
             </motion.div>
@@ -169,7 +169,7 @@ export default function AboutPage() {
           >
             <button 
               onClick={() => setIsContactOpen(true)}
-              className="bg-[#0f0f0f] hover:bg-black text-white px-8 py-4 text-xs font-bold tracking-widest uppercase transition-all shadow-xl hover:shadow-2xl cursor-pointer rounded-sm"
+              className="bg-[#0f0f0f] hover:bg-black dark:bg-white dark:hover:bg-neutral-200 text-white dark:text-black px-8 py-4 text-xs font-bold tracking-widest uppercase transition-all shadow-xl hover:shadow-2xl cursor-pointer rounded-sm"
             >
               BẮT ĐẦU DỰ ÁN KIẾN TRÚC CỦA BẠN CHỈ VỚI NOU
             </button>
@@ -182,11 +182,11 @@ export default function AboutPage() {
             {...fadeInUp}
             className="space-y-4 mb-16"
           >
-            <span className="text-[10px] font-mono font-bold tracking-[0.2em] text-neutral-400 uppercase">Đội ngũ sáng lập</span>
-            <h3 className="text-3xl lg:text-4xl font-serif text-neutral-900 font-normal leading-tight">
+            <span className="text-[10px] font-sans font-bold tracking-[0.2em] text-neutral-400 dark:text-neutral-300 uppercase">Đội ngũ sáng lập</span>
+            <h3 className="text-3xl lg:text-4xl font-serif text-neutral-900 dark:text-neutral-100 font-normal leading-tight">
               Những Người Sáng Tạo
             </h3>
-            <p className="text-sm text-neutral-500 font-light leading-relaxed max-w-2xl">
+            <p className="text-sm text-neutral-500 dark:text-neutral-400 font-light leading-relaxed max-w-2xl">
               "Nou" được lấy cảm hứng từ "Nouveau" (mới mẻ, tiên phong). Tại NOU.Design, chúng tôi tin rằng mỗi ngôi nhà đều sở hữu một câu chuyện và vẻ đẹp hoàn hảo riêng, chờ đợi được đánh thức bởi những khối óc sáng tạo.
             </p>
           </motion.div>
@@ -212,9 +212,9 @@ export default function AboutPage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
               <div className="md:col-span-7 space-y-4 border-l-2 border-neutral-900 pl-6">
-                <h4 className="text-3xl font-serif text-neutral-900">Lê Minh Tiến</h4>
-                <p className="text-xs tracking-widest text-neutral-500 uppercase font-semibold">Giám đốc / Kiến trúc sư trưởng</p>
-                <p className="text-base text-neutral-600 font-light pt-2 leading-relaxed">Với hơn 10 năm kinh nghiệm trong kiến trúc cảnh quan và không gian, KTS Lê Minh Tiến mang đến góc nhìn hiện đại, tối giản nhưng đậm chất Á Đông trong từng nét phác thảo.</p>
+                <h4 className="text-3xl font-serif text-neutral-900 dark:text-neutral-100">Lê Minh Tiến</h4>
+                <p className="text-xs tracking-widest text-neutral-500 dark:text-neutral-400 uppercase font-semibold">Giám đốc / Kiến trúc sư trưởng</p>
+                <p className="text-base text-neutral-600 dark:text-neutral-300 font-light pt-2 leading-relaxed">Với hơn 10 năm kinh nghiệm trong kiến trúc cảnh quan và không gian, KTS Lê Minh Tiến mang đến góc nhìn hiện đại, tối giản nhưng đậm chất Á Đông trong từng nét phác thảo.</p>
               </div>
             </motion.div>
 
@@ -238,9 +238,9 @@ export default function AboutPage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
               <div className="md:col-span-7 md:order-1 space-y-4 border-l-2 md:border-l-0 md:border-r-2 border-neutral-900 pl-6 md:pl-0 md:pr-6 md:text-right">
-                <h4 className="text-3xl font-serif text-neutral-900">Trần Mai Linh</h4>
-                <p className="text-xs tracking-widest text-neutral-500 uppercase font-semibold">Nhà thiết kế Nội thất / Co-founder</p>
-                <p className="text-base text-neutral-600 font-light pt-2 leading-relaxed">Là một người yêu thích cái đẹp tinh tế, KTS Trần Mai Linh thổi hồn vào các công trình qua nghệ thuật xếp đặt vật liệu, ánh sáng và triết lý Wabi-Sabi tự nhiên.</p>
+                <h4 className="text-3xl font-serif text-neutral-900 dark:text-neutral-100">Trần Mai Linh</h4>
+                <p className="text-xs tracking-widest text-neutral-500 dark:text-neutral-400 uppercase font-semibold">Nhà thiết kế Nội thất / Co-founder</p>
+                <p className="text-base text-neutral-600 dark:text-neutral-300 font-light pt-2 leading-relaxed">Là một người yêu thích cái đẹp tinh tế, KTS Trần Mai Linh thổi hồn vào các công trình qua nghệ thuật xếp đặt vật liệu, ánh sáng và triết lý Wabi-Sabi tự nhiên.</p>
               </div>
             </motion.div>
           </div>
@@ -251,11 +251,11 @@ export default function AboutPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="mt-24 pt-12 border-t border-neutral-200 text-center space-y-4"
+            className="mt-24 pt-12 border-t border-neutral-200 dark:border-neutral-800 text-center space-y-4"
           >
-            <h4 className="text-2xl md:text-3xl font-serif text-neutral-900">Và hơn 20 cộng sự tài năng khác.</h4>
-            <p className="text-base text-neutral-500 font-light leading-relaxed max-w-2xl mx-auto">
-              Phía sau mỗi không gian tĩnh lặng là sự cống hiến không ngừng nghỉ của đội ngũ hơn 20 kiến trúc sư, kỹ sư và chuyên viên thiết kế nội thất mang trong mình ngọn lửa nhiệt huyết. Chúng tôi đồng hành cùng nhau để biến mọi ý tưởng thành hiện thực.
+            <h4 className="text-2xl md:text-3xl font-serif text-neutral-900 dark:text-neutral-100">Và hơn 20 cộng sự tài năng khác.</h4>
+            <p className="text-base text-neutral-500 dark:text-neutral-400 font-light leading-relaxed max-w-2xl mx-auto">
+              Phía sau mỗi không gian tĩnh lặng là sự cống hiến không ngừng nghỉ của đội ngũ hơn 20 kiến trúc sư, kỹ thuật và đội ngũ chăm sóc khách hàng mang trong mình ngọn lửa nhiệt huyết. Chúng tôi đồng hành cùng nhau để biến mọi ý tưởng thành hiện thực.
             </p>
           </motion.div>
         </div>

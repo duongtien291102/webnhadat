@@ -169,7 +169,7 @@ export const projects: Project[] = [
     title: "OCEANPARK R1 87M2",
     tagline: "Dự án • Diện tích: 87 m²2",
     description: "Dự án Oceanpark R1 87m2 mang phong cách hiện đại, được thiết kế với sự tinh tế và tiện nghi tối đa.",
-    mainImage: "/asset/anhweb/hiện đại/13. Oceanpark R1 87m2/1-.webp",
+    mainImage: "/asset/anhweb/hiện đại/13. Oceanpark R1 87m2/11.webp",
     bullets: [
       "Không gian được tối ưu hóa để phù hợp với nhu cầu sinh hoạt của gia chủ.",
       "Sử dụng tông màu và vật liệu đặc trưng của phong cách hiện đại.",
@@ -186,9 +186,8 @@ export const projects: Project[] = [
     area: "87 m²2",
     style: "HIEN_DAI",
     gallery: [
-      "/asset/anhweb/hiện đại/13. Oceanpark R1 87m2/1-.webp",
-      "/asset/anhweb/hiện đại/13. Oceanpark R1 87m2/1.webp",
       "/asset/anhweb/hiện đại/13. Oceanpark R1 87m2/11.webp",
+      "/asset/anhweb/hiện đại/13. Oceanpark R1 87m2/1.webp",
       "/asset/anhweb/hiện đại/13. Oceanpark R1 87m2/13.webp",
       "/asset/anhweb/hiện đại/13. Oceanpark R1 87m2/15.webp",
       "/asset/anhweb/hiện đại/13. Oceanpark R1 87m2/17.webp",
@@ -210,7 +209,7 @@ export const projects: Project[] = [
     title: "CHUNG CƯ MATRIX ONE 125M2",
     tagline: "Dự án • Diện tích: 125 m²2",
     description: "Dự án Chung cư Matrix one 125m2 mang phong cách hiện đại, được thiết kế với sự tinh tế và tiện nghi tối đa.",
-    mainImage: "/asset/anhweb/hiện đại/8. Chung cư Matrix one 125m2/1.webp",
+    mainImage: "/asset/anhweb/hiện đại/8. Chung cư Matrix one 125m2/11.webp",
     bullets: [
       "Không gian được tối ưu hóa để phù hợp với nhu cầu sinh hoạt của gia chủ.",
       "Sử dụng tông màu và vật liệu đặc trưng của phong cách hiện đại.",
@@ -227,8 +226,8 @@ export const projects: Project[] = [
     area: "125 m²2",
     style: "HIEN_DAI",
     gallery: [
-      "/asset/anhweb/hiện đại/8. Chung cư Matrix one 125m2/1.webp",
       "/asset/anhweb/hiện đại/8. Chung cư Matrix one 125m2/11.webp",
+      "/asset/anhweb/hiện đại/8. Chung cư Matrix one 125m2/1.webp",
       "/asset/anhweb/hiện đại/8. Chung cư Matrix one 125m2/13.webp",
       "/asset/anhweb/hiện đại/8. Chung cư Matrix one 125m2/15.webp",
       "/asset/anhweb/hiện đại/8. Chung cư Matrix one 125m2/17.webp",
@@ -409,8 +408,7 @@ export const projects: Project[] = [
       "/asset/anhweb/japandi/4. Chung cư Parkhome - 145m2/6.webp",
       "/asset/anhweb/japandi/4. Chung cư Parkhome - 145m2/7.webp",
       "/asset/anhweb/japandi/4. Chung cư Parkhome - 145m2/8.webp",
-      "/asset/anhweb/japandi/4. Chung cư Parkhome - 145m2/9.webp",
-      "/asset/anhweb/japandi/4. Chung cư Parkhome - 145m2/Mặt bằng.webp"
+      "/asset/anhweb/japandi/4. Chung cư Parkhome - 145m2/9.webp"
     ]
   },
   {
@@ -450,8 +448,7 @@ export const projects: Project[] = [
       "/asset/anhweb/japandi/7. Chung cư T8 - Timecity 83m2/6.webp",
       "/asset/anhweb/japandi/7. Chung cư T8 - Timecity 83m2/7.webp",
       "/asset/anhweb/japandi/7. Chung cư T8 - Timecity 83m2/8.webp",
-      "/asset/anhweb/japandi/7. Chung cư T8 - Timecity 83m2/9.webp",
-      "/asset/anhweb/japandi/7. Chung cư T8 - Timecity 83m2/MB.webp"
+      "/asset/anhweb/japandi/7. Chung cư T8 - Timecity 83m2/9.webp"
     ]
   },
   {
@@ -741,8 +738,7 @@ export const projects: Project[] = [
       "/asset/anhweb/wabi-sabi/3. Chung cư 115 m2/5.webp",
       "/asset/anhweb/wabi-sabi/3. Chung cư 115 m2/6.webp",
       "/asset/anhweb/wabi-sabi/3. Chung cư 115 m2/7.webp",
-      "/asset/anhweb/wabi-sabi/3. Chung cư 115 m2/8.webp",
-      "/asset/anhweb/wabi-sabi/3. Chung cư 115 m2/mb.webp"
+      "/asset/anhweb/wabi-sabi/3. Chung cư 115 m2/8.webp"
     ]
   }
 ];

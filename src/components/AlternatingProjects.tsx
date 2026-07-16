@@ -35,7 +35,7 @@ const ProjectImageSlider = ({ project, onClick }: { project: Project, onClick: (
   return (
     <div
       onClick={onClick}
-      className="relative block group overflow-hidden bg-neutral-900 border border-neutral-200/60 shadow-xl cursor-pointer rounded-sm aspect-[4/3]"
+      className="relative block group overflow-hidden bg-neutral-900 border border-neutral-200 dark:border-neutral-800/60 shadow-xl cursor-pointer rounded-sm aspect-[4/3]"
     >
       {images.map((src, idx) => (
         <Image
@@ -80,16 +80,16 @@ export default function AlternatingProjects({ onOpenConsultation }: AlternatingP
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   return (
-    <section className="py-24 space-y-24 md:space-y-36 bg-[#fcfbf9]" id="projects">
+    <section className="py-24 space-y-24 md:space-y-36 bg-background" id="projects">
       <div className="max-w-7xl mx-auto px-6 md:px-12 space-y-20 md:space-y-28">
 
         {/* Section Header */}
         <div className="text-center max-w-xl mx-auto space-y-3">
           <div className="w-12 h-px bg-neutral-400 mx-auto" />
-          <h3 className="text-3xl font-serif text-neutral-900 font-normal tracking-wide">
+          <h3 className="text-3xl font-serif text-neutral-900 dark:text-neutral-100 font-normal tracking-wide">
             Phong cách tiêu biểu
           </h3>
-          <p className="text-xs text-neutral-500 font-sans tracking-widest leading-relaxed">
+          <p className="text-xs text-neutral-500 dark:text-neutral-400 font-sans tracking-widest leading-relaxed">
             Nơi hiện thực hóa những xúc cảm mộc mạc Japandi qua từng công trình thực vật mang đậm hơi thở bản ngã.
           </p>
         </div>
@@ -109,33 +109,33 @@ export default function AlternatingProjects({ onOpenConsultation }: AlternatingP
                     isEven ? 'lg:order-1' : 'lg:order-2'
                   }`}
                 >
-                  <span className="text-xs font-mono font-medium tracking-[0.25em] text-neutral-400 block uppercase">
+                  <span className="text-xs font-sans font-medium tracking-[0.25em] text-neutral-400 dark:text-neutral-300 block uppercase">
                     Phong cách
                   </span>
 
-                  <h3 className="text-4xl font-serif text-neutral-950 font-medium tracking-tight leading-none uppercase">
+                  <h3 className="text-4xl font-serif text-neutral-950 dark:text-neutral-50 font-medium tracking-tight leading-none uppercase">
                     {project.title}
                   </h3>
 
                   {/* Bullets lists */}
                   <ul className="space-y-3 pt-2">
                     {project.bullets.map((bullet, bIdx) => (
-                      <li key={bIdx} className="text-xs text-neutral-600 leading-relaxed font-light flex items-start gap-2.5">
-                        <span className="w-1 h-1 rounded-full bg-neutral-500 mt-2 shrink-0" />
+                      <li key={bIdx} className="text-xs text-neutral-600 dark:text-neutral-300 leading-relaxed font-light flex items-start gap-2.5">
+                        <span className="w-1 h-1 rounded-full bg-neutral-500 dark:bg-neutral-400 mt-2 shrink-0" />
                         <span>{bullet}</span>
                       </li>
                     ))}
                   </ul>
 
                   {/* Highlights spec panel */}
-                  <div className="bg-[#f7f5f0] border border-neutral-200/80 p-5 space-y-3 rounded-sm">
-                    <h4 className="text-xs font-bold text-neutral-800 tracking-wider">
+                  <div className="bg-[#f7f5f0] dark:bg-[#1a1a1a] border border-neutral-200 dark:border-neutral-800/80 p-5 space-y-3 rounded-sm">
+                    <h4 className="text-xs font-bold text-neutral-800 dark:text-neutral-200 tracking-wider">
                       {project.highlightsHeader}
                     </h4>
                     <ul className="space-y-2.5">
                       {project.highlights.map((hlt, hIdx) => (
-                        <li key={hIdx} className="text-[11px] text-neutral-600 leading-relaxed flex items-start gap-2">
-                          <svg className="w-3 h-3 text-neutral-800 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <li key={hIdx} className="text-[11px] text-neutral-600 dark:text-neutral-300 leading-relaxed flex items-start gap-2">
+                          <svg className="w-3 h-3 text-neutral-800 dark:text-neutral-200 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                           </svg>
                           <span>{hlt}</span>
@@ -150,7 +150,7 @@ export default function AlternatingProjects({ onOpenConsultation }: AlternatingP
                       onClick={() => {
                         setSelectedProject(project);
                       }}
-                      className="inline-flex items-center gap-2 text-xs font-bold tracking-widest text-neutral-900 hover:text-black hover:underline underline-offset-4 transition-all uppercase cursor-pointer"
+                      className="inline-flex items-center gap-2 text-xs font-bold tracking-widest text-neutral-900 dark:text-neutral-100 hover:text-black hover:underline underline-offset-4 transition-all uppercase cursor-pointer"
                       id={`view-more-${project.id}`}
                     >
                       <span>CHI TIẾT DỰ ÁN</span>

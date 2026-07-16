@@ -40,11 +40,11 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
           initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.95, opacity: 0 }}
-          className="bg-[#fcfbf9] w-full max-w-5xl h-[90vh] md:h-[80vh] flex flex-col md:flex-row shadow-2xl relative rounded-sm overflow-hidden z-10"
+          className="bg-background w-full max-w-5xl h-[90vh] md:h-[80vh] flex flex-col md:flex-row shadow-2xl relative rounded-sm overflow-hidden z-10"
           id="project-detail-dialog"
         >
           {/* Left Segment: Huge Photo Gallery & Navigation selector */}
-          <div className="md:w-3/5 bg-neutral-950 flex flex-col justify-between relative order-1">
+          <div className="md:w-3/5 h-[45vh] md:h-auto bg-neutral-950 flex flex-col justify-between relative order-1 shrink-0">
             {/* Active display photo */}
             <div className="flex-1 w-full relative overflow-hidden group">
               {project.gallery.map((src, idx) => (
@@ -61,6 +61,15 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
                 />
               ))}
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none z-10" />
+
+              {/* Mobile-only close button floating over the photo */}
+              <button
+                onClick={onClose}
+                aria-label="Đóng"
+                className="md:hidden absolute top-3 right-3 z-30 w-10 h-10 bg-black/60 backdrop-blur-sm border border-white/20 text-white flex items-center justify-center rounded-full cursor-pointer"
+              >
+                <X size={18} />
+              </button>
 
               {/* Left / Right arrows */}
               {project.gallery.length > 1 && (
@@ -89,7 +98,7 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
               )}
 
               {/* Photo tag index counter */}
-              <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded text-[10px] text-white tracking-widest border border-white/15 uppercase font-mono z-20">
+              <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded text-[10px] text-white tracking-widest border border-white/15 uppercase font-sans z-20">
                 Góc chụp 0{activePhotoIndex + 1}
               </div>
             </div>
@@ -119,19 +128,19 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
           </div>
 
           {/* Right Segment: High-end Specs Metadata panel */}
-          <div className="md:w-2/5 p-6 md:p-10 flex flex-col justify-between overflow-y-auto order-2">
+          <div className="md:w-2/5 p-6 md:p-10 flex flex-col justify-between overflow-y-auto order-2 md:order-2 flex-1">
             <div className="space-y-6">
               {/* Category Header */}
-              <div className="flex items-center justify-between border-b border-neutral-100 pb-4">
+              <div className="flex items-center justify-between border-b border-neutral-100 dark:border-neutral-800 pb-4">
                 <div>
-                  <span className="text-[10px] tracking-widest font-mono font-bold text-neutral-400 block">ARCHITECTURAL LOGS</span>
-                  <h4 className="text-xl font-serif text-neutral-900 font-semibold">{project.title}</h4>
+                  <span className="text-[10px] tracking-widest font-sans font-bold text-neutral-400 dark:text-neutral-300 block">ARCHITECTURAL LOGS</span>
+                  <h4 className="text-xl font-serif text-neutral-900 dark:text-neutral-100 font-semibold">{project.title}</h4>
                 </div>
-                {/* Close action */}
+                {/* Close action - desktop only */}
                 <button
                   onClick={onClose}
                   aria-label="Đóng chi tiết dự án"
-                  className="min-w-[48px] min-h-[48px] flex items-center justify-center hover:bg-neutral-150 rounded-full transition-all text-neutral-500 hover:text-black cursor-pointer"
+                  className="hidden md:flex min-w-[48px] min-h-[48px] items-center justify-center hover:bg-neutral-150 rounded-full transition-all text-neutral-500 dark:text-neutral-400 hover:text-black cursor-pointer"
                   id="close-project-modal"
                 >
                   <X size={20} />
@@ -139,40 +148,40 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
               </div>
 
               {/* Metadata Row */}
-              <div className="grid grid-cols-2 gap-4 text-xs font-sans border-b border-neutral-100 pb-5">
+              <div className="grid grid-cols-2 gap-4 text-xs font-sans border-b border-neutral-100 dark:border-neutral-800 pb-5">
                 <div className="space-y-0.5">
-                  <span className="text-neutral-400 block uppercase tracking-wider text-[9px] font-bold">VỊ TRÍ CHI PHỐI</span>
-                  <span className="text-neutral-800 font-semibold flex items-center gap-1.5">
-                    <MapPin size={13} className="text-neutral-600" /> {project.location}
+                  <span className="text-neutral-400 dark:text-neutral-300 block uppercase tracking-wider text-[9px] font-bold">VỊ TRÍ CHI PHỐI</span>
+                  <span className="text-neutral-800 dark:text-neutral-200 font-semibold flex items-center gap-1.5">
+                    <MapPin size={13} className="text-neutral-600 dark:text-neutral-300" /> {project.location}
                   </span>
                 </div>
                 <div className="space-y-0.5">
-                  <span className="text-neutral-400 block uppercase tracking-wider text-[9px] font-bold">DIỆN TÍCH BÀN GIAO</span>
-                  <span className="text-neutral-800 font-semibold flex items-center gap-1.5">
-                    <Ruler size={13} className="text-neutral-600" /> {project.area}
+                  <span className="text-neutral-400 dark:text-neutral-300 block uppercase tracking-wider text-[9px] font-bold">DIỆN TÍCH BÀN GIAO</span>
+                  <span className="text-neutral-800 dark:text-neutral-200 font-semibold flex items-center gap-1.5">
+                    <Ruler size={13} className="text-neutral-600 dark:text-neutral-300" /> {project.area}
                   </span>
                 </div>
-                <div className="space-y-0.5 pt-2">
-                  <span className="text-neutral-400 block uppercase tracking-wider text-[9px] font-bold">PHONG CÁCH ĐỊNH VỊ</span>
-                  <span className="text-neutral-800 font-semibold">{project.style}</span>
+                <div className="space-y-1.5 pt-2">
+                  <span className="text-neutral-400 dark:text-neutral-300 block uppercase tracking-wider text-[9px] font-bold">PHONG CÁCH ĐỊNH VỊ</span>
+                  <span className="inline-block text-[10px] font-sans font-medium tracking-widest text-white bg-neutral-900 px-3 py-1.5 uppercase rounded-[2px]">{project.style}</span>
                 </div>
                 <div className="space-y-0.5 pt-2">
-                  <span className="text-neutral-400 block uppercase tracking-wider text-[9px] font-bold">PHÒNG ĐIỀU CHỈNH</span>
-                  <span className="text-neutral-800 font-semibold">Phòng khách, Phòng ngủ, Bếp</span>
+                  <span className="text-neutral-400 dark:text-neutral-300 block uppercase tracking-wider text-[9px] font-bold">PHÒNG ĐIỀU CHỈNH</span>
+                  <span className="text-neutral-800 dark:text-neutral-200 font-semibold">Phòng khách, Phòng ngủ, Bếp</span>
                 </div>
               </div>
 
               {/* Description written in pristine prose */}
               <div className="space-y-3">
-                <h5 className="text-[10px] tracking-widest font-mono font-bold text-neutral-400 uppercase">Thuyết minh thiết kế</h5>
-                <p className="text-xs text-neutral-600 leading-relaxed font-light">
+                <h5 className="text-[10px] tracking-widest font-sans font-bold text-neutral-400 dark:text-neutral-300 uppercase">Thuyết minh thiết kế</h5>
+                <p className="text-xs text-neutral-600 dark:text-neutral-300 leading-relaxed font-light">
                   {project.description} Mẫu thiết kế {project.title} giải quyết triệt để bài toán thông khí và luân chuyển phân bố dòng sáng tự nhiên. Hệ thống vách ngăn gỗ sồi (Japandi) đan chéo giúp bảo vệ không gian sinh tư của phòng thờ, phòng ngủ mà không bóp nghẹt diện tích giao tiếp chung. Các tủ bếp âm tường đúc lì bê-tông miết phẳng đảm bảo tính gọn gàng tối mật.
                 </p>
               </div>
             </div>
 
             {/* Consult Call-to-Action for this project scope */}
-            <div className="pt-6 border-t border-neutral-100 mt-6 space-y-3">
+            <div className="pt-6 border-t border-neutral-100 dark:border-neutral-800 mt-6 space-y-3">
               <button
                 onClick={() => {
                   onClose();
@@ -184,7 +193,7 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
                 <span>NHẬN TƯ VẤN</span>
                 <ChevronRight size={14} />
               </button>
-              <p className="text-[10px] text-center text-neutral-500 font-sans">
+              <p className="text-[10px] text-center text-neutral-500 dark:text-neutral-400 font-sans">
                 * Được tư vấn trực tiếp cùng Kiến trúc sư trưởng của NOU.Design.
               </p>
             </div>

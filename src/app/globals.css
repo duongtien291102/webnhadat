@@ -3,12 +3,29 @@
 @theme {
   --font-sans: var(--font-sans), ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-serif: var(--font-serif), ui-serif, Georgia, Cambria, serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+}
+
+@custom-variant dark (&:is(.dark *));
+
+@layer base {
+  :root {
+    --background: #fcfbf9;
+    --foreground: #1a1a1a;
+  }
+  .dark {
+    --background: #121212;
+    --foreground: #ededed;
+  }
 }
 
 body {
-  background-color: #fcfbf9; /* elegant light off-white tone matching high-end design */
-  color: #1a1a1a;
+  background-color: var(--background);
+  color: var(--foreground);
   overflow-x: hidden;
+  font-variant-numeric: lining-nums;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Custom minimal scrollbar */
@@ -20,14 +37,23 @@ body {
 ::-webkit-scrollbar-track {
   background: #fbfaf8;
 }
+.dark ::-webkit-scrollbar-track {
+  background: #121212;
+}
 
 ::-webkit-scrollbar-thumb {
   background: #e2dfda;
   border-radius: 3px;
 }
+.dark ::-webkit-scrollbar-thumb {
+  background: #333333;
+}
 
 ::-webkit-scrollbar-thumb:hover {
   background: #c5c1b8;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #555555;
 }
 
 /* Elegant text layout utilities */

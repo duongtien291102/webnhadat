@@ -30,7 +30,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-[#fcfbf9]">
+    <div className="min-h-screen flex flex-col justify-between bg-background">
       {/* Sticky Navigation Bar */}
       <Navbar onOpenContact={handleOpenGeneralContact} />
 

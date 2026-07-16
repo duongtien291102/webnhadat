@@ -46,8 +46,9 @@ export default function ProtectionWrapper({ children }: { children: React.ReactN
         (e.metaKey && e.key === "S") ||             // Mac: Cmd+S
         (e.metaKey && e.key === "P")                // Mac: Cmd+P
       ) {
-        e.preventDefault();
-        e.stopPropagation();
+        // Tạm thời mở F12 theo yêu cầu
+        // e.preventDefault();
+        // e.stopPropagation();
       }
     };
 

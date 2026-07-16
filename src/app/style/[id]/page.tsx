@@ -17,13 +17,13 @@ function CustomSelect({ label, value, options, onChange }: { label: string, valu
 
   return (
     <div className="relative flex flex-col gap-2">
-      <label className="text-[10px] font-mono font-bold tracking-[0.2em] text-neutral-500 uppercase">{label}</label>
+      <label className="text-[10px] font-sans font-bold tracking-[0.2em] text-neutral-500 dark:text-neutral-400 uppercase">{label}</label>
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center justify-between w-48 border-b border-neutral-300 bg-transparent py-2 text-sm font-medium text-neutral-800 hover:border-neutral-900 focus:outline-none transition-colors cursor-pointer"
+        className="flex items-center justify-between w-48 border-b border-neutral-300 bg-transparent py-2 text-sm font-medium text-neutral-800 dark:text-neutral-200 hover:border-neutral-900 focus:outline-none transition-colors cursor-pointer"
       >
         <span>{selectedLabel}</span>
-        <ChevronDown size={14} className={`transition-transform duration-300 text-neutral-400 ${isOpen ? 'rotate-180' : ''}`} />
+        <ChevronDown size={14} className={`transition-transform duration-300 text-neutral-400 dark:text-neutral-300 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
       
       {/* Nền trong suốt để bấm ra ngoài thì đóng */}
@@ -41,13 +41,13 @@ function CustomSelect({ label, value, options, onChange }: { label: string, valu
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
             transition={{ duration: 0.2 }}
-            className="absolute top-[100%] left-0 mt-1 w-full bg-white shadow-xl border border-neutral-100 z-30 flex flex-col overflow-hidden rounded-sm"
+            className="absolute top-[100%] left-0 mt-1 w-full bg-white dark:bg-[#121212] shadow-xl border border-neutral-100 dark:border-neutral-800 z-30 flex flex-col overflow-hidden rounded-sm"
           >
             {options.map((opt) => (
               <button
                 key={opt.value}
                 onClick={() => { onChange(opt.value); setIsOpen(false); }}
-                className={`w-full text-left px-4 py-3 text-sm transition-colors cursor-pointer ${value === opt.value ? 'bg-neutral-900 text-white' : 'text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900'}`}
+                className={`w-full text-left px-4 py-3 text-sm transition-colors cursor-pointer ${value === opt.value ? 'bg-neutral-900 text-white' : 'text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900 dark:text-neutral-100'}`}
               >
                 {opt.label}
               </button>
@@ -90,15 +90,15 @@ export default function StyleGalleryPage() {
     : `Không gian ${currentStyleLabel}.`;
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#fcfbf9]">
+    <div className="min-h-screen flex flex-col bg-background">
       <Navbar onOpenContact={() => setIsContactOpen(true)} alwaysSolid />
 
       <main className="flex-1 pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto w-full">
         {/* Header and Filters */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 border-b border-neutral-100 pb-12">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 border-b border-neutral-100 dark:border-neutral-800 pb-12">
           <div className="space-y-4">
-            <span className="text-[10px] font-mono font-bold tracking-[0.2em] text-neutral-400 uppercase">Bộ Sưu Tập</span>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif text-neutral-900 font-normal leading-tight tracking-tight">
+            <span className="text-[10px] font-sans font-bold tracking-[0.2em] text-neutral-400 dark:text-neutral-300 uppercase">Bộ Sưu Tập</span>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif text-neutral-900 dark:text-neutral-100 font-normal leading-tight tracking-tight">
               {pageTitle}
             </h1>
           </div>
@@ -134,7 +134,7 @@ export default function StyleGalleryPage() {
                   
                   {/* Minimalist Hover Indicator overlay */}
                   <div className="absolute inset-0 bg-neutral-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <span className="px-5 py-2.5 bg-white/95 backdrop-blur-sm text-[10px] tracking-widest uppercase font-bold text-neutral-900 border border-neutral-200">
+                    <span className="px-5 py-2.5 bg-white dark:bg-[#121212]/95 backdrop-blur-sm text-[10px] tracking-widest uppercase font-bold text-neutral-900 dark:text-neutral-100 border border-neutral-200 dark:border-neutral-800">
                       Xem Chi Tiết Dự Án
                     </span>
                   </div>
@@ -143,10 +143,10 @@ export default function StyleGalleryPage() {
                 {/* Caption / Project Info */}
                 <div className="flex justify-between items-start pt-1 font-sans">
                   <div className="space-y-1">
-                    <h4 className="text-base font-serif font-medium text-neutral-900 group-hover:text-neutral-700 transition-colors">
+                    <h4 className="text-base font-serif font-medium text-neutral-900 dark:text-neutral-100 group-hover:text-neutral-700 transition-colors">
                       {project.title}
                     </h4>
-                    <p className="text-xs text-neutral-400 leading-none">
+                    <p className="text-xs text-neutral-400 dark:text-neutral-300 leading-none">
                       {project.location} • {project.area}
                     </p>
                   </div>
@@ -157,7 +157,7 @@ export default function StyleGalleryPage() {
                         setFilterStyle(project.style);
                         window.scrollTo({ top: 0, behavior: 'smooth' });
                       }}
-                      className="text-[10px] font-mono tracking-widest text-neutral-500 bg-neutral-100 hover:bg-neutral-200 hover:text-neutral-900 px-2.5 py-1 uppercase rounded-sm border border-neutral-200/50 transition-colors cursor-pointer"
+                      className="inline-block text-[10px] font-sans font-medium tracking-widest text-white bg-neutral-900 hover:bg-black px-3 py-1.5 uppercase rounded-[2px] transition-colors cursor-pointer"
                     >
                       {project.style}
                     </button>
@@ -168,10 +168,10 @@ export default function StyleGalleryPage() {
           </div>
         ) : (
           <div className="text-center py-24 space-y-4">
-            <p className="text-lg text-neutral-500 font-serif">Không tìm thấy không gian phù hợp với bộ lọc.</p>
+            <p className="text-lg text-neutral-500 dark:text-neutral-400 font-serif">Không tìm thấy không gian phù hợp với bộ lọc.</p>
             <button 
               onClick={() => { setFilterStyle('ALL'); }}
-              className="text-xs font-mono font-bold tracking-widest text-neutral-900 hover:underline uppercase"
+              className="text-xs font-sans font-bold tracking-widest text-neutral-900 dark:text-neutral-100 hover:underline uppercase"
             >
               Đặt lại bộ lọc
             </button>
