@@ -68,12 +68,12 @@ export default function MaterialsSection({ onSelectMaterial }: MaterialsSectionP
             <Reveal key={material.id} delay={index * 0.06}>
               <button
                 onClick={() => onSelectMaterial(material.id)}
-                className="flex w-full flex-col items-center text-center cursor-pointer group focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 focus-visible:ring-offset-4"
+                className="flex w-full flex-col items-center text-center cursor-pointer group focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-300 focus-visible:ring-offset-4 dark:focus-visible:ring-offset-[#1a1a1a]"
                 id={`material-swatch-${material.id}`}
               >
               {/* Swatch Circle Wrapper */}
               <div
-                className="relative w-28 h-28 rounded-full overflow-hidden mb-4 border border-neutral-300 transition-all duration-300 transform group-hover:scale-105 group-hover:border-neutral-900 group-hover:ring-4 group-hover:ring-neutral-400/10 shadow-sm"
+                className="relative w-28 h-28 rounded-full overflow-hidden mb-4 border border-neutral-300 dark:border-neutral-700 transition-all duration-300 transform group-hover:scale-105 group-hover:border-neutral-900 dark:group-hover:border-neutral-200 group-hover:ring-4 group-hover:ring-neutral-400/10 dark:group-hover:ring-white/10 shadow-sm"
               >
                 <Image
                   src={material.image}
@@ -89,10 +89,10 @@ export default function MaterialsSection({ onSelectMaterial }: MaterialsSectionP
               </div>
 
               {/* Swatch Label */}
-              <h4 className="text-xs font-bold font-sans tracking-widest text-neutral-900 dark:text-neutral-100 group-hover:text-black">
+              <h4 className="text-xs font-bold font-sans tracking-widest text-neutral-900 dark:text-neutral-100 group-hover:text-black dark:group-hover:text-white transition-colors">
                 {material.name}
               </h4>
-              <p className="text-[10px] text-neutral-400 dark:text-neutral-300 font-sans font-medium mt-1">
+              <p className="text-[10px] text-neutral-500 dark:text-neutral-200 group-hover:text-neutral-700 dark:group-hover:text-white font-sans font-medium mt-1 transition-colors">
                 {material.vietnameseName}
               </p>
               </button>
