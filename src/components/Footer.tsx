@@ -18,7 +18,12 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-[#121212] dark:bg-[#080808] text-neutral-400 dark:text-neutral-300 py-10 md:py-16 border-t border-neutral-900 dark:border-neutral-800/50" id="contact">
+    <footer
+      className="select-text bg-[#121212] dark:bg-[#080808] text-neutral-400 dark:text-neutral-300 py-10 md:py-16 border-t border-neutral-900 dark:border-neutral-800/50"
+      id="contact"
+      data-allow-copy="true"
+      style={{ WebkitUserSelect: "text", userSelect: "text" }}
+    >
       <div className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 lg:gap-16">
 
         {/* Left main brand column */}
@@ -108,7 +113,7 @@ export default function Footer() {
               <li className="flex items-start gap-2.5">
                 <MapPin size={15} className="text-neutral-500 dark:text-neutral-400 shrink-0 mt-0.5" />
                 <span>
-                  30L3 - KĐT Louis City - Hoàng Mai - Hà Nội
+                  65L11 - KĐT Louis City - Hoàng Mai - Hà Nội
                 </span>
               </li>
               <li className="flex items-start gap-2.5">

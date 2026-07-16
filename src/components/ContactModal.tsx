@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { X, Send, CheckCircle2, Sliders, Home, Layers } from 'lucide-react';
 
 interface ContactModalProps {
@@ -10,6 +10,7 @@ interface ContactModalProps {
 }
 
 export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: ContactModalProps) {
+  const reduceMotion = useReducedMotion();
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [area, setArea] = useState<string>('');
@@ -19,6 +20,8 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+  const dialogRef = React.useRef<HTMLDivElement>(null);
 
   // Sync initial material if changed
   React.useEffect(() => {
@@ -27,11 +30,51 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
     }
   }, [initialMaterial]);
 
+  React.useEffect(() => {
+    if (!isOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    const returnFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    document.body.style.overflow = 'hidden';
+    const focusFrame = requestAnimationFrame(() => dialogRef.current?.focus());
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose();
+        return;
+      }
+      if (event.key !== 'Tab' || !dialogRef.current) return;
+
+      const focusable = Array.from(dialogRef.current.querySelectorAll<HTMLElement>('button, input, select, textarea, a[href], [tabindex]:not([tabindex="-1"])'))
+        .filter((element) => !element.hasAttribute('disabled'));
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      cancelAnimationFrame(focusFrame);
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = previousOverflow;
+      returnFocus?.focus();
+    };
+  }, [isOpen, onClose]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !phone || !area || !location) return;
 
     setIsSubmitting(true);
+    setSubmitError('');
 
     try {
       const res = await fetch('/api/contact', {
@@ -47,7 +90,7 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
       setIsSuccess(true);
     } catch (error) {
       console.error('Lỗi khi submit form:', error);
-      alert('Đã xảy ra lỗi khi gửi yêu cầu. Vui lòng thử lại sau.');
+      setSubmitError('Chưa thể gửi yêu cầu. Vui lòng kiểm tra kết nối và thử lại.');
     } finally {
       setIsSubmitting(false);
     }
@@ -60,6 +103,7 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
     setLocation('');
     setMessage('');
     setIsSuccess(false);
+    setSubmitError('');
     onClose();
   };
 
@@ -69,7 +113,7 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
           {/* Backdrop */}
           <motion.div
-            initial={{ opacity: 0 }}
+            initial={reduceMotion ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
@@ -78,7 +122,12 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
 
           {/* Modal Content */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            ref={dialogRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="contact-dialog-title"
+            tabIndex={-1}
+            initial={reduceMotion ? false : { opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
@@ -88,7 +137,7 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
             <div className="p-6 border-b border-neutral-200 dark:border-neutral-800 flex justify-between items-center bg-[#f7f5f0] dark:bg-[#1a1a1a]">
               <div>
                 <span className="mono-tag text-xs text-neutral-500 dark:text-neutral-400 uppercase">NOU.Design</span>
-                <h3 className="text-2xl font-serif text-neutral-900 dark:text-neutral-100 font-medium">Để lại thông tin để chúng mình tư vấn nha</h3>
+                <h3 id="contact-dialog-title" className="text-2xl font-serif text-neutral-900 dark:text-neutral-100 font-medium">Để lại thông tin để chúng mình tư vấn nha</h3>
               </div>
               <button
                 onClick={onClose}
@@ -102,8 +151,16 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
 
             {/* Content Container */}
             <div className="flex-1 overflow-y-auto p-6 space-y-8">
+              <AnimatePresence mode="wait" initial={false}>
               {!isSuccess ? (
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <motion.form
+                  key="contact-form"
+                  onSubmit={handleSubmit}
+                  initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  className="space-y-6"
+                >
                   {/* Client Info */}
                   <div className="space-y-4">
 
@@ -197,11 +254,26 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
                       </>
                     )}
                   </button>
-                </form>
+                  <AnimatePresence initial={false}>
+                    {submitError && (
+                      <motion.p
+                        role="alert"
+                        initial={reduceMotion ? false : { opacity: 0, y: -6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -6 }}
+                        className="text-sm text-red-700 dark:text-red-300"
+                      >
+                        {submitError}
+                      </motion.p>
+                    )}
+                  </AnimatePresence>
+                </motion.form>
               ) : (
                 <motion.div
-                  initial={{ scale: 0.9, opacity: 0 }}
+                  key="contact-success"
+                  initial={reduceMotion ? false : { scale: 0.9, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.96, opacity: 0 }}
                   className="h-full flex flex-col items-center justify-center text-center p-8 space-y-4"
                 >
                   <div className="w-16 h-16 bg-neutral-900 text-[#e9dcce] rounded-full flex items-center justify-center shadow-lg">
@@ -223,6 +295,7 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
                   </button>
                 </motion.div>
               )}
+              </AnimatePresence>
             </div>
 
             {/* Footer */}

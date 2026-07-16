@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { Material } from '../types';
+import Reveal from './Reveal';
 
 interface MaterialsSectionProps {
   onSelectMaterial: (materialId: string) => void;
@@ -51,7 +52,7 @@ export default function MaterialsSection({ onSelectMaterial }: MaterialsSectionP
       <div className="max-w-7xl mx-auto px-6 md:px-12 space-y-16">
         
         {/* Section Title */}
-        <div className="text-center space-y-4">
+        <Reveal className="text-center space-y-4">
           <div className="w-12 h-px bg-neutral-400 mx-auto" />
           <h3 className="text-3xl font-serif text-neutral-900 dark:text-neutral-100 font-normal tracking-wide">
             Vật liệu tuyển chọn
@@ -59,17 +60,17 @@ export default function MaterialsSection({ onSelectMaterial }: MaterialsSectionP
           <p className="text-xs text-neutral-500 dark:text-neutral-400 font-sans tracking-widest max-w-md mx-auto leading-relaxed">
             Hồi đáp xúc giác từ thiên nhiên, tuyển trọn vật liệu thô bản mộc mạc nhất để định nghĩa chiều sâu của thiết kế kiến trúc.
           </p>
-        </div>
+        </Reveal>
 
         {/* Circular Swatches Row - Centered */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto items-start">
-          {materials.map((material) => (
-            <button
-              key={material.id}
-              onClick={() => onSelectMaterial(material.id)}
-              className="flex flex-col items-center text-center cursor-pointer group focus:outline-none focus:ring-0"
-              id={`material-swatch-${material.id}`}
-            >
+          {materials.map((material, index) => (
+            <Reveal key={material.id} delay={index * 0.06}>
+              <button
+                onClick={() => onSelectMaterial(material.id)}
+                className="flex w-full flex-col items-center text-center cursor-pointer group focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 focus-visible:ring-offset-4"
+                id={`material-swatch-${material.id}`}
+              >
               {/* Swatch Circle Wrapper */}
               <div
                 className="relative w-28 h-28 rounded-full overflow-hidden mb-4 border border-neutral-300 transition-all duration-300 transform group-hover:scale-105 group-hover:border-neutral-900 group-hover:ring-4 group-hover:ring-neutral-400/10 shadow-sm"
@@ -94,7 +95,8 @@ export default function MaterialsSection({ onSelectMaterial }: MaterialsSectionP
               <p className="text-[10px] text-neutral-400 dark:text-neutral-300 font-sans font-medium mt-1">
                 {material.vietnameseName}
               </p>
-            </button>
+              </button>
+            </Reveal>
           ))}
         </div>
 

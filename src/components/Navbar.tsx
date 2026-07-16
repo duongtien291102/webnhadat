@@ -1,9 +1,9 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { AlignRight, X } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import ThemeToggle from './ThemeToggle';
 
 interface NavbarProps {
@@ -14,18 +14,21 @@ interface NavbarProps {
 export default function Navbar({ onOpenContact, alwaysSolid = false }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const scrollSentinelRef = useRef<HTMLDivElement>(null);
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 80) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    const sentinel = scrollSentinelRef.current;
+    if (!sentinel || alwaysSolid) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsScrolled(!entry.isIntersecting),
+      { threshold: 0 }
+    );
+
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [alwaysSolid]);
 
   const navLinks = [
     { name: 'TRANG CHỦ', href: '/' },
@@ -37,12 +40,15 @@ export default function Navbar({ onOpenContact, alwaysSolid = false }: NavbarPro
 
   return (
     <>
+      <div ref={scrollSentinelRef} className="pointer-events-none absolute top-20 h-px w-px" aria-hidden="true" />
       <header
-        className={`fixed top-0 left-0 w-full z-40 transition-all duration-300 ${isScrolledActive
+        className={`select-text fixed top-0 left-0 w-full z-40 transition-[background-color,border-color,box-shadow,padding,backdrop-filter] duration-300 ease-out ${isScrolledActive
           ? 'bg-background/95 backdrop-blur-md py-4 shadow-sm border-b border-neutral-100 dark:border-neutral-800'
           : 'bg-gradient-to-b from-black/50 to-transparent py-6 text-white'
           }`}
         id="app-navbar"
+        data-allow-copy="true"
+        style={{ WebkitUserSelect: 'text', userSelect: 'text' }}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
           {/* Logo */}
@@ -132,12 +138,14 @@ export default function Navbar({ onOpenContact, alwaysSolid = false }: NavbarPro
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
+            initial={reduceMotion ? false : { opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-30 pt-24 pb-12 px-6 bg-[#f7f5f0] dark:bg-[#1a1a1a] flex flex-col justify-between overflow-y-auto"
+            className="select-text fixed inset-0 z-30 pt-24 pb-12 px-6 bg-[#f7f5f0] dark:bg-[#1a1a1a] flex flex-col justify-between overflow-y-auto"
             id="mobile-navigation-overlay"
+            data-allow-copy="true"
+            style={{ WebkitUserSelect: 'text', userSelect: 'text' }}
           >
             <div className="flex flex-col space-y-6 text-center pt-8">
               {navLinks.map((link, idx) => (
@@ -155,7 +163,7 @@ export default function Navbar({ onOpenContact, alwaysSolid = false }: NavbarPro
                     className="text-lg tracking-widest font-serif font-medium text-neutral-800 dark:text-neutral-200 hover:text-black py-3"
                   >
                     <motion.span
-                      initial={{ opacity: 0, y: 15 }}
+                      initial={reduceMotion ? false : { opacity: 0, y: 15 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: idx * 0.05 }}
                     >

@@ -1,7 +1,7 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { ChevronLeft, ChevronRight, ArrowRight, Play } from 'lucide-react';
 
 interface HeroSliderProps {
@@ -62,12 +62,28 @@ const slides: SlideData[] = [
 
 export default function HeroSlider({ onOpenContact }: HeroSliderProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const touchStartX = useRef<number | null>(null);
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
+    if (isPaused || reduceMotion) return;
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % slides.length);
     }, 6500);
     return () => clearInterval(timer);
+  }, [isPaused, reduceMotion]);
+
+  useEffect(() => {
+    const nextSlide = slides[(currentIndex + 1) % slides.length];
+    const preload = new window.Image();
+    preload.src = nextSlide.image;
+  }, [currentIndex]);
+
+  useEffect(() => {
+    const handleVisibilityChange = () => setIsPaused(document.hidden);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
   }, []);
 
   const handlePrev = () => {
@@ -78,19 +94,35 @@ export default function HeroSlider({ onOpenContact }: HeroSliderProps) {
     setCurrentIndex((prev) => (prev + 1) % slides.length);
   };
 
+  const handleTouchEnd = (clientX: number) => {
+    if (touchStartX.current === null) return;
+    const distance = clientX - touchStartX.current;
+    if (Math.abs(distance) > 48) {
+      if (distance > 0) handlePrev();
+      else handleNext();
+    }
+    touchStartX.current = null;
+  };
+
   return (
-    <section className="relative h-screen min-h-[600px] w-full bg-black overflow-hidden" id="home">
-      {/* Background Images - Render all to prevent loading flash */}
-      {slides.map((slide, index) => (
+    <section
+      className="relative min-h-[100dvh] w-full bg-black overflow-hidden"
+      id="home"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+      onFocusCapture={() => setIsPaused(true)}
+      onBlurCapture={() => setIsPaused(false)}
+      onTouchStart={(event) => { touchStartX.current = event.touches[0]?.clientX ?? null; }}
+      onTouchEnd={(event) => handleTouchEnd(event.changedTouches[0]?.clientX ?? 0)}
+    >
+      {/* Background image crossfade */}
+      <AnimatePresence initial={false} mode="sync">
         <motion.div
-          key={slide.id}
-          initial={false}
-          animate={{ 
-            opacity: index === currentIndex ? 1 : 0, 
-            scale: index === currentIndex ? 1 : (index > currentIndex ? 1.05 : 0.98),
-            zIndex: index === currentIndex ? 1 : 0
-          }}
-          transition={{ duration: 1.2, ease: [0.33, 1, 0.68, 1] }}
+          key={slides[currentIndex].id}
+          initial={reduceMotion ? false : { opacity: 0, scale: 1.015 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={reduceMotion ? undefined : { opacity: 0, scale: 0.995 }}
+          transition={{ duration: reduceMotion ? 0 : 0.9, ease: [0.33, 1, 0.68, 1] }}
           className="absolute inset-0 w-full h-full pointer-events-none"
         >
           {/* Overlay Darkener */}
@@ -98,16 +130,16 @@ export default function HeroSlider({ onOpenContact }: HeroSliderProps) {
           <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/80 via-transparent to-neutral-950/20 z-10" />
           
           <Image
-            src={slide.image}
-            alt={slide.title}
+            src={slides[currentIndex].image}
+            alt={slides[currentIndex].title}
             fill
-            priority={index === 0}
+            priority={currentIndex === 0}
             sizes="100vw"
             className="object-cover object-center"
             referrerPolicy="no-referrer"
           />
         </motion.div>
-      ))}
+      </AnimatePresence>
 
       {/* Slide Visual Content Overlay */}
       <div className="absolute inset-0 z-20 flex flex-col justify-end pb-20 md:pb-28">
@@ -118,7 +150,7 @@ export default function HeroSlider({ onOpenContact }: HeroSliderProps) {
             {/* Giant Heading */}
             <motion.div
               key={`title-${currentIndex}`}
-              initial={{ y: 40, opacity: 0 }}
+              initial={reduceMotion ? false : { y: 24, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.4, duration: 0.8 }}
             >
@@ -130,7 +162,7 @@ export default function HeroSlider({ onOpenContact }: HeroSliderProps) {
             {/* Sub-tagline */}
             <motion.div
               key={`tagline-${currentIndex}`}
-              initial={{ y: 30, opacity: 0 }}
+              initial={reduceMotion ? false : { y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.6, duration: 0.8 }}
             >
@@ -142,7 +174,7 @@ export default function HeroSlider({ onOpenContact }: HeroSliderProps) {
             {/* Buttons Row */}
             <motion.div
               key={`buttons-${currentIndex}`}
-              initial={{ y: 30, opacity: 0 }}
+              initial={reduceMotion ? false : { y: 16, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.8, duration: 0.8 }}
               className="flex flex-wrap gap-4 pt-4"

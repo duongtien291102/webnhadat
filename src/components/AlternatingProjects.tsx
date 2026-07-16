@@ -1,10 +1,12 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import Image from 'next/image';
 import { ArrowRight, ArrowLeft } from 'lucide-react';
+import { AnimatePresence, motion, useInView, useReducedMotion } from 'motion/react';
 import { Project } from '../types';
 import { projects } from '../lib/projectsData';
 import ProjectDetailModal from './ProjectDetailModal';
+import Reveal from './Reveal';
 
 interface AlternatingProjectsProps {
   onOpenConsultation: () => void;
@@ -12,60 +14,108 @@ interface AlternatingProjectsProps {
 
 const ProjectImageSlider = ({ project, onClick }: { project: Project, onClick: () => void }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const images = project.gallery && project.gallery.length > 0 ? project.gallery : [project.mainImage];
+  const [direction, setDirection] = useState(1);
+  const [isPaused, setIsPaused] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const touchStartX = useRef<number | null>(null);
+  const didSwipe = useRef(false);
+  const isInView = useInView(containerRef, { amount: 0.2 });
+  const reduceMotion = useReducedMotion();
+  const images = useMemo(
+    () => project.gallery && project.gallery.length > 0 ? project.gallery : [project.mainImage],
+    [project.gallery, project.mainImage]
+  );
 
   useEffect(() => {
-    if (images.length <= 1) return;
+    if (images.length <= 1 || !isInView || isPaused || reduceMotion) return;
     const timer = setInterval(() => {
+      setDirection(1);
       setCurrentIndex((prev) => (prev + 1) % images.length);
     }, 10000);
     return () => clearInterval(timer);
-  }, [images.length]);
+  }, [images.length, isInView, isPaused, reduceMotion]);
+
+  useEffect(() => {
+    if (images.length <= 1) return;
+    const preload = new window.Image();
+    preload.src = images[(currentIndex + 1) % images.length];
+  }, [currentIndex, images]);
 
   const handlePrev = (e: React.MouseEvent) => {
     e.stopPropagation();
+    setDirection(-1);
     setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
   };
 
   const handleNext = (e: React.MouseEvent) => {
     e.stopPropagation();
+    setDirection(1);
     setCurrentIndex((prev) => (prev + 1) % images.length);
+  };
+
+  const handleTouchEnd = (clientX: number) => {
+    if (touchStartX.current === null) return;
+    const distance = clientX - touchStartX.current;
+    didSwipe.current = Math.abs(distance) > 48;
+    if (didSwipe.current) {
+      setDirection(distance > 0 ? -1 : 1);
+      setCurrentIndex((prev) => distance > 0 ? (prev === 0 ? images.length - 1 : prev - 1) : (prev + 1) % images.length);
+    }
+    touchStartX.current = null;
   };
 
   return (
     <div
-      onClick={onClick}
+      ref={containerRef}
+      onClick={() => {
+        if (didSwipe.current) {
+          didSwipe.current = false;
+          return;
+        }
+        onClick();
+      }}
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+      onFocusCapture={() => setIsPaused(true)}
+      onBlurCapture={() => setIsPaused(false)}
+      onTouchStart={(event) => { touchStartX.current = event.touches[0]?.clientX ?? null; }}
+      onTouchEnd={(event) => handleTouchEnd(event.changedTouches[0]?.clientX ?? 0)}
       className="relative block group overflow-hidden bg-neutral-900 border border-neutral-200 dark:border-neutral-800/60 shadow-xl cursor-pointer rounded-sm aspect-[4/3]"
     >
-      {images.map((src, idx) => (
-        <Image
-          key={idx}
-          src={src}
-          alt={`${project.title} - ảnh ${idx + 1}`}
-          fill
-          sizes="(max-width: 1024px) 100vw, 50vw"
-          className={`object-cover filter transition-all duration-700 ${
-            idx === currentIndex 
-              ? 'opacity-100 brightness-95 group-hover:scale-105 group-hover:brightness-90 z-10' 
-              : 'opacity-0 z-0'
-          }`}
-          referrerPolicy="no-referrer"
-        />
-      ))}
+      <AnimatePresence initial={false} custom={direction}>
+        <motion.div
+          key={images[currentIndex]}
+          custom={direction}
+          initial={reduceMotion ? false : { opacity: 0, x: direction * 18 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={reduceMotion ? undefined : { opacity: 0, x: direction * -18 }}
+          transition={{ duration: reduceMotion ? 0 : 0.55, ease: [0.16, 1, 0.3, 1] }}
+          className="absolute inset-0"
+        >
+          <Image
+            src={images[currentIndex]}
+            alt={`${project.title} - ảnh ${currentIndex + 1}`}
+            fill
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            className="object-cover brightness-95 transition-[transform,filter] duration-700 group-hover:scale-105 group-hover:brightness-90"
+            referrerPolicy="no-referrer"
+          />
+        </motion.div>
+      </AnimatePresence>
 
       {images.length > 1 && (
         <>
           <button
             onClick={handlePrev}
             aria-label="Ảnh trước"
-            className="absolute left-4 top-1/2 -translate-y-1/2 min-w-[48px] min-h-[48px] bg-black/30 hover:bg-black/60 text-white flex items-center justify-center rounded-full z-20 transition-all opacity-0 group-hover:opacity-100 cursor-pointer"
+            className="absolute left-4 top-1/2 -translate-y-1/2 min-w-[48px] min-h-[48px] bg-black/30 hover:bg-black/60 text-white flex items-center justify-center rounded-full z-20 transition-colors opacity-100 md:opacity-0 md:group-hover:opacity-100 cursor-pointer"
           >
             <ArrowLeft size={20} />
           </button>
           <button
             onClick={handleNext}
             aria-label="Ảnh sau"
-            className="absolute right-4 top-1/2 -translate-y-1/2 min-w-[48px] min-h-[48px] bg-black/30 hover:bg-black/60 text-white flex items-center justify-center rounded-full z-20 transition-all opacity-0 group-hover:opacity-100 cursor-pointer"
+            className="absolute right-4 top-1/2 -translate-y-1/2 min-w-[48px] min-h-[48px] bg-black/30 hover:bg-black/60 text-white flex items-center justify-center rounded-full z-20 transition-colors opacity-100 md:opacity-0 md:group-hover:opacity-100 cursor-pointer"
           >
             <ArrowRight size={20} />
           </button>
@@ -84,7 +134,7 @@ export default function AlternatingProjects({ onOpenConsultation }: AlternatingP
       <div className="max-w-7xl mx-auto px-6 md:px-12 space-y-20 md:space-y-28">
 
         {/* Section Header */}
-        <div className="text-center max-w-xl mx-auto space-y-3">
+        <Reveal className="text-center max-w-xl mx-auto space-y-3">
           <div className="w-12 h-px bg-neutral-400 mx-auto" />
           <h3 className="text-3xl font-serif text-neutral-900 dark:text-neutral-100 font-normal tracking-wide">
             Phong cách tiêu biểu
@@ -92,15 +142,16 @@ export default function AlternatingProjects({ onOpenConsultation }: AlternatingP
           <p className="text-xs text-neutral-500 dark:text-neutral-400 font-sans tracking-widest leading-relaxed">
             Nơi hiện thực hóa những xúc cảm mộc mạc Japandi qua từng công trình thực vật mang đậm hơi thở bản ngã.
           </p>
-        </div>
+        </Reveal>
 
         {/* Dynamic Alternating Project Blocks */}
         <div className="space-y-28 md:space-y-40">
           {projects.slice(0, 4).map((project, index) => {
             const isEven = index % 2 === 0;
             return (
-              <div
+              <Reveal
                 key={project.id}
+                delay={index * 0.04}
                 className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-20 items-center"
               >
                 {/* Text Content Column */}
@@ -170,7 +221,7 @@ export default function AlternatingProjects({ onOpenConsultation }: AlternatingP
                     }}
                   />
                 </div>
-              </div>
+              </Reveal>
             );
           })}
         </div>

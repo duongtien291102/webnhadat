@@ -1,13 +1,18 @@
 "use client";
 import React, { useState, useRef } from 'react';
 import Image from 'next/image';
-import { motion } from 'motion/react';
+import { motion, useMotionValue, useTransform } from 'motion/react';
 import { Compass, Sun, Home, MoveHorizontal } from 'lucide-react';
 import { PhilosophyCard } from '../types';
+import Reveal from './Reveal';
 
 export default function Introduction() {
-  const [sliderPosition, setSliderPosition] = useState(50);
+  const [sliderValue, setSliderValue] = useState(50);
+  const sliderPosition = useMotionValue(50);
+  const sliderWidth = useTransform(sliderPosition, (value) => `${value}%`);
+  const sliderLeft = useTransform(sliderPosition, (value) => `${value}%`);
   const containerRef = useRef<HTMLDivElement>(null);
+  const isDragging = useRef(false);
 
   const stats = [
     { value: '12+', label: 'Dự án' },
@@ -54,17 +59,32 @@ export default function Introduction() {
     const rect = containerRef.current.getBoundingClientRect();
     const x = clientX - rect.left;
     const position = Math.max(0, Math.min(100, (x / rect.width) * 100));
-    setSliderPosition(position);
+    sliderPosition.set(position);
   };
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    handleTouchAndMouseMove(e.clientX);
+  const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    isDragging.current = true;
+    event.currentTarget.setPointerCapture(event.pointerId);
+    handleTouchAndMouseMove(event.clientX);
   };
 
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (e.touches[0]) {
-      handleTouchAndMouseMove(e.touches[0].clientX);
-    }
+  const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (isDragging.current) handleTouchAndMouseMove(event.clientX);
+  };
+
+  const handlePointerUp = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (!isDragging.current) return;
+    isDragging.current = false;
+    event.currentTarget.releasePointerCapture(event.pointerId);
+    setSliderValue(Math.round(sliderPosition.get()));
+  };
+
+  const handleSliderKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+    event.preventDefault();
+    const nextValue = Math.max(0, Math.min(100, sliderPosition.get() + (event.key === 'ArrowRight' ? 4 : -4)));
+    sliderPosition.set(nextValue);
+    setSliderValue(Math.round(nextValue));
   };
 
   return (
@@ -72,7 +92,7 @@ export default function Introduction() {
       <div className="max-w-7xl mx-auto px-6 md:px-12 space-y-24">
         
         {/* Intro Blocks - Two columns */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-start">
+        <Reveal className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-start">
           <div className="lg:col-span-5 space-y-4">
             <span className="mono-tag text-xs font-semibold text-neutral-400 dark:text-neutral-300 tracking-widest block">GIỚI THIỆU</span>
             <h3 className="text-3xl md:text-5xl font-serif text-neutral-900 dark:text-neutral-100 font-normal leading-tight">
@@ -99,10 +119,10 @@ export default function Introduction() {
               ))}
             </div>
           </div>
-        </div>
+        </Reveal>
 
         {/* Before / After Interactive Slider Section */}
-        <div className="space-y-6 pt-6">
+        <Reveal className="space-y-6 pt-6">
           <div className="text-center max-w-xl mx-auto space-y-2">
             <span className="mono-tag text-[10px] text-neutral-400 dark:text-neutral-300 font-bold uppercase">Công cụ tương tác</span>
             <h4 className="text-lg font-serif text-neutral-900 dark:text-neutral-100 font-medium">Từ Bản Vẽ Kỹ Thuật Đến Hiện Thực</h4>
@@ -111,8 +131,17 @@ export default function Introduction() {
 
           <div 
             ref={containerRef}
-            onMouseMove={handleMouseMove}
-            onTouchMove={handleTouchMove}
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+            onPointerCancel={handlePointerUp}
+            onKeyDown={handleSliderKeyDown}
+            role="slider"
+            tabIndex={0}
+            aria-label="So sánh bản vẽ và không gian hoàn thiện"
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={sliderValue}
             className="relative w-full h-[320px] md:h-[480px] lg:h-[550px] bg-neutral-200 overflow-hidden cursor-ew-resize select-none border border-neutral-200 dark:border-neutral-800 rounded-sm touch-pan-y"
           >
             {/* Before Stage (CAD Blueprint) */}
@@ -131,9 +160,9 @@ export default function Introduction() {
             </div>
 
             {/* After Stage (Completed Photo render) */}
-            <div 
+            <motion.div
               className="absolute inset-0 w-full h-full overflow-hidden"
-              style={{ width: `${sliderPosition}%` }}
+              style={{ width: sliderWidth }}
             >
               <div className="absolute inset-0 w-full h-full min-w-[320px] md:min-w-[768px] lg:min-w-[1200px]">
                 <Image 
@@ -148,33 +177,33 @@ export default function Introduction() {
                   REALITY • KHÔNG GIAN BÀN GIAO
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             {/* Slider Saparator Bar and Button */}
-            <div 
+            <motion.div
               className="absolute top-0 bottom-0 w-0.5 bg-white dark:bg-[#121212]/70 z-20 pointer-events-none"
-              style={{ left: `${sliderPosition}%` }}
+              style={{ left: sliderLeft }}
             >
               <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-10 h-10 bg-white dark:bg-[#121212] shadow-xl rounded-full flex items-center justify-center text-neutral-800 dark:text-neutral-200 border-2 border-neutral-200 dark:border-neutral-800 pointer-events-auto cursor-ew-resize">
                 <MoveHorizontal size={16} />
               </div>
-            </div>
+            </motion.div>
           </div>
-        </div>
+        </Reveal>
 
         {/* Philosophy Segment */}
         <div className="space-y-12 pt-12 border-t border-neutral-150" id="philosophy">
-          <div className="text-center max-w-lg mx-auto space-y-3">
+          <Reveal className="text-center max-w-lg mx-auto space-y-3">
             <span className="mono-tag text-xs font-semibold text-neutral-400 dark:text-neutral-300 tracking-widest block uppercase">TRIẾT LÝ THIẾT KẾ</span>
             <h3 className="text-2xl md:text-3xl font-serif text-neutral-900 dark:text-neutral-100 font-medium">
               Cân bằng & Tinh tế
             </h3>
-          </div>
+          </Reveal>
 
           {/* 3 cards row */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {philosophyCards.map((card, idx) => (
-              <div key={idx} className="bg-white dark:bg-[#121212] border border-neutral-100 dark:border-neutral-800 flex flex-col justify-between group overflow-hidden hover:shadow-xl hover:shadow-neutral-950/5 hover:-translate-y-1 transition-all duration-300">
+              <Reveal key={idx} delay={idx * 0.07} className="bg-white dark:bg-[#121212] border border-neutral-100 dark:border-neutral-800 flex flex-col justify-between group overflow-hidden hover:shadow-xl hover:shadow-neutral-950/5 hover:-translate-y-1 transition-all duration-300">
                 {/* Header card info */}
                 <div className="p-8 space-y-4">
                   <div className="w-12 h-12 rounded-full bg-[#f7f5f0] dark:bg-[#1a1a1a] flex items-center justify-center border border-neutral-200 dark:border-neutral-800/50">
@@ -195,7 +224,7 @@ export default function Introduction() {
                     referrerPolicy="no-referrer"
                   />
                 </div>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Step } from '../types';
+import Reveal from './Reveal';
 
 interface ProcessSectionProps {
   onOpenWithBudget?: (details: { area: number; style: string; material: string }) => void;
@@ -30,15 +31,15 @@ export default function ProcessAndCalculator({ onOpenWithBudget }: ProcessSectio
         
         {/* Step-by-Step Quy Trình matching Image layout */}
         <div className="space-y-12">
-          <div className="text-center space-y-3">
+          <Reveal className="text-center space-y-3">
             <span className="mono-tag text-xs font-semibold text-neutral-400 dark:text-neutral-300 tracking-widest block uppercase">QUY TRÌNH</span>
             <h3 className="text-2xl md:text-3xl font-serif text-neutral-900 dark:text-neutral-100 font-medium">
               Cách chúng tôi làm việc.
             </h3>
-          </div>
+          </Reveal>
 
           {/* Bordered box wrapping process slides */}
-          <div className="border border-neutral-200 dark:border-neutral-800/80 bg-[#fbfaf8] dark:bg-[#151515] p-8 md:p-12 lg:p-16 rounded-sm">
+          <Reveal className="border border-neutral-200 dark:border-neutral-800/80 bg-[#fbfaf8] dark:bg-[#151515] p-8 md:p-12 lg:p-16 rounded-sm">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-16 relative">
               {steps.map((step, idx) => (
                 <div key={idx} className="space-y-6 relative group">
@@ -68,7 +69,7 @@ export default function ProcessAndCalculator({ onOpenWithBudget }: ProcessSectio
                 </div>
               ))}
             </div>
-          </div>
+          </Reveal>
         </div>
 
       </div>
