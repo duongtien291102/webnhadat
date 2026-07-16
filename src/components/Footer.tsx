@@ -31,7 +31,7 @@ export default function Footer() {
                   src="/logoNOU.jpg"
                   alt="NOU.Design Logo"
                   fill
-                  className="object-contain invert brightness-200"
+                  className="object-contain mix-blend-screen"
                 />
               </div>
               <div>

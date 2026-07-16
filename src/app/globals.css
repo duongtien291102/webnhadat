@@ -7,7 +7,7 @@
   --color-foreground: var(--foreground);
 }
 
-@custom-variant dark (&:is(.dark *));
+@variant dark (&:where(.dark, .dark *));
 
 @layer base {
   :root {
