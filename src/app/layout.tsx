@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     siteName: "NOU Design",
     images: [
       {
-        url: "/asset/anhweb/hi%E1%BB%87n%20%C4%91%E1%BA%A1i/8.%20Chung%20c%C6%B0%20Matrix%20one%20125m2/11.jpg",
+        url: "/asset/anhweb/hien-dai/8-chung-cu-matrix-one-125m2/11.webp",
         width: 1200,
         height: 630,
         alt: "NOU Design Thiết kế nội thất",
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "NOU Design - Thiết kế & Thi công nội thất cao cấp",
     description: "NOU Design chuyên thiết kế và thi công nội thất biệt thự, chung cư, nhà phố cao cấp tại Hà Nội.",
-    images: ["/asset/anhweb/hi%E1%BB%87n%20%C4%91%E1%BA%A1i/8.%20Chung%20c%C6%B0%20Matrix%20one%20125m2/11.jpg"],
+    images: ["/asset/anhweb/hien-dai/8-chung-cu-matrix-one-125m2/11.webp"],
   },
 };
 

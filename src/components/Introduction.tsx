@@ -25,19 +25,19 @@ export default function Introduction() {
       title: 'Vật liệu thật',
       iconName: 'compass',
       description: 'Sử dụng vật liệu tự nhiên để tôn vinh vẻ đẹp nguyên bản của thiết kế.',
-      image: '/asset/anhweb/japandi/4. Chung cư Parkhome - 145m2/2.webp',
+      image: '/asset/anhweb/japandi/4-chung-cu-parkhome-145m2/2.webp',
     },
     {
       title: 'Ánh sáng',
       iconName: 'sun',
       description: 'Tối đa hóa ánh sáng tự nhiên và thông gió, mang lại không gian sống thoáng đãng và trong lành.',
-      image: '/asset/anhweb/hiện đại/12. Biệt thự Oceanpark - Hải Âu 230m2/2.webp',
+      image: '/asset/anhweb/hien-dai/12-biet-thu-oceanpark-hai-au-230m2/2.webp',
     },
     {
       title: 'Sự sống',
       iconName: 'home',
       description: 'Tạo ra một hệ sinh thái trong không gian, nơi con người và thiên nhiên hòa quyện.',
-      image: '/asset/anhweb/wabi-sabi/17. Nhà phố - 5x20 3 tầng - Thanh Hóa/3.webp',
+      image: '/asset/anhweb/wabi-sabi/17-nha-pho-5x20-3-tang-thanh-hoa/3.webp',
     },
   ];
 
