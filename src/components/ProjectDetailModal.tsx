@@ -153,9 +153,7 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
                     fill
                     sizes="(max-width: 768px) 100vw, 60vw"
                     className="object-cover"
-                    referrerPolicy="no-referrer"
-                    unoptimized
-                  />
+                    referrerPolicy="no-referrer" />
                 </motion.div>
               </AnimatePresence>
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none z-10" />
@@ -223,9 +221,7 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
                     fill
                     sizes="80px"
                     className="object-cover"
-                    referrerPolicy="no-referrer"
-                    unoptimized
-                  />
+                    referrerPolicy="no-referrer" />
                 </button>
               ))}
             </div>

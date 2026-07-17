@@ -98,9 +98,7 @@ const ProjectImageSlider = ({ project, onClick }: { project: Project, onClick: (
             fill
             sizes="(max-width: 1024px) 100vw, 50vw"
             className="object-cover brightness-95 transition-[transform,filter] duration-700 group-hover:scale-105 group-hover:brightness-90"
-            referrerPolicy="no-referrer"
-            unoptimized
-          />
+            referrerPolicy="no-referrer" />
         </motion.div>
       </AnimatePresence>
 

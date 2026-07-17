@@ -129,9 +129,7 @@ export default function StyleGalleryPage() {
                     alt={project.title} 
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-1000 filter brightness-95 group-hover:brightness-90"
-                    referrerPolicy="no-referrer"
-                    unoptimized
-                  />
+                    referrerPolicy="no-referrer" />
                   
                   {/* Minimalist Hover Indicator overlay */}
                   <div className="absolute inset-0 bg-neutral-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
