@@ -128,6 +128,7 @@ export default function StyleGalleryPage() {
                     src={project.mainImage} 
                     alt={project.title} 
                     fill
+                    sizes="(max-width: 767px) 100vw, 50vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-1000 filter brightness-95 group-hover:brightness-90"
                     referrerPolicy="no-referrer" />
                   

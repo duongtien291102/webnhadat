@@ -21,7 +21,7 @@ const slides: SlideData[] = [
   {
     id: 'oceanpark-haiau',
     title: 'BIỆT THỰ OCEANPARK',
-    tagline: 'Không gian sống được thiết kế với sự tinh tế và tiện nghi tối đa mang phong cách hiện đại.',
+    tagline: 'Không gian sống được thiết kế với sự tinh tế và tiện nghi tối đa, mang phong cách hiện đại cùng dấu ấn riêng đầy cuốn hút.',
     image: '/asset/anhweb/hien-dai/12-biet-thu-oceanpark-hai-au-230m2/1.webp',
     meta: 'BIỆT THỰ • 230 M² • HÀ NỘI',
     href: '/project/12-biet-thu-oceanpark-hai-au-230m2',
