@@ -13,7 +13,7 @@ git push origin develop
 ## Bước 2: Kéo code về máy chủ VPS
 Bạn mở PowerShell, đăng nhập vào máy chủ (sử dụng khóa bảo mật đã tạo, không cần nhập mật khẩu):
 ```bash
-ssh -i .ssh_vps_key root@103.82.26.60
+ssh -i "$HOME/.ssh/noudesign_vps_2026" root@103.82.26.60
 ```
 
 Sau khi vào được máy chủ (hiện `root@ubuntu:~#`), bạn chỉ việc di chuyển vào thư mục code và chạy lệnh deploy:

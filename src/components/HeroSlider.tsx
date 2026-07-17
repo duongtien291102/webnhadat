@@ -35,20 +35,20 @@ const slides: SlideData[] = [
     href: '/project/4-chung-cu-parkhome-145m2',
   },
   {
-    id: 'oceanpark-r1',
-    title: 'OCEANPARK R1',
-    tagline: 'Tối ưu hóa công năng sinh hoạt trong một tổng thể hài hòa, nhẹ nhàng và ngập tràn ánh sáng.',
-    image: '/asset/anhweb/hien-dai/13-oceanpark-r1-87m2/1.webp',
-    meta: 'CHUNG CƯ • 87 M² • HÀ NỘI',
-    href: '/project/13-oceanpark-r1-87m2',
+    id: 'ecopark-duplex',
+    title: 'CHUNG CƯ ECOPARK DUPLEX',
+    tagline: 'Không gian duplex thoáng rộng, tinh giản và giàu ánh sáng với các lớp vật liệu hiện đại.',
+    image: '/asset/hero/chung-cu-ecopark-duplex.webp',
+    meta: 'CHUNG CƯ DUPLEX • ECOPARK',
+    href: '/style/HIEN_DAI',
   },
   {
-    id: 'nhapho-thanhhoa',
-    title: 'NHÀ PHỐ THANH HÓA',
-    tagline: 'Thiết kế tinh giản, vật liệu tự nhiên kết hợp cùng ánh sáng để tạo nên không gian Wabi-sabi thanh tịnh.',
-    image: '/asset/anhweb/wabi-sabi/17-nha-pho-5x20-3-tang-thanh-hoa/1.webp',
-    meta: 'NHÀ PHỐ • 5X20 • THANH HÓA',
-    href: '/project/17-nha-pho-5x20-3-tang-thanh-hoa',
+    id: 'matrix-one',
+    title: 'CHUNG CƯ MATRIX ONE',
+    tagline: 'Không gian hiện đại với vật liệu đá, ánh sáng ấm và những đường nét kiến trúc dứt khoát.',
+    image: '/asset/hero/chung-cu-matrix-one.webp',
+    meta: 'CHUNG CƯ • MATRIX ONE • HÀ NỘI',
+    href: '/project/8-chung-cu-matrix-one-125m2',
   },
   {
     id: 'chungcu-giaiphong',
@@ -154,9 +154,9 @@ export default function HeroSlider({ onOpenContact }: HeroSliderProps) {
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.4, duration: 0.8 }}
             >
-              <h2 className="text-4xl md:text-6xl lg:text-7xl font-serif font-light text-white tracking-tight leading-none">
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-light text-white tracking-tight leading-none">
                 {slides[currentIndex].title}
-              </h2>
+              </h1>
             </motion.div>
 
             {/* Sub-tagline */}
@@ -180,7 +180,7 @@ export default function HeroSlider({ onOpenContact }: HeroSliderProps) {
               className="flex flex-wrap gap-4 pt-4"
             >
               <a
-                href="#projects"
+                href={slides[currentIndex].href}
                 className="bg-white dark:bg-[#121212] hover:bg-neutral-150 text-neutral-900 dark:text-neutral-100 px-8 py-4 font-bold text-xs tracking-widest flex items-center gap-2 group transition-all rounded-sm shadow-lg shadow-black/20"
                 id="hero-view-project"
               >
@@ -193,7 +193,7 @@ export default function HeroSlider({ onOpenContact }: HeroSliderProps) {
                 className="border border-white/70 hover:border-white hover:bg-white dark:hover:bg-neutral-800/10 text-white px-8 py-4 font-bold text-xs tracking-widest transition-all rounded-sm cursor-pointer"
                 id="hero-request-consult"
               >
-                NHÂN TƯ VẤN
+                NHẬN TƯ VẤN
               </button>
             </motion.div>
           </div>

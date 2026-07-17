@@ -73,12 +73,12 @@ export default function Navbar({ onOpenContact, alwaysSolid = false }: NavbarPro
               />
             </div>
             <div>
-              <h1
+              <span
                 className={`text-sm tracking-[0.25em] font-medium transition-colors ${isScrolledActive ? 'text-neutral-900 dark:text-neutral-100' : 'text-white'
                   }`}
               >
                 NOU.Design
-              </h1>
+              </span>
             </div>
           </Link>
 

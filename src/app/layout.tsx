@@ -19,7 +19,10 @@ const jakarta = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://noudesign.vn"),
-  title: "NOU Design - Thiết kế & Thi công nội thất cao cấp tại Hà Nội",
+  title: {
+    default: "NOU Design - Thiết kế & Thi công nội thất cao cấp tại Hà Nội",
+    template: "%s | NOU Design",
+  },
   description: "NOU Design chuyên thiết kế và thi công nội thất biệt thự, chung cư, nhà phố cao cấp tại Hà Nội. Kiến tạo những không gian sống vượt thời gian.",
   alternates: {
     canonical: "/",

@@ -1,9 +1,10 @@
 import { MetadataRoute } from 'next'
+import { projects } from '@/lib/projectsData'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://noudesign.vn'
   
-  return [
+  const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
       lastModified: new Date(),
@@ -47,4 +48,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
   ]
+
+  const projectRoutes: MetadataRoute.Sitemap = projects.map((project) => ({
+    url: `${baseUrl}/project/${project.id}`,
+    changeFrequency: 'monthly',
+    priority: 0.7,
+    images: [`${baseUrl}${project.mainImage}`],
+  }))
+
+  return [...staticRoutes, ...projectRoutes]
 }

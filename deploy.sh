@@ -1,27 +1,100 @@
-#!/bin/bash
-# Script Deploy tự động cho VPS mới
+#!/usr/bin/env bash
 
-echo "🚀 Bắt đầu quá trình Deploy..."
+set -Eeuo pipefail
 
-if [ ! -f "package.json" ]; then
-    echo "❌ Lỗi: Bạn đang không ở trong thư mục dự án (chưa thấy package.json)!"
-    exit 1
+APP_NAME="webnhadat"
+BRANCH="develop"
+HEALTH_URL="http://127.0.0.1:3000/"
+PREVIOUS_COMMIT=""
+ROLLING_BACK=false
+
+log() {
+  printf '\n%s\n' "$1"
+}
+
+prepare_standalone() {
+  mkdir -p .next/standalone/public .next/standalone/.next/static
+  cp -a public/. .next/standalone/public/
+  cp -a .next/static/. .next/standalone/.next/static/
+}
+
+start_application() {
+  pm2 startOrReload ecosystem.config.js --update-env
+  pm2 save
+}
+
+wait_for_health() {
+  local attempt
+  for attempt in {1..12}; do
+    if curl --fail --silent --show-error --max-time 5 "$HEALTH_URL" > /dev/null; then
+      return 0
+    fi
+    sleep 2
+  done
+  return 1
+}
+
+rollback() {
+  local exit_code=${1:-1}
+  local line_number=${2:-unknown}
+
+  if [ "$ROLLING_BACK" = true ] || [ -z "$PREVIOUS_COMMIT" ]; then
+    exit "$exit_code"
+  fi
+
+  ROLLING_BACK=true
+  trap - ERR
+  log "❌ Deploy lỗi tại dòng ${line_number}. Đang rollback về ${PREVIOUS_COMMIT}..."
+
+  git reset --hard "$PREVIOUS_COMMIT"
+  npm ci
+  npm run build
+  prepare_standalone
+  start_application
+
+  if wait_for_health; then
+    log "✅ Rollback thành công. Phiên bản cũ đang hoạt động bình thường."
+  else
+    log "❌ Rollback không vượt qua health check. Kiểm tra: pm2 logs ${APP_NAME}"
+  fi
+
+  exit "$exit_code"
+}
+
+trap 'rollback $? $LINENO' ERR
+
+log "🚀 Bắt đầu deploy..."
+
+if [ ! -f package.json ] || [ ! -d .git ]; then
+  log "❌ Hãy chạy script trong thư mục gốc của dự án."
+  exit 1
 fi
 
-echo "📦 1. Đang tải code mới nhất từ Github (nhánh develop)..."
-git reset --hard
-git pull origin develop
+if ! git diff-index --quiet HEAD --; then
+  log "❌ Máy chủ có thay đổi code chưa commit. Dừng deploy để tránh ghi đè dữ liệu."
+  git status --short
+  exit 1
+fi
 
-echo "📦 2. Đang cài đặt/cập nhật các thư viện..."
-npm install
+PREVIOUS_COMMIT=$(git rev-parse HEAD)
 
-echo "🔨 3. Đang Build dự án Next.js..."
+log "📦 1. Đồng bộ nhánh ${BRANCH}..."
+git fetch origin "$BRANCH"
+git checkout "$BRANCH"
+git merge --ff-only "origin/${BRANCH}"
+
+log "📦 2. Cài dependency theo package-lock.json..."
+npm ci
+
+log "🔨 3. Type-check và build Next.js..."
 npm run build
+prepare_standalone
 
-echo "🔄 4. Khởi động lại ứng dụng với PM2..."
-pm2 restart ecosystem.config.js || pm2 start ecosystem.config.js
+log "🔄 4. Reload ứng dụng standalone bằng PM2..."
+start_application
 
-echo "✅ Đã lưu cấu hình PM2."
-pm2 save
+log "🩺 5. Kiểm tra ứng dụng..."
+wait_for_health
 
-echo "🎉 DEPLOY THÀNH CÔNG! Website đã cập nhật."
+trap - ERR
+log "🎉 DEPLOY THÀNH CÔNG! $(git rev-parse --short HEAD) đang phục vụ tại cổng 3000."
