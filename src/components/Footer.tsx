@@ -31,7 +31,7 @@ export default function Footer() {
           <div className="flex justify-between items-start">
             {/* Logo Brand */}
             <a href="#home" aria-label="Trang chủ NOU.Design" className="flex items-center gap-3">
-              <div className="relative w-10 h-10 transition-transform hover:scale-105">
+              <div className="relative w-12 h-12 transition-transform hover:scale-105">
                 <Image
                   src="/logoNOU.jpg"
                   alt="NOU.Design Logo"

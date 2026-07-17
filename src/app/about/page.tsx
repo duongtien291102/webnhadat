@@ -81,16 +81,16 @@ export default function AboutPage() {
             {/* Stats */}
             <div className="grid grid-cols-3 gap-6 pt-12 pb-4">
               <div className="space-y-1 text-left">
-                <div className="text-3xl md:text-4xl font-serif font-bold text-neutral-900 dark:text-neutral-100">12+</div>
+                <div className="text-3xl md:text-4xl font-serif font-bold text-neutral-900 dark:text-neutral-100">200+</div>
                 <div className="text-[10px] md:text-xs text-neutral-400 dark:text-neutral-300 tracking-widest font-sans uppercase font-semibold">Dự án</div>
               </div>
               <div className="space-y-1 text-left">
-                <div className="text-3xl md:text-4xl font-serif font-bold text-neutral-900 dark:text-neutral-100">5 năm</div>
+                <div className="text-3xl md:text-4xl font-serif font-bold text-neutral-900 dark:text-neutral-100">10 năm</div>
                 <div className="text-[10px] md:text-xs text-neutral-400 dark:text-neutral-300 tracking-widest font-sans uppercase font-semibold">Kinh nghiệm</div>
               </div>
               <div className="space-y-1 text-left">
-                <div className="text-3xl md:text-4xl font-serif font-bold text-neutral-900 dark:text-neutral-100">1</div>
-                <div className="text-[10px] md:text-xs text-neutral-400 dark:text-neutral-300 tracking-widest font-sans uppercase font-semibold">Thành phố</div>
+                <div className="text-3xl md:text-4xl font-serif font-bold text-neutral-900 dark:text-neutral-100">3</div>
+                <div className="text-[10px] md:text-xs text-neutral-400 dark:text-neutral-300 tracking-widest font-sans uppercase font-semibold">Triết lý thiết kế</div>
               </div>
             </div>
           </motion.div>

@@ -9,7 +9,7 @@ import Footer from '../../../components/Footer';
 import ContactModal from '../../../components/ContactModal';
 import ProjectDetailModal from '../../../components/ProjectDetailModal';
 import { projects } from '../../../lib/projectsData';
-import { Project } from '../../../types';
+import { Project, styleLabels } from '../../../types';
 
 function CustomSelect({ label, value, options, onChange }: { label: string, value: string, options: {value: string, label: string}[], onChange: (val: string) => void }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -159,7 +159,7 @@ export default function StyleGalleryPage() {
                       }}
                       className="inline-block text-[10px] font-sans font-medium tracking-widest text-white bg-neutral-900 hover:bg-black px-3 py-1.5 uppercase rounded-[2px] transition-colors cursor-pointer"
                     >
-                      {project.style}
+                      {styleLabels[project.style] || project.style}
                     </button>
                   </div>
                 </div>

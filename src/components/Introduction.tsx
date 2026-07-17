@@ -15,9 +15,9 @@ export default function Introduction() {
   const isDragging = useRef(false);
 
   const stats = [
-    { value: '12+', label: 'Dự án' },
-    { value: '5 Năm', label: 'Kinh nghiệm' },
-    { value: '1', label: 'Triết lý thiết kế' },
+    { value: '200+', label: 'Dự án' },
+    { value: '10 Năm', label: 'Kinh nghiệm' },
+    { value: '3', label: 'Triết lý thiết kế' },
   ];
 
   const philosophyCards: PhilosophyCard[] = [

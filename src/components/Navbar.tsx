@@ -64,7 +64,7 @@ export default function Navbar({ onOpenContact, alwaysSolid = false }: NavbarPro
               }
             }}
           >
-            <div className="relative w-10 h-10 transition-transform hover:scale-105">
+            <div className="relative w-12 h-12 transition-transform hover:scale-105">
               <Image
                 src="/logoNOU.jpg"
                 alt="NOU.Design Logo"
@@ -108,7 +108,7 @@ export default function Navbar({ onOpenContact, alwaysSolid = false }: NavbarPro
                   >
                     {link.name}
                     <span 
-                      className={`absolute bottom-0 left-0 h-[2px] transition-all duration-300 ${
+                      className={`absolute bottom-0 left-0 h-[1px] transition-all duration-300 ${
                         isActive ? 'w-full' : 'w-0 group-hover:w-full'
                       } ${
                         isScrolledActive ? 'bg-black dark:bg-white' : 'bg-white'
