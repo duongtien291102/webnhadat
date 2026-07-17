@@ -47,7 +47,7 @@ function CustomSelect({ label, value, options, onChange }: { label: string, valu
               <button
                 key={opt.value}
                 onClick={() => { onChange(opt.value); setIsOpen(false); }}
-                className={`w-full text-left px-4 py-3 text-sm transition-colors cursor-pointer ${value === opt.value ? 'bg-neutral-900 text-white' : 'text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900 dark:text-neutral-100'}`}
+                className={`w-full text-left px-4 py-3 text-sm transition-colors cursor-pointer ${value === opt.value ? 'bg-neutral-900 text-white dark:bg-white dark:text-neutral-900' : 'text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-white'}`}
               >
                 {opt.label}
               </button>
@@ -158,7 +158,7 @@ export default function StyleGalleryPage() {
                         setFilterStyle(project.style);
                         window.scrollTo({ top: 0, behavior: 'smooth' });
                       }}
-                      className="inline-block text-[10px] font-sans font-medium tracking-widest text-white bg-neutral-900 hover:bg-black px-3 py-1.5 uppercase rounded-[2px] transition-colors cursor-pointer"
+                      className="inline-block text-[10px] font-sans font-medium tracking-widest text-white bg-neutral-900 dark:bg-white dark:text-neutral-900 hover:bg-black dark:hover:bg-neutral-200 px-3 py-1.5 uppercase rounded-[2px] transition-colors cursor-pointer"
                     >
                       {styleLabels[project.style] || project.style}
                     </button>

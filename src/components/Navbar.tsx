@@ -215,7 +215,7 @@ export default function Navbar({ onOpenContact, alwaysSolid = false }: NavbarPro
                   setIsMobileMenuOpen(false);
                   onOpenContact();
                 }}
-                className="w-full max-w-sm bg-neutral-900 text-white font-semibold py-4 text-xs tracking-widest hover:bg-neutral-850 transition-all cursor-pointer shadow-lg shadow-neutral-950/10"
+                className="w-full max-w-sm bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 font-semibold py-4 text-xs tracking-widest hover:bg-neutral-850 dark:hover:bg-neutral-200 transition-all cursor-pointer shadow-lg shadow-neutral-950/10"
                 id="mobile-contact-btn"
               >
                 LIÊN HỆ THỦ CÔNG

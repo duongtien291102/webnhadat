@@ -267,7 +267,7 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
                 </div>
                 <div className="space-y-1.5 pt-2">
                   <span className="text-neutral-400 dark:text-neutral-300 block uppercase tracking-wider text-[9px] font-bold">PHONG CÁCH ĐỊNH VỊ</span>
-                  <span className="inline-block text-[10px] font-sans font-medium tracking-widest text-white bg-neutral-900 px-3 py-1.5 uppercase rounded-[2px]">{styleLabels[project.style] || project.style}</span>
+                  <span className="inline-block text-[10px] font-sans font-medium tracking-widest text-white bg-neutral-900 dark:bg-white dark:text-neutral-900 px-3 py-1.5 uppercase rounded-[2px]">{styleLabels[project.style] || project.style}</span>
                 </div>
                 <div className="space-y-0.5 pt-2">
                   <span className="text-neutral-400 dark:text-neutral-300 block uppercase tracking-wider text-[9px] font-bold">PHÒNG ĐIỀU CHỈNH</span>
