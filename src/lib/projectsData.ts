@@ -182,7 +182,7 @@ export const projects: Project[] = [
     location: "Hà Nội",
     area: "87 m²",
     style: "HIEN_DAI",
-    mainImage: "/asset/anhweb/hien-dai/13-oceanpark-r1-87m2/11.webp",
+    mainImage: "/asset/anhweb/hien-dai/13-oceanpark-r1-87m2/cover.webp",
     gallery: [
       "/asset/anhweb/hien-dai/13-oceanpark-r1-87m2/11.webp",
       "/asset/anhweb/hien-dai/13-oceanpark-r1-87m2/13.webp",
