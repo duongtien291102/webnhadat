@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { AlignRight, X } from 'lucide-react';
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import ThemeToggle from './ThemeToggle';
@@ -16,6 +17,7 @@ export default function Navbar({ onOpenContact, alwaysSolid = false }: NavbarPro
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const scrollSentinelRef = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
+  const pathname = usePathname();
 
   useEffect(() => {
     const sentinel = scrollSentinelRef.current;
@@ -82,22 +84,40 @@ export default function Navbar({ onOpenContact, alwaysSolid = false }: NavbarPro
 
           {/* Desktop Nav Links */}
           <nav className="hidden lg:flex items-center gap-10">
-            {navLinks.map((link) => (
-              <div key={link.name} className="relative group py-2">
-                <Link
-                  href={link.href}
-                  onClick={() => {
-                    if (window.location.pathname === link.href) {
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }
-                  }}
-                  className={`text-xs tracking-widest font-semibold hover:opacity-100 transition-opacity relative py-2 ${isScrolledActive ? 'text-neutral-700 dark:text-neutral-300 hover:text-black dark:hover:text-white opacity-80' : 'text-[#f5f1ea] hover:text-white opacity-85'
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
+              
+              return (
+                <div key={link.name} className="relative group py-2">
+                  <Link
+                    href={link.href}
+                    onClick={() => {
+                      if (pathname === link.href) {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }
+                    }}
+                    className={`text-xs tracking-widest font-semibold hover:opacity-100 transition-all relative py-2 block ${
+                      isScrolledActive
+                        ? isActive
+                          ? 'text-black dark:text-white opacity-100'
+                          : 'text-neutral-700 dark:text-neutral-300 hover:text-black dark:hover:text-white opacity-80'
+                        : isActive
+                          ? 'text-white opacity-100'
+                          : 'text-[#f5f1ea] hover:text-white opacity-85'
                     }`}
-                >
-                  {link.name}
-                </Link>
-              </div>
-            ))}
+                  >
+                    {link.name}
+                    <span 
+                      className={`absolute bottom-0 left-0 h-[2px] transition-all duration-300 ${
+                        isActive ? 'w-full' : 'w-0 group-hover:w-full'
+                      } ${
+                        isScrolledActive ? 'bg-black dark:bg-white' : 'bg-white'
+                      }`} 
+                    />
+                  </Link>
+                </div>
+              );
+            })}
           </nav>
 
           {/* Contact Button */}
@@ -148,30 +168,44 @@ export default function Navbar({ onOpenContact, alwaysSolid = false }: NavbarPro
             style={{ WebkitUserSelect: 'text', userSelect: 'text' }}
           >
             <div className="flex flex-col space-y-6 text-center pt-8">
-              {navLinks.map((link, idx) => (
-                <div key={link.name} className="flex flex-col border-b border-neutral-200 dark:border-neutral-800/50">
-                  <Link
-                    href={link.href}
-                    onClick={() => {
-                      setIsMobileMenuOpen(false);
-                      if (window.location.pathname === link.href) {
-                        setTimeout(() => {
-                          window.scrollTo({ top: 0, behavior: 'smooth' });
-                        }, 100);
-                      }
-                    }}
-                    className="text-lg tracking-widest font-serif font-medium text-neutral-800 dark:text-neutral-200 hover:text-black py-3"
-                  >
-                    <motion.span
-                      initial={reduceMotion ? false : { opacity: 0, y: 15 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: idx * 0.05 }}
+              {navLinks.map((link, idx) => {
+                const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
+                return (
+                  <div key={link.name} className="flex flex-col border-b border-neutral-200 dark:border-neutral-800/50 relative overflow-hidden group">
+                    <Link
+                      href={link.href}
+                      onClick={() => {
+                        setIsMobileMenuOpen(false);
+                        if (pathname === link.href) {
+                          setTimeout(() => {
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }, 100);
+                        }
+                      }}
+                      className={`text-lg tracking-widest font-serif font-medium py-3 transition-colors ${
+                        isActive 
+                          ? 'text-black dark:text-white' 
+                          : 'text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white'
+                      }`}
                     >
-                      {link.name}
-                    </motion.span>
-                  </Link>
-                </div>
-              ))}
+                      <motion.span
+                        initial={reduceMotion ? false : { opacity: 0, y: 15 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: idx * 0.05 }}
+                        className="relative z-10"
+                      >
+                        {link.name}
+                      </motion.span>
+                      {isActive && (
+                        <motion.div
+                          layoutId="mobile-active-nav-indicator"
+                          className="absolute bottom-0 left-1/4 right-1/4 h-[2px] bg-black dark:bg-white"
+                        />
+                      )}
+                    </Link>
+                  </div>
+                );
+              })}
             </div>
 
             <div className="flex flex-col gap-4 mt-12 items-center">
