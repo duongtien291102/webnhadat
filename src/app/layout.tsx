@@ -18,8 +18,12 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://noudesign.vn"),
   title: "NOU Design - Thiết kế & Thi công nội thất cao cấp tại Hà Nội",
   description: "NOU Design chuyên thiết kế và thi công nội thất biệt thự, chung cư, nhà phố cao cấp tại Hà Nội. Kiến tạo những không gian sống vượt thời gian.",
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: "NOU Design - Thiết kế & Thi công nội thất cao cấp tại Hà Nội",
     description: "NOU Design chuyên thiết kế và thi công nội thất biệt thự, chung cư, nhà phố cao cấp tại Hà Nội.",
@@ -27,7 +31,7 @@ export const metadata: Metadata = {
     siteName: "NOU Design",
     images: [
       {
-        url: "https://noudesign.vn/asset/anhweb/hiện đại/8. Chung cư Matrix one 125m2/11.jpg",
+        url: "/asset/anhweb/hi%E1%BB%87n%20%C4%91%E1%BA%A1i/8.%20Chung%20c%C6%B0%20Matrix%20one%20125m2/11.jpg",
         width: 1200,
         height: 630,
         alt: "NOU Design Thiết kế nội thất",
@@ -35,6 +39,12 @@ export const metadata: Metadata = {
     ],
     locale: "vi_VN",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "NOU Design - Thiết kế & Thi công nội thất cao cấp",
+    description: "NOU Design chuyên thiết kế và thi công nội thất biệt thự, chung cư, nhà phố cao cấp tại Hà Nội.",
+    images: ["/asset/anhweb/hi%E1%BB%87n%20%C4%91%E1%BA%A1i/8.%20Chung%20c%C6%B0%20Matrix%20one%20125m2/11.jpg"],
   },
 };
 
@@ -56,15 +66,19 @@ export default function RootLayout({
             dangerouslySetInnerHTML={{
               __html: JSON.stringify({
                 "@context": "https://schema.org",
-                "@type": "LocalBusiness",
+                "@type": "ProfessionalService",
                 "name": "NOU Design",
                 "url": "https://noudesign.vn",
+                "logo": "https://noudesign.vn/icon.jpg",
                 "telephone": "0911176222",
                 "address": {
                   "@type": "PostalAddress",
                   "addressLocality": "Hà Nội",
                   "addressCountry": "VN"
-                }
+                },
+                "sameAs": [
+                  "https://www.facebook.com/noudesign.vn"
+                ]
               })
             }}
           />

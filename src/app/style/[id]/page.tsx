@@ -130,6 +130,7 @@ export default function StyleGalleryPage() {
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-1000 filter brightness-95 group-hover:brightness-90"
                     referrerPolicy="no-referrer"
+                    unoptimized
                   />
                   
                   {/* Minimalist Hover Indicator overlay */}
