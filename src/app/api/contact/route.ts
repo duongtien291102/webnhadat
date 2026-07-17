@@ -32,9 +32,12 @@ export async function POST(req: Request) {
       message,
     });
 
-    // 2. Gửi Email thông báo qua Nodemailer
-    // Cấu hình Transporter dựa trên biến môi trường .env
-    const transporter = nodemailer.createTransport({
+    // 2. Gửi Email thông báo qua Nodemailer.
+    // Cô lập toàn bộ luồng email để lỗi SMTP không ảnh hưởng tới bản ghi đã lưu.
+    let emailSent = false;
+    try {
+      // Cấu hình Transporter dựa trên biến môi trường .env
+      const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST || 'smtp.gmail.com',
       port: Number(process.env.SMTP_PORT) || 587,
       secure: false, // true for 465, false for other ports
@@ -79,11 +82,10 @@ export async function POST(req: Request) {
       html: htmlContent,
     };
 
-    // Thử gửi Email (Không throw error nếu fail để vẫn trả về success cho người dùng do DB đã lưu)
-    try {
       // Chỉ gửi khi có cấu hình SMTP hợp lệ
       if (process.env.SMTP_USER && process.env.SMTP_PASS) {
         await transporter.sendMail(mailOptions);
+        emailSent = true;
         console.log('✅ Đã gửi email thông báo thành công tới:', mailOptions.to);
       } else {
         console.warn('⚠️ Bỏ qua gửi email do chưa cấu hình SMTP_USER và SMTP_PASS trong .env');
@@ -93,7 +95,7 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json(
-      { success: true, data: newContact },
+      { success: true, emailSent, data: newContact },
       { status: 201 }
     );
   } catch (error: any) {
