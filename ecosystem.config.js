@@ -1,9 +1,13 @@
+const path = require("path");
+
+const releasePath = process.env.APP_RELEASE_PATH || path.join(__dirname, ".next", "standalone");
+
 module.exports = {
   apps: [
     {
       name: "webnhadat",
-      cwd: __dirname,
-      script: ".next/standalone/server.js",
+      cwd: releasePath,
+      script: path.join(releasePath, "server.js"),
       interpreter: "node",
       kill_timeout: 5000,
       listen_timeout: 10000,

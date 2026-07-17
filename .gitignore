@@ -35,6 +35,7 @@ yarn-error.log*
 
 # local deployment credentials
 .ssh_vps_key*
+.deploy/
 
 # vercel
 .vercel

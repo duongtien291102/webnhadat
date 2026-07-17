@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: 'standalone',
+  deploymentId: process.env.DEPLOYMENT_VERSION,
   poweredByHeader: false,
   images: {
     formats: ['image/webp'],

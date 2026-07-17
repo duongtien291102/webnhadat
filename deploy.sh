@@ -7,20 +7,43 @@ BRANCH="develop"
 HEALTH_URL="http://127.0.0.1:3000/"
 PREVIOUS_COMMIT=""
 ROLLING_BACK=false
+APP_ROOT=$(pwd -P)
+RELEASE_ROOT="${APP_ROOT}/.deploy"
+CURRENT_RELEASE="${RELEASE_ROOT}/current"
+PREVIOUS_RELEASE="${RELEASE_ROOT}/previous"
+NEXT_RELEASE="${RELEASE_ROOT}/next"
+RELEASE_ACTIVATED=false
 
 log() {
   printf '\n%s\n' "$1"
 }
 
-prepare_standalone() {
-  mkdir -p .next/standalone/public .next/standalone/.next/static
-  cp -a public/. .next/standalone/public/
-  cp -a .next/static/. .next/standalone/.next/static/
+prepare_release() {
+  test -f .next/standalone/server.js
+
+  rm -rf "$NEXT_RELEASE"
+  mkdir -p "$NEXT_RELEASE/public" "$NEXT_RELEASE/.next/static"
+  cp -a .next/standalone/. "$NEXT_RELEASE/"
+  cp -a public/. "$NEXT_RELEASE/public/"
+  cp -a .next/static/. "$NEXT_RELEASE/.next/static/"
 }
 
 start_application() {
-  pm2 startOrReload ecosystem.config.js --update-env
+  APP_RELEASE_PATH="$CURRENT_RELEASE" pm2 start ecosystem.config.js --update-env
   pm2 save
+}
+
+activate_release() {
+  pm2 delete "$APP_NAME" > /dev/null 2>&1 || true
+  rm -rf "$PREVIOUS_RELEASE"
+
+  if [ -d "$CURRENT_RELEASE" ]; then
+    mv "$CURRENT_RELEASE" "$PREVIOUS_RELEASE"
+  fi
+
+  mv "$NEXT_RELEASE" "$CURRENT_RELEASE"
+  RELEASE_ACTIVATED=true
+  start_application
 }
 
 wait_for_health() {
@@ -46,11 +69,17 @@ rollback() {
   trap - ERR
   log "❌ Deploy lỗi tại dòng ${line_number}. Đang rollback về ${PREVIOUS_COMMIT}..."
 
+  rm -rf "$NEXT_RELEASE"
+
+  if [ "$RELEASE_ACTIVATED" = true ] && [ -d "$PREVIOUS_RELEASE" ]; then
+    pm2 delete "$APP_NAME" > /dev/null 2>&1 || true
+    rm -rf "$CURRENT_RELEASE"
+    mv "$PREVIOUS_RELEASE" "$CURRENT_RELEASE"
+    start_application
+  fi
+
   git reset --hard "$PREVIOUS_COMMIT"
   npm ci
-  npm run build
-  prepare_standalone
-  start_application
 
   if wait_for_health; then
     log "✅ Rollback thành công. Phiên bản cũ đang hoạt động bình thường."
@@ -87,11 +116,13 @@ log "📦 2. Cài dependency theo package-lock.json..."
 npm ci
 
 log "🔨 3. Type-check và build Next.js..."
+export DEPLOYMENT_VERSION
+DEPLOYMENT_VERSION=$(git rev-parse --short HEAD)
 npm run build
-prepare_standalone
+prepare_release
 
-log "🔄 4. Reload ứng dụng standalone bằng PM2..."
-start_application
+log "🔄 4. Kích hoạt bản standalone mới bằng PM2..."
+activate_release
 
 log "🩺 5. Kiểm tra ứng dụng..."
 wait_for_health
