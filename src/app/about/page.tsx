@@ -171,7 +171,7 @@ export default function AboutPage() {
               onClick={() => setIsContactOpen(true)}
               className="bg-[#0f0f0f] hover:bg-black dark:bg-white dark:hover:bg-neutral-200 text-white dark:text-black px-8 py-4 text-xs font-bold tracking-widest uppercase transition-all shadow-xl hover:shadow-2xl cursor-pointer rounded-sm"
             >
-              BẮT ĐẦU DỰ ÁN KIẾN TRÚC CỦA BẠN CHỈ VỚI NOU
+              BẮT ĐẦU DỰ ÁN KIẾN TRÚC CỦA BẠN CHỈ VỚI Nou.Design
             </button>
           </motion.div>
         </div>
