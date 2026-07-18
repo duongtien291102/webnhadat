@@ -46,7 +46,7 @@ export default function AboutPage() {
           </div>
           <div className="lg:pt-4">
             <p className="text-base text-neutral-600 dark:text-neutral-300 font-light leading-relaxed max-w-lg">
-              <strong className="font-normal text-neutral-900 dark:text-neutral-100">NOU.Design</strong> là một studio thiết kế kiến trúc và nội thất, theo đuổi triết lý tối giản Japandi. Chúng tôi tin rằng không gian sống nên là một tác phẩm nghệ thuật mang lại sự bình yên.
+              <strong className="font-normal text-neutral-900 dark:text-neutral-100">NOU.Design</strong> là đơn vị thiết kế kiến trúc và nội thất, theo đuổi triết lý tối giản Japandi. Chúng tôi tin rằng không gian sống nên là một tác phẩm nghệ thuật mang lại sự bình yên.
             </p>
           </div>
         </motion.div>
@@ -105,7 +105,7 @@ export default function AboutPage() {
           >
             <Image 
               src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=80" 
-              alt="Studio interior" 
+              alt="Không gian nội thất NOU.Design"
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover rounded-sm scale-100 hover:scale-105 transition-all duration-700 shadow-lg" 
