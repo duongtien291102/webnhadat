@@ -12,7 +12,7 @@ const TiktokIcon = ({ size = 18, className = "" }) => (
 
 export default function Footer() {
   const socialLinks = [
-    { name: 'Instagram', icon: <Instagram size={18} />, href: 'https://instagram.com/NOU.Design', color: 'hover:text-pink-500', external: true },
+    { name: 'Instagram', icon: <Instagram size={18} />, href: 'https://www.instagram.com/nou.design23/', color: 'hover:text-pink-500', external: true },
     { name: 'Facebook', icon: <Facebook size={18} />, href: 'https://www.facebook.com/share/1Ap6c5Lu5o/', color: 'hover:text-blue-500', external: true },
     { name: 'TikTok', icon: <TiktokIcon size={18} />, href: 'https://www.tiktok.com/@nou.design?is_from_webapp=1&sender_device=pc', color: 'hover:text-black hover:bg-white dark:hover:bg-neutral-800', external: true },
     { name: 'Website', icon: <Globe size={18} />, href: '/', color: 'hover:text-[#dfd9ce]', external: false },
