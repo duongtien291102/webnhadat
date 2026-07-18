@@ -13,9 +13,21 @@ CURRENT_RELEASE="${RELEASE_ROOT}/current"
 PREVIOUS_RELEASE="${RELEASE_ROOT}/previous"
 NEXT_RELEASE="${RELEASE_ROOT}/next"
 RELEASE_ACTIVATED=false
+ENV_FILE="${APP_ROOT}/.env.production.local"
 
 log() {
   printf '\n%s\n' "$1"
+}
+
+load_runtime_environment() {
+  if [ -f "$ENV_FILE" ]; then
+    set -a
+    # shellcheck disable=SC1090
+    . "$ENV_FILE"
+    set +a
+  else
+    log "⚠️ Chưa có ${ENV_FILE}; email và các dịch vụ cần biến môi trường có thể không hoạt động."
+  fi
 }
 
 prepare_release() {
@@ -111,6 +123,8 @@ log "📦 1. Đồng bộ nhánh ${BRANCH}..."
 git fetch origin "$BRANCH"
 git checkout "$BRANCH"
 git merge --ff-only "origin/${BRANCH}"
+
+load_runtime_environment
 
 log "📦 2. Cài dependency theo package-lock.json..."
 npm ci
