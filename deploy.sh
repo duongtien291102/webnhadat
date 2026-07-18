@@ -91,7 +91,7 @@ rollback() {
   fi
 
   git reset --hard "$PREVIOUS_COMMIT"
-  npm ci
+  npm ci --include=dev
 
   if wait_for_health; then
     log "✅ Rollback thành công. Phiên bản cũ đang hoạt động bình thường."
@@ -128,7 +128,7 @@ load_runtime_environment
 export NODE_ENV=production
 
 log "📦 2. Cài dependency theo package-lock.json..."
-npm ci
+npm ci --include=dev
 
 log "🔨 3. Type-check và build Next.js..."
 export DEPLOYMENT_VERSION
