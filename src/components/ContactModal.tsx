@@ -1,34 +1,63 @@
 "use client";
 import React, { useState } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
-import { X, Send, CheckCircle2, Sliders, Home, Layers } from 'lucide-react';
+import { X, Send, CheckCircle2, Layers } from 'lucide-react';
 
 interface ContactModalProps {
   isOpen: boolean;
   onClose: () => void;
   initialMaterial?: string;
+  initialStyle?: string;
+  initialArea?: number | string;
 }
 
-export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: ContactModalProps) {
+export default function ContactModal({
+  isOpen,
+  onClose,
+  initialMaterial = '',
+  initialStyle = '',
+  initialArea = '',
+}: ContactModalProps) {
   const reduceMotion = useReducedMotion();
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [area, setArea] = useState<string>('');
   const [location, setLocation] = useState('');
-  const [material, setMaterial] = useState(initialMaterial || 'nordic-oak');
-  const [style, setStyle] = useState('minimalist');
+  const [material, setMaterial] = useState(initialMaterial);
+  const [style, setStyle] = useState(initialStyle);
   const [message, setMessage] = useState('');
+  const [website, setWebsite] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [submitError, setSubmitError] = useState('');
   const dialogRef = React.useRef<HTMLDivElement>(null);
+  const requestControllerRef = React.useRef<AbortController | null>(null);
 
-  // Sync initial material if changed
+  // Reset every modal session so a previous success/error cannot leak into the next one.
   React.useEffect(() => {
-    if (initialMaterial) {
+    if (isOpen) {
       setMaterial(initialMaterial);
+      setStyle(initialStyle);
+      setArea(initialArea ? String(initialArea) : '');
+      setIsSuccess(false);
+      setSubmitError('');
+      return;
     }
-  }, [initialMaterial]);
+
+    requestControllerRef.current?.abort();
+    requestControllerRef.current = null;
+    setName('');
+    setPhone('');
+    setArea('');
+    setLocation('');
+    setMaterial('');
+    setStyle('');
+    setMessage('');
+    setWebsite('');
+    setIsSubmitting(false);
+    setIsSuccess(false);
+    setSubmitError('');
+  }, [initialArea, initialMaterial, initialStyle, isOpen]);
 
   React.useEffect(() => {
     if (!isOpen) return;
@@ -71,39 +100,59 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !phone || !area || !location) return;
+    if (!name || !phone || !area || !location) {
+      setSubmitError('Vui lòng điền đầy đủ các trường bắt buộc.');
+      return;
+    }
 
     setIsSubmitting(true);
     setSubmitError('');
+    const controller = new AbortController();
+    requestControllerRef.current = controller;
+    const timeout = window.setTimeout(() => controller.abort(), 20_000);
 
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, phone, area, location, message }),
+        cache: 'no-store',
+        signal: controller.signal,
+        body: JSON.stringify({
+          name,
+          phone: phone.replace(/\s+/g, ''),
+          area,
+          location,
+          material,
+          style,
+          message,
+          source: window.location.pathname,
+          website,
+        }),
       });
 
+      const result = await res.json().catch(() => ({})) as { error?: string; success?: boolean };
       if (!res.ok) {
-        throw new Error('Lỗi gửi thông tin');
+        throw new Error(result.error || 'Chưa thể gửi thông tin.');
       }
 
       setIsSuccess(true);
     } catch (error) {
       console.error('Lỗi khi submit form:', error);
-      setSubmitError('Chưa thể gửi yêu cầu. Vui lòng kiểm tra kết nối và thử lại.');
+      setSubmitError(
+        error instanceof DOMException && error.name === 'AbortError'
+          ? 'Kết nối mất quá nhiều thời gian. Vui lòng thử lại.'
+          : error instanceof Error
+            ? error.message
+            : 'Chưa thể gửi yêu cầu. Vui lòng kiểm tra kết nối và thử lại.',
+      );
     } finally {
+      window.clearTimeout(timeout);
+      if (requestControllerRef.current === controller) requestControllerRef.current = null;
       setIsSubmitting(false);
     }
   };
 
   const resetForm = () => {
-    setName('');
-    setPhone('');
-    setArea('');
-    setLocation('');
-    setMessage('');
-    setIsSuccess(false);
-    setSubmitError('');
     onClose();
   };
 
@@ -164,11 +213,26 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
                   {/* Client Info */}
                   <div className="space-y-4">
 
+                    <div className="absolute -left-[9999px] h-px w-px overflow-hidden" aria-hidden="true">
+                      <label htmlFor="contact-website">Website</label>
+                      <input
+                        id="contact-website"
+                        type="text"
+                        tabIndex={-1}
+                        autoComplete="off"
+                        value={website}
+                        onChange={(event) => setWebsite(event.target.value)}
+                      />
+                    </div>
+
                     <div>
                       <label className="block text-xs font-medium text-neutral-600 dark:text-neutral-300 mb-1">Họ và tên của bạn *</label>
                       <input
                         type="text"
                         required
+                        minLength={2}
+                        maxLength={100}
+                        autoComplete="name"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder="Nguyễn Văn A"
@@ -182,6 +246,9 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
                         type="tel"
                         required
                         pattern="0(3|5|7|8|9)[0-9]{8}"
+                        maxLength={10}
+                        inputMode="numeric"
+                        autoComplete="tel"
                         title="Vui lòng nhập đúng định dạng số điện thoại Việt Nam (10 số, bắt đầu bằng 03, 05, 07, 08, hoặc 09)"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
@@ -196,6 +263,9 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
                         <input
                           type="number"
                           required
+                          min={1}
+                          max={100000}
+                          step="any"
                           value={area}
                           onChange={(e) => setArea(e.target.value)}
                           placeholder="Ví dụ: 80"
@@ -207,6 +277,9 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
                         <input
                           type="text"
                           required
+                          minLength={2}
+                          maxLength={120}
+                          autoComplete="address-level1"
                           value={location}
                           onChange={(e) => setLocation(e.target.value)}
                           placeholder="Hà Nội, TP.HCM..."
@@ -227,6 +300,7 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
                       <label className="block text-xs font-medium text-neutral-600 dark:text-neutral-300 mb-1">Mô tả định hướng thiết kế (tùy chọn)</label>
                       <textarea
                         rows={3}
+                        maxLength={2000}
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
                         placeholder="Hãy chia sẻ thêm về những mong muốn và ý tưởng cho ngôi nhà tương lai của bạn..."
@@ -239,6 +313,7 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
                   <button
                     type="submit"
                     disabled={isSubmitting}
+                    aria-busy={isSubmitting}
                     className="w-full bg-neutral-950 dark:bg-white text-white dark:text-black hover:bg-neutral-850 dark:hover:bg-neutral-200 py-4 px-6 rounded-md font-medium text-sm flex items-center justify-center gap-2 transition-all cursor-pointer shadow-md shadow-neutral-950/10 active:scale-98 disabled:opacity-55"
                     id="submit-consult-btn"
                   >

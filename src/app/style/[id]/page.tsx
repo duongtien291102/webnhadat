@@ -9,6 +9,7 @@ import Footer from '../../../components/Footer';
 import ContactModal from '../../../components/ContactModal';
 import ProjectDetailModal from '../../../components/ProjectDetailModal';
 import { projects } from '../../../lib/projectsData';
+import { getProjectCardImage } from '../../../lib/projectImages';
 import { Project, styleLabels } from '../../../types';
 
 function CustomSelect({ label, value, options, onChange }: { label: string, value: string, options: {value: string, label: string}[], onChange: (val: string) => void }) {
@@ -125,7 +126,7 @@ export default function StyleGalleryPage() {
                 {/* Image Container */}
                 <div className="relative aspect-[4/3] overflow-hidden mb-5 rounded-sm bg-neutral-100 shadow-md">
                   <Image 
-                    src={`/asset/project-thumbnails/${project.id}.webp`}
+                    src={getProjectCardImage(project)}
                     alt={project.title} 
                     fill
                     unoptimized
@@ -187,6 +188,7 @@ export default function StyleGalleryPage() {
         isOpen={isContactOpen}
         onClose={() => setIsContactOpen(false)}
         initialMaterial=""
+        initialStyle={filterStyle === 'ALL' ? '' : filterStyle}
       />
 
       {/* Real Project details slideshow modal */}

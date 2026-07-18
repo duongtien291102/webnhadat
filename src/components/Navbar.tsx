@@ -69,7 +69,7 @@ export default function Navbar({ onOpenContact, alwaysSolid = false }: NavbarPro
                 src="/logoNOU.jpg"
                 alt="NOU.Design Logo"
                 fill
-                className={`object-contain transition-all duration-300 ${isScrolledActive ? 'invert mix-blend-multiply dark:invert-0 dark:mix-blend-screen' : 'mix-blend-screen'}`}
+                className={`object-contain scale-[1.2] transition-all duration-300 ${isScrolledActive ? 'invert mix-blend-multiply dark:invert-0 dark:mix-blend-screen' : 'mix-blend-screen'}`}
               />
             </div>
             <div>

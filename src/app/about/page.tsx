@@ -214,7 +214,7 @@ export default function AboutPage() {
               <div className="md:col-span-7 space-y-4 border-l-2 border-neutral-900 pl-6">
                 <h4 className="text-3xl font-serif text-neutral-900 dark:text-neutral-100">Đặng Minh Đức</h4>
                 <p className="text-xs tracking-widest text-neutral-500 dark:text-neutral-400 uppercase font-semibold">CEO / Thiết kế trưởng</p>
-                <p className="text-base text-neutral-600 dark:text-neutral-300 font-light pt-2 leading-relaxed">Với hơn 10 năm kinh nghiệm trong kiến trúc cảnh quan và không gian, Đặng Minh Đức mang đến góc nhìn hiện đại, tối giản nhưng đậm chất Á Đông trong từng nét phác thảo.</p>
+                <p className="text-base text-neutral-600 dark:text-neutral-300 font-light pt-2 leading-relaxed">Với kinh nghiệm trong lĩnh vực kiến trúc, tôi mang đến những góc nhìn đa chiều, hiện đại và tối giản nhưng vẫn đậm nét tinh tế, sang trọng cho từng ngôi nhà.</p>
               </div>
             </motion.div>
 
@@ -240,7 +240,7 @@ export default function AboutPage() {
               <div className="md:col-span-7 md:order-1 space-y-4 border-l-2 md:border-l-0 md:border-r-2 border-neutral-900 pl-6 md:pl-0 md:pr-6 md:text-right">
                 <h4 className="text-3xl font-serif text-neutral-900 dark:text-neutral-100">Nguyễn Phương Thảo</h4>
                 <p className="text-xs tracking-widest text-neutral-500 dark:text-neutral-400 uppercase font-semibold">Quản lý thiết kế</p>
-                <p className="text-base text-neutral-600 dark:text-neutral-300 font-light pt-2 leading-relaxed">Với tình yêu dành cho vẻ đẹp tinh tế, Nguyễn Phương Thảo mang đến sự hài hòa trong cách kết hợp vật liệu, ánh sáng và tinh thần Wabi-Sabi tự nhiên cho từng không gian.</p>
+                <p className="text-base text-neutral-600 dark:text-neutral-300 font-light pt-2 leading-relaxed">Với niềm đam mê và tình yêu dành cho vẻ đẹp tinh tế, tôi mang đến cho ngôi nhà của mỗi gia chủ sự hài hòa, nhẹ nhàng ngay từ khâu lựa chọn vật liệu, kết hợp ánh sáng và phối màu cho từng không gian, nhằm bảo đảm sự đồng nhất xuyên suốt toàn bộ ngôi nhà.</p>
               </div>
             </motion.div>
           </div>
@@ -257,6 +257,16 @@ export default function AboutPage() {
             <p className="text-base text-neutral-500 dark:text-neutral-400 font-light leading-relaxed max-w-2xl mx-auto">
               Phía sau mỗi không gian tĩnh lặng là sự cống hiến không ngừng nghỉ của đội ngũ hơn 20 kiến trúc sư, kỹ thuật và đội ngũ chăm sóc khách hàng mang trong mình ngọn lửa nhiệt huyết. Chúng tôi đồng hành cùng nhau để biến mọi ý tưởng thành hiện thực.
             </p>
+            <div className="pt-8 md:pt-10">
+              <Image
+                src="/asset/team/nou-design-team.webp"
+                alt="Đội ngũ kiến trúc sư và cộng sự của NOU.Design"
+                width={1920}
+                height={1047}
+                sizes="(max-width: 1280px) 100vw, 1280px"
+                className="h-auto w-full rounded-sm shadow-lg"
+              />
+            </div>
           </motion.div>
         </div>
       </main>

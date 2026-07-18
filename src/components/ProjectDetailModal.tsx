@@ -1,9 +1,10 @@
 "use client";
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { X, ChevronRight, ArrowLeft, ArrowRight, MapPin, Ruler } from 'lucide-react';
 import { Project, styleLabels } from '../types';
+import { getOrderedProjectImages } from '../lib/projectImages';
 
 interface ProjectDetailModalProps {
   project: Project | null;
@@ -18,6 +19,7 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
   const thumbnailStripRef = useRef<HTMLDivElement>(null);
   const touchStartX = useRef<number | null>(null);
   const reduceMotion = useReducedMotion();
+  const images = useMemo(() => project ? getOrderedProjectImages(project) : [], [project]);
 
   // Reset photo index when project changes
   useEffect(() => {
@@ -70,15 +72,15 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
   }, [activePhotoIndex, reduceMotion]);
 
   const showPreviousPhoto = () => {
-    if (!project) return;
+    if (!project || images.length === 0) return;
     setDirection(-1);
-    setActivePhotoIndex((prev) => (prev === 0 ? project.gallery.length - 1 : prev - 1));
+    setActivePhotoIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
   };
 
   const showNextPhoto = () => {
-    if (!project) return;
+    if (!project || images.length === 0) return;
     setDirection(1);
-    setActivePhotoIndex((prev) => (prev + 1) % project.gallery.length);
+    setActivePhotoIndex((prev) => (prev + 1) % images.length);
   };
 
   return (
@@ -123,7 +125,7 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
             >
               <AnimatePresence initial={false} custom={direction}>
                 <motion.div
-                  key={project.gallery[activePhotoIndex]}
+                  key={images[activePhotoIndex]}
                   custom={direction}
                   initial={reduceMotion ? false : { opacity: 0, x: direction * 24 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -132,7 +134,7 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
                   className="absolute inset-0"
                 >
                   <Image
-                    src={project.gallery[activePhotoIndex]}
+                    src={images[activePhotoIndex]}
                     alt={`Gallery angle ${activePhotoIndex + 1} of ${project.title}`}
                     fill
                     sizes="(max-width: 768px) 100vw, 60vw"
@@ -152,7 +154,7 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
               </button>
 
               {/* Left / Right arrows */}
-              {project.gallery.length > 1 && (
+              {images.length > 1 && (
                 <>
                   <button
                     onClick={(e) => {
@@ -185,7 +187,7 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
 
             {/* Clickable thumbnail selector row  */}
             <div ref={thumbnailStripRef} className="h-20 bg-neutral-900 border-t border-neutral-800 p-2.5 flex gap-2.5 overflow-x-auto items-center shrink-0">
-              {project.gallery.map((thumb, tIdx) => (
+              {images.map((thumb, tIdx) => (
                 <button
                   key={tIdx}
                   onClick={() => {

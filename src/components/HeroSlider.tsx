@@ -100,7 +100,7 @@ export default function HeroSlider({ onOpenContact }: HeroSliderProps) {
       <AnimatePresence initial={false} mode="sync">
         <motion.div
           key={slides[currentIndex].id}
-          initial={reduceMotion ? false : { opacity: 0, scale: 1.015 }}
+          initial={false}
           animate={{ opacity: 1, scale: 1 }}
           exit={reduceMotion ? undefined : { opacity: 0, scale: 0.995 }}
           transition={{ duration: reduceMotion ? 0 : 0.9, ease: [0.33, 1, 0.68, 1] }}
@@ -131,7 +131,7 @@ export default function HeroSlider({ onOpenContact }: HeroSliderProps) {
             {/* Giant Heading */}
             <motion.div
               key={`title-${currentIndex}`}
-              initial={reduceMotion ? false : { y: 24, opacity: 0 }}
+              initial={false}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.4, duration: 0.8 }}
             >
@@ -143,7 +143,7 @@ export default function HeroSlider({ onOpenContact }: HeroSliderProps) {
             {/* Sub-tagline */}
             <motion.div
               key={`tagline-${currentIndex}`}
-              initial={reduceMotion ? false : { y: 20, opacity: 0 }}
+              initial={false}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.6, duration: 0.8 }}
             >
@@ -155,7 +155,7 @@ export default function HeroSlider({ onOpenContact }: HeroSliderProps) {
             {/* Buttons Row */}
             <motion.div
               key={`buttons-${currentIndex}`}
-              initial={reduceMotion ? false : { y: 16, opacity: 0 }}
+              initial={false}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.8, duration: 0.8 }}
               className="flex flex-wrap gap-4 pt-4"

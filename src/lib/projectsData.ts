@@ -22,7 +22,7 @@ export const projects: Project[] = [
     location: "Lào Cai",
     area: "4.3x19",
     style: "HIEN_DAI",
-    mainImage: "/asset/anhweb/hien-dai/10-cai-tao-nha-lao-cai-43x19/master-8.webp",
+    mainImage: "/asset/anhweb/hien-dai/10-cai-tao-nha-lao-cai-43x19/tang-1-1.webp",
     gallery: [
       "/asset/anhweb/hien-dai/10-cai-tao-nha-lao-cai-43x19/master-8.webp",
       "/asset/anhweb/hien-dai/10-cai-tao-nha-lao-cai-43x19/ngu-phu-1.webp",
@@ -118,7 +118,7 @@ export const projects: Project[] = [
     location: "Hà Nội",
     area: "230 m²",
     style: "HIEN_DAI",
-    mainImage: "/asset/anhweb/hien-dai/12-biet-thu-oceanpark-hai-au-230m2/1.webp",
+    mainImage: "/asset/anhweb/hien-dai/12-biet-thu-oceanpark-hai-au-230m2/3.webp",
     gallery: [
       "/asset/anhweb/hien-dai/12-biet-thu-oceanpark-hai-au-230m2/1.webp",
       "/asset/anhweb/hien-dai/12-biet-thu-oceanpark-hai-au-230m2/10.webp",
@@ -182,7 +182,7 @@ export const projects: Project[] = [
     location: "Hà Nội",
     area: "87 m²",
     style: "HIEN_DAI",
-    mainImage: "/asset/anhweb/hien-dai/13-oceanpark-r1-87m2/cover.webp",
+    mainImage: "/asset/anhweb/hien-dai/13-oceanpark-r1-87m2/3.webp",
     gallery: [
       "/asset/anhweb/hien-dai/13-oceanpark-r1-87m2/11.webp",
       "/asset/anhweb/hien-dai/13-oceanpark-r1-87m2/13.webp",

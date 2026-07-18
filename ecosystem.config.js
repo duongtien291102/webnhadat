@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 const path = require("path");
 
 const releasePath = process.env.APP_RELEASE_PATH || path.join(__dirname, ".next", "standalone");

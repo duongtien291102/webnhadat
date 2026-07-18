@@ -5,6 +5,7 @@ import { ArrowRight, ArrowLeft } from 'lucide-react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { Project } from '../types';
 import { projects } from '../lib/projectsData';
+import { getOrderedProjectImages } from '../lib/projectImages';
 import ProjectDetailModal from './ProjectDetailModal';
 import Reveal from './Reveal';
 
@@ -18,10 +19,7 @@ const ProjectImageSlider = ({ project, onClick }: { project: Project, onClick: (
   const touchStartX = useRef<number | null>(null);
   const didSwipe = useRef(false);
   const reduceMotion = useReducedMotion();
-  const images = useMemo(
-    () => project.gallery && project.gallery.length > 0 ? project.gallery : [project.mainImage],
-    [project.gallery, project.mainImage]
-  );
+  const images = useMemo(() => getOrderedProjectImages(project), [project]);
 
   useEffect(() => {
     if (images.length <= 1) return;

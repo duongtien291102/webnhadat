@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import ProjectPageShell from '@/components/ProjectPageShell';
 import { projects } from '@/lib/projectsData';
+import { getOrderedProjectImages } from '@/lib/projectImages';
 import { styleLabels } from '@/types';
 
 type ProjectPageProps = {
@@ -44,7 +45,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const project = getProject(id);
   if (!project) notFound();
 
-  const gallery = Array.from(new Set(project.gallery.length ? project.gallery : [project.mainImage]));
+  const gallery = getOrderedProjectImages(project);
 
   return (
     <ProjectPageShell>
