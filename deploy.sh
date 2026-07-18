@@ -14,9 +14,18 @@ PREVIOUS_RELEASE="${RELEASE_ROOT}/previous"
 NEXT_RELEASE="${RELEASE_ROOT}/next"
 RELEASE_ACTIVATED=false
 ENV_FILE="${APP_ROOT}/.env.production.local"
+DEPLOY_LOCK_FILE="${TMPDIR:-/tmp}/${APP_NAME}.deploy.lock"
 
 log() {
   printf '\n%s\n' "$1"
+}
+
+acquire_deploy_lock() {
+  exec 9>"$DEPLOY_LOCK_FILE"
+  if ! flock -n 9; then
+    log "❌ Một tiến trình deploy khác đang chạy. Hãy đợi tiến trình đó hoàn tất rồi thử lại."
+    exit 1
+  fi
 }
 
 load_runtime_environment() {
@@ -91,7 +100,6 @@ rollback() {
   fi
 
   git reset --hard "$PREVIOUS_COMMIT"
-  npm ci --include=dev
 
   if wait_for_health; then
     log "✅ Rollback thành công. Phiên bản cũ đang hoạt động bình thường."
@@ -103,6 +111,8 @@ rollback() {
 }
 
 trap 'rollback $? $LINENO' ERR
+
+acquire_deploy_lock
 
 log "🚀 Bắt đầu deploy..."
 
