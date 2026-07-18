@@ -116,9 +116,9 @@ export default function AlternatingProjects({ onOpenConsultation }: AlternatingP
         {/* Section Header */}
         <Reveal className="text-center max-w-xl mx-auto space-y-3">
           <div className="w-12 h-px bg-neutral-400 mx-auto" />
-          <h3 className="text-3xl font-serif text-neutral-900 dark:text-neutral-100 font-normal tracking-wide">
+          <h2 className="text-3xl font-serif text-neutral-900 dark:text-neutral-100 font-normal tracking-wide">
             Phong cách tiêu biểu
-          </h3>
+          </h2>
           <p className="text-xs text-neutral-500 dark:text-neutral-400 font-sans tracking-widest leading-relaxed">
             Nơi hiện thực hóa những xúc cảm mộc mạc Japandi qua từng công trình thực vật mang đậm hơi thở bản ngã.
           </p>
@@ -140,7 +140,7 @@ export default function AlternatingProjects({ onOpenConsultation }: AlternatingP
                     isEven ? 'lg:order-1' : 'lg:order-2'
                   }`}
                 >
-                  <span className="text-xs font-sans font-medium tracking-[0.25em] text-neutral-400 dark:text-neutral-300 block uppercase">
+                  <span className="text-xs font-sans font-medium tracking-[0.25em] text-neutral-600 dark:text-neutral-300 block uppercase">
                     Phong cách
                   </span>
 

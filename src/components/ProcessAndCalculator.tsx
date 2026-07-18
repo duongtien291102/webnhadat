@@ -32,10 +32,10 @@ export default function ProcessAndCalculator({ onOpenWithBudget }: ProcessSectio
         {/* Step-by-Step Quy Trình matching Image layout */}
         <div className="space-y-12">
           <Reveal className="text-center space-y-3">
-            <span className="mono-tag text-xs font-semibold text-neutral-400 dark:text-neutral-300 tracking-widest block uppercase">QUY TRÌNH</span>
-            <h3 className="text-2xl md:text-3xl font-serif text-neutral-900 dark:text-neutral-100 font-medium">
+            <span className="mono-tag text-xs font-semibold text-neutral-600 dark:text-neutral-300 tracking-widest block uppercase">QUY TRÌNH</span>
+            <h2 className="text-2xl md:text-3xl font-serif text-neutral-900 dark:text-neutral-100 font-medium">
               Cách chúng tôi làm việc.
-            </h3>
+            </h2>
           </Reveal>
 
           {/* Bordered box wrapping process slides */}
@@ -49,14 +49,14 @@ export default function ProcessAndCalculator({ onOpenWithBudget }: ProcessSectio
                     <div className="w-10 h-10 rounded-full bg-[#dfd9ce] dark:bg-[#2a2a2a] font-sans text-xs font-bold text-neutral-800 dark:text-neutral-200 flex items-center justify-center border border-neutral-300 dark:border-neutral-700">
                       {step.number}
                     </div>
-                    <h4 className="text-sm font-semibold tracking-wider text-neutral-700 dark:text-neutral-300 uppercase">Giai Đoạn {step.number}</h4>
+                    <h3 className="text-sm font-semibold tracking-wider text-neutral-700 dark:text-neutral-300 uppercase">Giai Đoạn {step.number}</h3>
                   </div>
 
                   {/* Step Content */}
                   <div className="space-y-2">
-                    <h5 className="text-md font-bold text-neutral-900 dark:text-neutral-100 font-sans group-hover:text-black transition-colors">
+                    <h4 className="text-md font-bold text-neutral-900 dark:text-neutral-100 font-sans group-hover:text-black transition-colors">
                       {step.title}
-                    </h5>
+                    </h4>
                     <p className="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed font-light">
                       {step.description}
                     </p>

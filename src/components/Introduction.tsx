@@ -94,10 +94,10 @@ export default function Introduction() {
         {/* Intro Blocks - Two columns */}
         <Reveal className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-start">
           <div className="lg:col-span-5 space-y-4">
-            <span className="mono-tag text-xs font-semibold text-neutral-400 dark:text-neutral-300 tracking-widest block">GIỚI THIỆU</span>
-            <h3 className="text-3xl md:text-5xl font-serif text-neutral-900 dark:text-neutral-100 font-normal leading-tight">
+            <span className="mono-tag text-xs font-semibold text-neutral-600 dark:text-neutral-300 tracking-widest block">GIỚI THIỆU</span>
+            <h2 className="text-3xl md:text-5xl font-serif text-neutral-900 dark:text-neutral-100 font-normal leading-tight">
               Thiết kế <span className="whitespace-nowrap">không gian</span><br />với sự tĩnh lặng.
-            </h3>
+            </h2>
           </div>
 
           <div className="lg:col-span-7 space-y-8 lg:pt-8">
@@ -112,7 +112,7 @@ export default function Introduction() {
                   <div className="text-2xl md:text-4xl font-serif font-medium text-neutral-900 dark:text-neutral-100">
                     {stat.value}
                   </div>
-                  <div className="text-xs text-neutral-400 dark:text-neutral-300 tracking-wide font-sans">
+                  <div className="text-xs text-neutral-600 dark:text-neutral-300 tracking-wide font-sans">
                     {stat.label}
                   </div>
                 </div>
@@ -124,8 +124,8 @@ export default function Introduction() {
         {/* Before / After Interactive Slider Section */}
         <Reveal className="space-y-6 pt-6">
           <div className="text-center max-w-xl mx-auto space-y-2">
-            <span className="mono-tag text-[10px] text-neutral-400 dark:text-neutral-300 font-bold uppercase">Công cụ tương tác</span>
-            <h4 className="text-lg font-serif text-neutral-900 dark:text-neutral-100 font-medium">Từ Bản Vẽ Kỹ Thuật Đến Hiện Thực</h4>
+            <span className="mono-tag text-[10px] text-neutral-600 dark:text-neutral-300 font-bold uppercase">Công cụ tương tác</span>
+            <h3 className="text-lg font-serif text-neutral-900 dark:text-neutral-100 font-medium">Từ Bản Vẽ Kỹ Thuật Đến Hiện Thực</h3>
             <p className="text-xs text-neutral-500 dark:text-neutral-400">Kéo thanh trượt ngang để so sánh nét vẽ CAD và không gian hoàn thiện thực tế dồi dào sinh lực.</p>
           </div>
 
@@ -194,10 +194,10 @@ export default function Introduction() {
         {/* Philosophy Segment */}
         <div className="space-y-12 pt-12 border-t border-neutral-150" id="philosophy">
           <Reveal className="text-center max-w-lg mx-auto space-y-3">
-            <span className="mono-tag text-xs font-semibold text-neutral-400 dark:text-neutral-300 tracking-widest block uppercase">TRIẾT LÝ THIẾT KẾ</span>
-            <h3 className="text-2xl md:text-3xl font-serif text-neutral-900 dark:text-neutral-100 font-medium">
+            <span className="mono-tag text-xs font-semibold text-neutral-600 dark:text-neutral-300 tracking-widest block uppercase">TRIẾT LÝ THIẾT KẾ</span>
+            <h2 className="text-2xl md:text-3xl font-serif text-neutral-900 dark:text-neutral-100 font-medium">
               Cân bằng & Tinh tế
-            </h3>
+            </h2>
           </Reveal>
 
           {/* 3 cards row */}
@@ -209,7 +209,7 @@ export default function Introduction() {
                   <div className="w-12 h-12 rounded-full bg-[#f7f5f0] dark:bg-[#1a1a1a] flex items-center justify-center border border-neutral-200 dark:border-neutral-800/50">
                     {renderIcon(card.iconName)}
                   </div>
-                  <h4 className="text-lg font-serif font-medium text-neutral-900 dark:text-neutral-100">{card.title}</h4>
+                  <h3 className="text-lg font-serif font-medium text-neutral-900 dark:text-neutral-100">{card.title}</h3>
                   <p className="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed font-light">{card.description}</p>
                 </div>
 

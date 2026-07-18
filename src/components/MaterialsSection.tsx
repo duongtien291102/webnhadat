@@ -54,10 +54,10 @@ export default function MaterialsSection({ onSelectMaterial }: MaterialsSectionP
         {/* Section Title */}
         <Reveal className="text-center space-y-4">
           <div className="w-12 h-px bg-neutral-400 mx-auto" />
-          <h3 className="text-3xl font-serif text-neutral-900 dark:text-neutral-100 font-normal tracking-wide">
+          <h2 className="text-3xl font-serif text-neutral-900 dark:text-neutral-100 font-normal tracking-wide">
             Vật liệu tuyển chọn
-          </h3>
-          <p className="text-xs text-neutral-500 dark:text-neutral-400 font-sans tracking-widest max-w-md mx-auto leading-relaxed">
+          </h2>
+          <p className="text-xs text-neutral-600 dark:text-neutral-400 font-sans tracking-widest max-w-md mx-auto leading-relaxed">
             Hồi đáp xúc giác từ thiên nhiên, tuyển trọn vật liệu thô bản mộc mạc nhất để định nghĩa chiều sâu của thiết kế kiến trúc.
           </p>
         </Reveal>
@@ -89,10 +89,10 @@ export default function MaterialsSection({ onSelectMaterial }: MaterialsSectionP
               </div>
 
               {/* Swatch Label */}
-              <h4 className="text-xs font-bold font-sans tracking-widest text-neutral-900 dark:text-neutral-100 group-hover:text-black dark:group-hover:text-white transition-colors">
+              <h3 className="text-xs font-bold font-sans tracking-widest text-neutral-900 dark:text-neutral-100 group-hover:text-black dark:group-hover:text-white transition-colors">
                 {material.name}
-              </h4>
-              <p className="text-[10px] text-neutral-500 dark:text-neutral-200 group-hover:text-neutral-700 dark:group-hover:text-white font-sans font-medium mt-1 transition-colors">
+              </h3>
+              <p className="text-[10px] text-neutral-600 dark:text-neutral-200 group-hover:text-neutral-700 dark:group-hover:text-white font-sans font-medium mt-1 transition-colors">
                 {material.vietnameseName}
               </p>
               </button>

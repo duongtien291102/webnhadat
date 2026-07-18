@@ -129,35 +129,26 @@ export default function HeroSlider({ onOpenContact }: HeroSliderProps) {
 
 
             {/* Giant Heading */}
-            <motion.div
+            <div
               key={`title-${currentIndex}`}
-              initial={false}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.4, duration: 0.8 }}
             >
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-light text-white tracking-tight leading-none">
                 {slides[currentIndex].title}
               </h1>
-            </motion.div>
+            </div>
 
             {/* Sub-tagline */}
-            <motion.div
+            <div
               key={`tagline-${currentIndex}`}
-              initial={false}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.6, duration: 0.8 }}
             >
               <p className="text-sm md:text-lg text-neutral-300 font-sans tracking-wide leading-relaxed font-light">
                 {slides[currentIndex].tagline}
               </p>
-            </motion.div>
+            </div>
 
             {/* Buttons Row */}
-            <motion.div
+            <div
               key={`buttons-${currentIndex}`}
-              initial={false}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.8, duration: 0.8 }}
               className="flex flex-wrap gap-4 pt-4"
             >
               <a
@@ -176,7 +167,7 @@ export default function HeroSlider({ onOpenContact }: HeroSliderProps) {
               >
                 NHẬN TƯ VẤN
               </button>
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>

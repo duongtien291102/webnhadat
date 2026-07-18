@@ -98,7 +98,7 @@ export default function StyleGalleryPage() {
         {/* Header and Filters */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 border-b border-neutral-100 dark:border-neutral-800 pb-12">
           <div className="space-y-4">
-            <span className="text-[10px] font-sans font-bold tracking-[0.2em] text-neutral-400 dark:text-neutral-300 uppercase">Bộ Sưu Tập</span>
+            <span className="text-[10px] font-sans font-bold tracking-[0.2em] text-neutral-600 dark:text-neutral-300 uppercase">Bộ Sưu Tập</span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif text-neutral-900 dark:text-neutral-100 font-normal leading-tight tracking-tight">
               {pageTitle}
             </h1>
@@ -145,10 +145,10 @@ export default function StyleGalleryPage() {
                 {/* Caption / Project Info */}
                 <div className="flex justify-between items-start pt-1 font-sans">
                   <div className="space-y-1">
-                    <h4 className="text-base font-serif font-medium text-neutral-900 dark:text-neutral-100 group-hover:text-neutral-700 transition-colors">
+                    <h2 className="text-base font-serif font-medium text-neutral-900 dark:text-neutral-100 group-hover:text-neutral-700 transition-colors">
                       {project.title}
-                    </h4>
-                    <p className="text-xs text-neutral-400 dark:text-neutral-300 leading-none">
+                    </h2>
+                    <p className="text-xs text-neutral-600 dark:text-neutral-300 leading-none">
                       {project.location} • {project.area}
                     </p>
                   </div>
