@@ -125,6 +125,7 @@ git checkout "$BRANCH"
 git merge --ff-only "origin/${BRANCH}"
 
 load_runtime_environment
+export NODE_ENV=production
 
 log "📦 2. Cài dependency theo package-lock.json..."
 npm ci

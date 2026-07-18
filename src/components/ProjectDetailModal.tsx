@@ -110,8 +110,6 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
             {/* Active display photo */}
             <div
               className="flex-1 w-full relative overflow-hidden group"
-              onMouseEnter={() => setIsPaused(true)}
-              onMouseLeave={() => setIsPaused(false)}
               onTouchStart={(event) => { touchStartX.current = event.touches[0]?.clientX ?? null; }}
               onTouchEnd={(event) => {
                 if (touchStartX.current === null) return;
@@ -192,7 +190,6 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
                   key={tIdx}
                   onClick={() => {
                     setDirection(tIdx >= activePhotoIndex ? 1 : -1);
-                    setIsPaused(true);
                     setActivePhotoIndex(tIdx);
                   }}
                   data-thumbnail-index={tIdx}
