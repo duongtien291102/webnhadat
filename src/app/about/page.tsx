@@ -228,8 +228,8 @@ export default function AboutPage() {
             >
               <div className="md:col-span-5 md:order-2 relative aspect-[3/4] overflow-hidden bg-neutral-100 rounded-sm shadow-md">
                 <Image 
-                  src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=800&q=80" 
-                  alt="KTS. Trần Mai Linh" 
+                  src="/asset/team/nguyen-phuong-thao.webp"
+                  alt="Nguyễn Phương Thảo - Quản lý thiết kế"
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover object-center scale-100 group-hover:scale-105 transition-transform duration-700"
@@ -238,9 +238,9 @@ export default function AboutPage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
               <div className="md:col-span-7 md:order-1 space-y-4 border-l-2 md:border-l-0 md:border-r-2 border-neutral-900 pl-6 md:pl-0 md:pr-6 md:text-right">
-                <h4 className="text-3xl font-serif text-neutral-900 dark:text-neutral-100">Trần Mai Linh</h4>
-                <p className="text-xs tracking-widest text-neutral-500 dark:text-neutral-400 uppercase font-semibold">Nhà thiết kế Nội thất / Co-founder</p>
-                <p className="text-base text-neutral-600 dark:text-neutral-300 font-light pt-2 leading-relaxed">Là một người yêu thích cái đẹp tinh tế, KTS Trần Mai Linh thổi hồn vào các công trình qua nghệ thuật xếp đặt vật liệu, ánh sáng và triết lý Wabi-Sabi tự nhiên.</p>
+                <h4 className="text-3xl font-serif text-neutral-900 dark:text-neutral-100">Nguyễn Phương Thảo</h4>
+                <p className="text-xs tracking-widest text-neutral-500 dark:text-neutral-400 uppercase font-semibold">Quản lý thiết kế</p>
+                <p className="text-base text-neutral-600 dark:text-neutral-300 font-light pt-2 leading-relaxed">Với tình yêu dành cho vẻ đẹp tinh tế, Nguyễn Phương Thảo mang đến sự hài hòa trong cách kết hợp vật liệu, ánh sáng và tinh thần Wabi-Sabi tự nhiên cho từng không gian.</p>
               </div>
             </motion.div>
           </div>
