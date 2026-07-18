@@ -44,7 +44,7 @@ export default function Footer() {
                   NOU.Design
                 </h4>
                 <p className="text-[9px] tracking-[0.1em] text-neutral-500 dark:text-neutral-400 font-sans uppercase">
-                  Est. 2021 | Studio kiến trúc tối mộc
+                  Est. 2021 | Đơn vị kiến trúc tối mộc
                 </p>
               </div>
             </a>

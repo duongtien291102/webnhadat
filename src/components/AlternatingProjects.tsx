@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import Image from 'next/image';
 import { ArrowRight, ArrowLeft } from 'lucide-react';
-import { AnimatePresence, motion, useInView, useReducedMotion } from 'motion/react';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { Project } from '../types';
 import { projects } from '../lib/projectsData';
 import ProjectDetailModal from './ProjectDetailModal';
@@ -15,25 +15,13 @@ interface AlternatingProjectsProps {
 const ProjectImageSlider = ({ project, onClick }: { project: Project, onClick: () => void }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(1);
-  const [isPaused, setIsPaused] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
   const touchStartX = useRef<number | null>(null);
   const didSwipe = useRef(false);
-  const isInView = useInView(containerRef, { amount: 0.2 });
   const reduceMotion = useReducedMotion();
   const images = useMemo(
     () => project.gallery && project.gallery.length > 0 ? project.gallery : [project.mainImage],
     [project.gallery, project.mainImage]
   );
-
-  useEffect(() => {
-    if (images.length <= 1 || !isInView || isPaused || reduceMotion) return;
-    const timer = setInterval(() => {
-      setDirection(1);
-      setCurrentIndex((prev) => (prev + 1) % images.length);
-    }, 10000);
-    return () => clearInterval(timer);
-  }, [images.length, isInView, isPaused, reduceMotion]);
 
   useEffect(() => {
     if (images.length <= 1) return;
@@ -66,7 +54,6 @@ const ProjectImageSlider = ({ project, onClick }: { project: Project, onClick: (
 
   return (
     <div
-      ref={containerRef}
       onClick={() => {
         if (didSwipe.current) {
           didSwipe.current = false;
@@ -74,10 +61,6 @@ const ProjectImageSlider = ({ project, onClick }: { project: Project, onClick: (
         }
         onClick();
       }}
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-      onFocusCapture={() => setIsPaused(true)}
-      onBlurCapture={() => setIsPaused(false)}
       onTouchStart={(event) => { touchStartX.current = event.touches[0]?.clientX ?? null; }}
       onTouchEnd={(event) => handleTouchEnd(event.changedTouches[0]?.clientX ?? 0)}
       className="relative block group overflow-hidden bg-neutral-900 border border-neutral-200 dark:border-neutral-800/60 shadow-xl cursor-pointer rounded-sm aspect-[4/3]"

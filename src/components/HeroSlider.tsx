@@ -62,29 +62,14 @@ const slides: SlideData[] = [
 
 export default function HeroSlider({ onOpenContact }: HeroSliderProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
   const touchStartX = useRef<number | null>(null);
   const reduceMotion = useReducedMotion();
-
-  useEffect(() => {
-    if (isPaused || reduceMotion) return;
-    const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % slides.length);
-    }, 6500);
-    return () => clearInterval(timer);
-  }, [isPaused, reduceMotion]);
 
   useEffect(() => {
     const nextSlide = slides[(currentIndex + 1) % slides.length];
     const preload = new window.Image();
     preload.src = nextSlide.image;
   }, [currentIndex]);
-
-  useEffect(() => {
-    const handleVisibilityChange = () => setIsPaused(document.hidden);
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
-  }, []);
 
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev - 1 + slides.length) % slides.length);
@@ -108,10 +93,6 @@ export default function HeroSlider({ onOpenContact }: HeroSliderProps) {
     <section
       className="relative min-h-[100dvh] w-full bg-black overflow-hidden"
       id="home"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-      onFocusCapture={() => setIsPaused(true)}
-      onBlurCapture={() => setIsPaused(false)}
       onTouchStart={(event) => { touchStartX.current = event.touches[0]?.clientX ?? null; }}
       onTouchEnd={(event) => handleTouchEnd(event.changedTouches[0]?.clientX ?? 0)}
     >

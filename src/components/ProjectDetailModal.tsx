@@ -14,7 +14,6 @@ interface ProjectDetailModalProps {
 export default function ProjectDetailModal({ project, onClose, onOpenConsultation }: ProjectDetailModalProps) {
   const [activePhotoIndex, setActivePhotoIndex] = useState<number>(0);
   const [direction, setDirection] = useState(1);
-  const [isPaused, setIsPaused] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
   const thumbnailStripRef = useRef<HTMLDivElement>(null);
   const touchStartX = useRef<number | null>(null);
@@ -24,7 +23,6 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
   useEffect(() => {
     setActivePhotoIndex(0);
     setDirection(1);
-    setIsPaused(false);
   }, [project?.id]);
 
   useEffect(() => {
@@ -66,16 +64,6 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
     };
   }, [project, onClose]);
 
-  // Autoplay slideshow
-  useEffect(() => {
-    if (!project || !project.gallery || project.gallery.length <= 1 || isPaused || reduceMotion) return;
-    const timer = setInterval(() => {
-      setDirection(1);
-      setActivePhotoIndex((prev) => (prev + 1) % project.gallery.length);
-    }, 10000);
-    return () => clearInterval(timer);
-  }, [project, isPaused, reduceMotion]);
-
   useEffect(() => {
     const activeThumbnail = thumbnailStripRef.current?.querySelector<HTMLElement>(`[data-thumbnail-index="${activePhotoIndex}"]`);
     activeThumbnail?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'nearest', inline: 'center' });
@@ -84,14 +72,12 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
   const showPreviousPhoto = () => {
     if (!project) return;
     setDirection(-1);
-    setIsPaused(true);
     setActivePhotoIndex((prev) => (prev === 0 ? project.gallery.length - 1 : prev - 1));
   };
 
   const showNextPhoto = () => {
     if (!project) return;
     setDirection(1);
-    setIsPaused(true);
     setActivePhotoIndex((prev) => (prev + 1) % project.gallery.length);
   };
 
