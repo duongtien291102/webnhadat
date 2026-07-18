@@ -46,7 +46,7 @@ export default function AboutPage() {
           </div>
           <div className="lg:pt-4">
             <p className="text-base text-neutral-600 dark:text-neutral-300 font-light leading-relaxed max-w-lg">
-              <strong className="font-normal text-neutral-900 dark:text-neutral-100">NOU.Design STUDIO</strong> là một studio thiết kế kiến trúc và nội thất, theo đuổi triết lý tối giản Japandi. Chúng tôi tin rằng không gian sống nên là một tác phẩm nghệ thuật mang lại sự bình yên.
+              <strong className="font-normal text-neutral-900 dark:text-neutral-100">NOU.Design</strong> là một studio thiết kế kiến trúc và nội thất, theo đuổi triết lý tối giản Japandi. Chúng tôi tin rằng không gian sống nên là một tác phẩm nghệ thuật mang lại sự bình yên.
             </p>
           </div>
         </motion.div>
