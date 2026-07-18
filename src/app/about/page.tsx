@@ -202,8 +202,8 @@ export default function AboutPage() {
             >
               <div className="md:col-span-5 relative aspect-[3/4] overflow-hidden bg-neutral-100 rounded-sm shadow-md">
                 <Image 
-                  src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=800&q=80" 
-                  alt="KTS. Lê Minh Tiến" 
+                  src="/asset/team/dang-minh-duc.webp"
+                  alt="Đặng Minh Đức - CEO, Thiết kế trưởng"
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover object-center scale-100 group-hover:scale-105 transition-transform duration-700"
@@ -212,9 +212,9 @@ export default function AboutPage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
               <div className="md:col-span-7 space-y-4 border-l-2 border-neutral-900 pl-6">
-                <h4 className="text-3xl font-serif text-neutral-900 dark:text-neutral-100">Lê Minh Tiến</h4>
-                <p className="text-xs tracking-widest text-neutral-500 dark:text-neutral-400 uppercase font-semibold">Giám đốc / Kiến trúc sư trưởng</p>
-                <p className="text-base text-neutral-600 dark:text-neutral-300 font-light pt-2 leading-relaxed">Với hơn 10 năm kinh nghiệm trong kiến trúc cảnh quan và không gian, KTS Lê Minh Tiến mang đến góc nhìn hiện đại, tối giản nhưng đậm chất Á Đông trong từng nét phác thảo.</p>
+                <h4 className="text-3xl font-serif text-neutral-900 dark:text-neutral-100">Đặng Minh Đức</h4>
+                <p className="text-xs tracking-widest text-neutral-500 dark:text-neutral-400 uppercase font-semibold">CEO / Thiết kế trưởng</p>
+                <p className="text-base text-neutral-600 dark:text-neutral-300 font-light pt-2 leading-relaxed">Với hơn 10 năm kinh nghiệm trong kiến trúc cảnh quan và không gian, Đặng Minh Đức mang đến góc nhìn hiện đại, tối giản nhưng đậm chất Á Đông trong từng nét phác thảo.</p>
               </div>
             </motion.div>
 
