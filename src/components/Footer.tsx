@@ -44,9 +44,6 @@ export default function Footer() {
                 <p className="text-sm tracking-[0.2em] text-[#f5f1ea] font-medium font-sans">
                   NOU.Design
                 </p>
-                <p className="text-[9px] tracking-[0.1em] text-neutral-400 font-sans uppercase">
-                  Est. 2021 | Đơn vị kiến trúc tối mộc
-                </p>
               </div>
             </Link>
 
