@@ -215,7 +215,7 @@ export default function AboutPage() {
               <div className="md:col-span-7 space-y-4 border-l-2 border-neutral-900 pl-6">
                 <h3 className="text-3xl font-serif text-neutral-900 dark:text-neutral-100">Đặng Minh Đức</h3>
                 <p className="text-xs tracking-widest text-neutral-500 dark:text-neutral-400 uppercase font-semibold">CEO / Thiết kế trưởng</p>
-                <p className="text-base text-neutral-600 dark:text-neutral-300 font-light pt-2 leading-relaxed">Với kinh nghiệm trong lĩnh vực kiến trúc, tôi mang đến những góc nhìn đa chiều, hiện đại và tối giản nhưng vẫn đậm nét tinh tế, sang trọng cho từng ngôi nhà.</p>
+                <p className="text-base text-neutral-600 dark:text-neutral-300 font-light pt-2 leading-relaxed">Với nhiều năm kinh nghiệm trong lĩnh vực kiến trúc, tôi mang đến những góc nhìn đa chiều, hiện đại và tối giản nhưng vẫn đậm nét tinh tế, sang trọng cho từng ngôi nhà.</p>
               </div>
             </motion.div>
 
