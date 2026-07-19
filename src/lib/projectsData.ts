@@ -14,7 +14,7 @@ export const projects: Project[] = [
     ],
     highlightsHeader: "THÔNG TIN DỰ ÁN:",
     highlights: [
-      "Loại hình: Dự án",
+      "Loại hình: Nhà đất, chung cư và thương mại",
       "Địa điểm: Lào Cai",
       "Diện tích: 4.3x19",
       "Thiết kế & thi công: NOU.Design"
@@ -75,7 +75,7 @@ export const projects: Project[] = [
     ],
     highlightsHeader: "THÔNG TIN DỰ ÁN:",
     highlights: [
-      "Loại hình: Dự án",
+      "Loại hình: Nhà đất, chung cư và thương mại",
       "Địa điểm: Hà Nội",
       "Diện tích: 72 m²",
       "Thiết kế & thi công: NOU.Design"
@@ -110,7 +110,7 @@ export const projects: Project[] = [
     ],
     highlightsHeader: "THÔNG TIN DỰ ÁN:",
     highlights: [
-      "Loại hình: Dự án",
+      "Loại hình: Nhà đất, chung cư và thương mại",
       "Địa điểm: Hà Nội",
       "Diện tích: 230 m²",
       "Thiết kế & thi công: NOU.Design"
@@ -174,7 +174,7 @@ export const projects: Project[] = [
     ],
     highlightsHeader: "THÔNG TIN DỰ ÁN:",
     highlights: [
-      "Loại hình: Dự án",
+      "Loại hình: Nhà đất, chung cư và thương mại",
       "Địa điểm: Hà Nội",
       "Diện tích: 87 m²",
       "Thiết kế & thi công: NOU.Design"
@@ -213,7 +213,7 @@ export const projects: Project[] = [
     ],
     highlightsHeader: "THÔNG TIN DỰ ÁN:",
     highlights: [
-      "Loại hình: Dự án",
+      "Loại hình: Nhà đất, chung cư và thương mại",
       "Địa điểm: Hà Nội",
       "Diện tích: 125 m²",
       "Thiết kế & thi công: NOU.Design"
@@ -248,7 +248,7 @@ export const projects: Project[] = [
     ],
     highlightsHeader: "THÔNG TIN DỰ ÁN:",
     highlights: [
-      "Loại hình: Dự án",
+      "Loại hình: Nhà đất, chung cư và thương mại",
       "Địa điểm: Hà Nội",
       "Diện tích: 118 m²",
       "Thiết kế & thi công: NOU.Design"
@@ -293,7 +293,7 @@ export const projects: Project[] = [
     ],
     highlightsHeader: "THÔNG TIN DỰ ÁN:",
     highlights: [
-      "Loại hình: Dự án",
+      "Loại hình: Nhà đất, chung cư và thương mại",
       "Địa điểm: Hà Nội",
       "Diện tích: 66 m²",
       "Thiết kế & thi công: NOU.Design"
@@ -331,7 +331,7 @@ export const projects: Project[] = [
     ],
     highlightsHeader: "THÔNG TIN DỰ ÁN:",
     highlights: [
-      "Loại hình: Dự án",
+      "Loại hình: Nhà đất, chung cư và thương mại",
       "Địa điểm: Hà Nội",
       "Diện tích: 70 m²",
       "Thiết kế & thi công: NOU.Design"
@@ -378,7 +378,7 @@ export const projects: Project[] = [
     ],
     highlightsHeader: "THÔNG TIN DỰ ÁN:",
     highlights: [
-      "Loại hình: Dự án",
+      "Loại hình: Nhà đất, chung cư và thương mại",
       "Địa điểm: Hà Nội",
       "Diện tích: 145 m²",
       "Thiết kế & thi công: NOU.Design"
@@ -419,7 +419,7 @@ export const projects: Project[] = [
     ],
     highlightsHeader: "THÔNG TIN DỰ ÁN:",
     highlights: [
-      "Loại hình: Dự án",
+      "Loại hình: Nhà đất, chung cư và thương mại",
       "Địa điểm: Hà Nội",
       "Diện tích: 83 m²",
       "Thiết kế & thi công: NOU.Design"
@@ -460,7 +460,7 @@ export const projects: Project[] = [
     ],
     highlightsHeader: "THÔNG TIN DỰ ÁN:",
     highlights: [
-      "Loại hình: Dự án",
+      "Loại hình: Nhà đất, chung cư và thương mại",
       "Địa điểm: Hà Nội",
       "Diện tích: Không xác định",
       "Thiết kế & thi công: NOU.Design"
@@ -491,7 +491,7 @@ export const projects: Project[] = [
     ],
     highlightsHeader: "THÔNG TIN DỰ ÁN:",
     highlights: [
-      "Loại hình: Dự án",
+      "Loại hình: Nhà đất, chung cư và thương mại",
       "Địa điểm: Hà Nội",
       "Diện tích: Không xác định",
       "Thiết kế & thi công: NOU.Design"
@@ -529,7 +529,7 @@ export const projects: Project[] = [
     ],
     highlightsHeader: "THÔNG TIN DỰ ÁN:",
     highlights: [
-      "Loại hình: Dự án",
+      "Loại hình: Nhà đất, chung cư và thương mại",
       "Địa điểm: Thanh Hóa",
       "Diện tích: 5x20",
       "Thiết kế & thi công: NOU.Design"
@@ -582,7 +582,7 @@ export const projects: Project[] = [
     ],
     highlightsHeader: "THÔNG TIN DỰ ÁN:",
     highlights: [
-      "Loại hình: Dự án",
+      "Loại hình: Nhà đất, chung cư và thương mại",
       "Địa điểm: Hà Nội",
       "Diện tích: 128 m²",
       "Thiết kế & thi công: NOU.Design"
@@ -624,7 +624,7 @@ export const projects: Project[] = [
     ],
     highlightsHeader: "THÔNG TIN DỰ ÁN:",
     highlights: [
-      "Loại hình: Dự án",
+      "Loại hình: Nhà đất, chung cư và thương mại",
       "Địa điểm: Hà Nội",
       "Diện tích: 45 m²",
       "Thiết kế & thi công: NOU.Design"
@@ -661,7 +661,7 @@ export const projects: Project[] = [
     ],
     highlightsHeader: "THÔNG TIN DỰ ÁN:",
     highlights: [
-      "Loại hình: Dự án",
+      "Loại hình: Nhà đất, chung cư và thương mại",
       "Địa điểm: Điện Biên",
       "Diện tích: 130 m²",
       "Thiết kế & thi công: NOU.Design"
@@ -706,7 +706,7 @@ export const projects: Project[] = [
     ],
     highlightsHeader: "THÔNG TIN DỰ ÁN:",
     highlights: [
-      "Loại hình: Dự án",
+      "Loại hình: Nhà đất, chung cư và thương mại",
       "Địa điểm: Hà Nội",
       "Diện tích: 115  m²",
       "Thiết kế & thi công: NOU.Design"
@@ -749,7 +749,7 @@ export const projects: Project[] = [
     ],
     highlightsHeader: "THÔNG TIN DỰ ÁN:",
     highlights: [
-      "Loại hình: Dự án",
+      "Loại hình: Nhà đất, chung cư và thương mại",
       "Địa điểm: Hà Nội",
       "Diện tích: 126m²",
       "Thiết kế & thi công: NOU.Design"
@@ -824,7 +824,7 @@ export const projects: Project[] = [
     ],
     highlightsHeader: "THÔNG TIN DỰ ÁN:",
     highlights: [
-      "Loại hình: Dự án",
+      "Loại hình: Nhà đất, chung cư và thương mại",
       "Địa điểm: Hà Nội",
       "Diện tích: Không xác định",
       "Thiết kế & thi công: NOU.Design"
@@ -893,7 +893,7 @@ export const projects: Project[] = [
     ],
     highlightsHeader: "THÔNG TIN DỰ ÁN:",
     highlights: [
-      "Loại hình: Dự án",
+      "Loại hình: Nhà đất, chung cư và thương mại",
       "Địa điểm: Hà Nội",
       "Diện tích: Không xác định",
       "Thiết kế & thi công: NOU.Design"
@@ -952,7 +952,7 @@ export const projects: Project[] = [
     ],
     highlightsHeader: "THÔNG TIN DỰ ÁN:",
     highlights: [
-      "Loại hình: Dự án",
+      "Loại hình: Nhà đất, chung cư và thương mại",
       "Địa điểm: Hà Nội",
       "Diện tích: 4x15",
       "Thiết kế & thi công: NOU.Design"
@@ -1010,7 +1010,7 @@ export const projects: Project[] = [
     ],
     highlightsHeader: "THÔNG TIN DỰ ÁN:",
     highlights: [
-      "Loại hình: Dự án",
+      "Loại hình: Nhà đất, chung cư và thương mại",
       "Địa điểm: Hà Nội",
       "Diện tích: Không xác định",
       "Thiết kế & thi công: NOU.Design"
