@@ -10,9 +10,13 @@
     "optimize-images": "node scripts/convert-webp.mjs"
   },
   "dependencies": {
+    "@fluentui/react-components": "^9.74.4",
+    "@fluentui/react-icons": "^2.0.333",
     "@tailwindcss/postcss": "^4.3.0",
     "@types/nodemailer": "^8.0.1",
     "@types/three": "^0.184.1",
+    "bcryptjs": "^3.0.3",
+    "jose": "^6.2.3",
     "lucide-react": "^0.577.0",
     "mongoose": "^9.6.3",
     "motion": "^12.40.0",
@@ -22,9 +26,11 @@
     "postcss": "^8.5.15",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "server-only": "^0.0.1",
     "sharp": "^0.35.3",
     "ssh2": "^1.17.0",
-    "tailwindcss": "^4.3.0"
+    "tailwindcss": "^4.3.0",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@types/node": "^20",

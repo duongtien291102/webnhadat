@@ -66,5 +66,7 @@ const ContactSchema = new Schema<IContact>({
 
 ContactSchema.index({ ipHash: 1, createdAt: -1 });
 ContactSchema.index({ phone: 1, createdAt: -1 });
+ContactSchema.index({ createdAt: -1 });
+ContactSchema.index({ emailStatus: 1, createdAt: -1 });
 
 export default mongoose.models.Contact || mongoose.model<IContact>('Contact', ContactSchema);
