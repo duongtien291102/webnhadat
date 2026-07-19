@@ -143,7 +143,7 @@ npm ci --include=dev
 log "🔨 3. Type-check và build Next.js..."
 export DEPLOYMENT_VERSION
 DEPLOYMENT_VERSION=$(git rev-parse --short HEAD)
-npm run build
+NODE_OPTIONS="${NODE_OPTIONS:-} --max-old-space-size=${BUILD_NODE_HEAP_MB:-768}" npm run build
 prepare_release
 
 log "🔄 4. Kích hoạt bản standalone mới bằng PM2..."
