@@ -150,6 +150,7 @@ jobs:
             
             # Đảm bảo file .env tồn tại
             touch "${ENV_FILE:-.env}"
+            touch .env
             
             COMPOSE_CMD="docker compose -p $PROJECT_NAME -f $COMPOSE_FILE"
             if [ -f "$ENV_FILE" ]; then
