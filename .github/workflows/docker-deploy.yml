@@ -136,7 +136,6 @@ jobs:
             # Khởi tạo docker-compose.yml nếu chưa có trên server
             if [ ! -f "$COMPOSE_FILE" ]; then
               cat << 'EOF' > "$COMPOSE_FILE"
-            version: '3.8'
             services:
               web:
                 image: ${{ env.IMAGE_NAME }}:${{ github.sha }}
@@ -150,6 +149,9 @@ jobs:
               # Cập nhật version image mới trong compose hiện tại
               sed -i "s|image:.*|image: ${{ env.IMAGE_NAME }}:${{ github.sha }}|g" "$COMPOSE_FILE" || true
             fi
+            
+            # Đảm bảo file .env tồn tại
+            touch "${ENV_FILE:-.env}"
             
             COMPOSE_CMD="docker compose -p $PROJECT_NAME -f $COMPOSE_FILE"
             if [ -f "$ENV_FILE" ]; then
