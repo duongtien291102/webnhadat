@@ -20,7 +20,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             # Thay đổi đường dẫn dưới đây thành đường dẫn thực tế đến thư mục dự án trên VPS của bạn
-            cd /path/to/your/project/webnhadat
+            cd /var/www/webnhadat
             
             # Cấp quyền thực thi cho script (phòng trường hợp chưa có)
             chmod +x deploy.sh
