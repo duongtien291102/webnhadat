@@ -141,8 +141,6 @@ jobs:
                 image: ${{ env.IMAGE_NAME }}:${{ github.sha }}
                 ports:
                   - "3000:3000"
-                env_file:
-                  - ${ENV_FILE:-.env}
                 restart: always
             EOF
             else
