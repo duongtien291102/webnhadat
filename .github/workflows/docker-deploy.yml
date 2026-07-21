@@ -1,0 +1,190 @@
+name: Build And Deploy WebNhaDat Docker
+
+on:
+  push:
+    branches:
+      - develop
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: webnhadat-deploy-${{ github.ref_name }}
+  cancel-in-progress: true
+
+env:
+  IMAGE_NAME: thisilaso1/webnhadat
+  BUILD_CONTEXT: .
+  DOCKERFILE_PATH: ./Dockerfile
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+
+    outputs:
+      deploy_path: ${{ steps.vars.outputs.deploy_path }}
+      deploy_project_name: ${{ steps.vars.outputs.deploy_project_name }}
+      deploy_compose_file: ${{ steps.vars.outputs.deploy_compose_file }}
+      deploy_env_file: ${{ steps.vars.outputs.deploy_env_file }}
+      deploy_service_name: ${{ steps.vars.outputs.deploy_service_name }}
+      image_tags: ${{ steps.vars.outputs.image_tags }}
+
+    steps:
+      - name: Resolve deployment profile
+        id: vars
+        env:
+          DEPLOY_PATH_PRODUCTION: ${{ vars.DEPLOY_PATH_PRODUCTION || secrets.DEPLOY_PATH_PRODUCTION }}
+          DEPLOY_PATH_TEST: ${{ vars.DEPLOY_PATH || secrets.DEPLOY_PATH }}
+          DEPLOY_PROJECT_NAME_PRODUCTION: ${{ vars.DEPLOY_PROJECT_NAME_PRODUCTION || secrets.DEPLOY_PROJECT_NAME_PRODUCTION }}
+          DEPLOY_PROJECT_NAME_TEST: ${{ vars.DEPLOY_PROJECT_NAME_TEST || secrets.DEPLOY_PROJECT_NAME_TEST }}
+          DEPLOY_COMPOSE_FILE_PRODUCTION: ${{ vars.DEPLOY_COMPOSE_FILE_PRODUCTION || secrets.DEPLOY_COMPOSE_FILE_PRODUCTION }}
+          DEPLOY_COMPOSE_FILE_TEST: ${{ vars.DEPLOY_COMPOSE_FILE_TEST || secrets.DEPLOY_COMPOSE_FILE_TEST }}
+          DEPLOY_ENV_FILE_PRODUCTION: ${{ vars.DEPLOY_ENV_FILE_PRODUCTION || secrets.DEPLOY_ENV_FILE_PRODUCTION }}
+          DEPLOY_ENV_FILE_TEST: ${{ vars.DEPLOY_ENV_FILE_TEST || secrets.DEPLOY_ENV_FILE_TEST }}
+          DEPLOY_SERVICE_NAME_PRODUCTION: ${{ vars.DEPLOY_SERVICE_NAME_PRODUCTION || secrets.DEPLOY_SERVICE_NAME_PRODUCTION }}
+          DEPLOY_SERVICE_NAME_TEST: ${{ vars.DEPLOY_SERVICE_NAME_TEST || secrets.DEPLOY_SERVICE_NAME_TEST }}
+        run: |
+          if [ "${GITHUB_REF_NAME}" = "main" ]; then
+            DEPLOY_PATH="${DEPLOY_PATH_PRODUCTION:-/var/www/webnhadat}"
+            DEPLOY_PROJECT_NAME="${DEPLOY_PROJECT_NAME_PRODUCTION:-webnhadat_prod}"
+            DEPLOY_COMPOSE_FILE="${DEPLOY_COMPOSE_FILE_PRODUCTION:-docker-compose.yml}"
+            DEPLOY_ENV_FILE="${DEPLOY_ENV_FILE_PRODUCTION:-.env.production.local}"
+            DEPLOY_SERVICE_NAME="${DEPLOY_SERVICE_NAME_PRODUCTION:-web}"
+            IMAGE_TAG="production"
+          else
+            DEPLOY_PATH="${DEPLOY_PATH_TEST:-/var/www/webnhadat_test}"
+            DEPLOY_PROJECT_NAME="${DEPLOY_PROJECT_NAME_TEST:-webnhadat_test}"
+            DEPLOY_COMPOSE_FILE="${DEPLOY_COMPOSE_FILE_TEST:-docker-compose.yml}"
+            DEPLOY_ENV_FILE="${DEPLOY_ENV_FILE_TEST:-.env.test.local}"
+            DEPLOY_SERVICE_NAME="${DEPLOY_SERVICE_NAME_TEST:-web}"
+            IMAGE_TAG="latest"
+          fi
+
+          {
+            echo "deploy_path=$DEPLOY_PATH"
+            echo "deploy_project_name=$DEPLOY_PROJECT_NAME"
+            echo "deploy_compose_file=$DEPLOY_COMPOSE_FILE"
+            echo "deploy_env_file=$DEPLOY_ENV_FILE"
+            echo "deploy_service_name=$DEPLOY_SERVICE_NAME"
+            echo "image_tags<<EOF"
+            echo "${IMAGE_NAME}:$IMAGE_TAG"
+            echo "${IMAGE_NAME}:${GITHUB_SHA}"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+  docker:
+    needs: prepare
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push image
+        uses: docker/build-push-action@v6
+        with:
+          context: ${{ env.BUILD_CONTEXT }}
+          file: ${{ env.DOCKERFILE_PATH }}
+          platforms: linux/amd64
+          push: true
+          tags: ${{ needs.prepare.outputs.image_tags }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy:
+    needs:
+      - prepare
+      - docker
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Deploy to server
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            set -e
+            BRANCH_NAME="${{ github.ref_name }}"
+            DEPLOY_PATH="${{ needs.prepare.outputs.deploy_path }}"
+            
+            PROJECT_NAME="${{ needs.prepare.outputs.deploy_project_name }}"
+            COMPOSE_FILE="${{ needs.prepare.outputs.deploy_compose_file }}"
+            ENV_FILE="${{ needs.prepare.outputs.deploy_env_file }}"
+            SERVICE_NAME="${{ needs.prepare.outputs.deploy_service_name }}"
+            
+            mkdir -p "$DEPLOY_PATH"
+            cd "$DEPLOY_PATH"
+            
+            # Khởi tạo docker-compose.yml nếu chưa có trên server
+            if [ ! -f "$COMPOSE_FILE" ]; then
+              cat << 'EOF' > "$COMPOSE_FILE"
+            version: '3.8'
+            services:
+              web:
+                image: ${{ env.IMAGE_NAME }}:${{ github.sha }}
+                ports:
+                  - "3000:3000"
+                env_file:
+                  - ${ENV_FILE:-.env}
+                restart: always
+            EOF
+            else
+              # Cập nhật version image mới trong compose hiện tại
+              sed -i "s|image:.*|image: ${{ env.IMAGE_NAME }}:${{ github.sha }}|g" "$COMPOSE_FILE" || true
+            fi
+            
+            COMPOSE_CMD="docker compose -p $PROJECT_NAME -f $COMPOSE_FILE"
+            if [ -f "$ENV_FILE" ]; then
+              COMPOSE_CMD="$COMPOSE_CMD --env-file $ENV_FILE"
+            fi
+            
+            CONTAINER_NAME=$(sh -c "$COMPOSE_CMD config" | awk '$1 == "container_name:" { print $2; exit }')
+            if [ -z "$CONTAINER_NAME" ]; then
+                CONTAINER_NAME="${PROJECT_NAME}-${SERVICE_NAME}-1"
+            fi
+
+            if docker ps -a --format '{{.Names}}' | grep -Fxq "$CONTAINER_NAME"; then
+              docker rm -f "$CONTAINER_NAME"
+            fi
+
+            sh -c "$COMPOSE_CMD rm -fs $SERVICE_NAME" || true
+            
+            # Kéo image mới về và khởi động lại
+            sh -c "$COMPOSE_CMD pull $SERVICE_NAME" || true
+            sh -c "$COMPOSE_CMD up -d --force-recreate --no-deps $SERVICE_NAME"
+
+            # Kiểm tra trạng thái ứng dụng Next.js
+            NEXT_READY=false
+            for attempt in $(seq 1 12); do
+              if docker logs "$CONTAINER_NAME" --since 5m 2>&1 | grep -E -q "Listening on port|Ready in|started server"; then
+                NEXT_READY=true
+                break
+              fi
+              sleep 5
+            done
+
+            if [ "$NEXT_READY" != "true" ]; then
+              echo "Next.js did not start successfully." >&2
+              docker logs "$CONTAINER_NAME" --since 5m || true
+              exit 1
+            fi
+
+            docker image prune -f

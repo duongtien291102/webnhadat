@@ -1053,4 +1053,74 @@ export const projects: Project[] = [
       "/asset/anhweb/wabi-sabi/18-chung-cu-ct3c-nam-cuong/phuong-an-2/9.webp"
     ]
   },
+  {
+    id: "26-biet-thu-gamuda",
+    index: "24",
+    title: "BIỆT THỰ GAMUDA",
+    tagline: "Dự án • Biệt thự Gamuda",
+    description: "Chúng tôi tiến hành mềm hóa cấu trúc thô cứng của căn hộ bằng các hệ trần và hốc tường bo cong (Curved architecture). Toàn bộ bề mặt tường được phủ sơn hiệu ứng vi xi măng (Microcement) hoặc sơn đất sét với bề mặt gai nhẹ, hấp thụ ánh sáng một cách khuếch tán, triệt tiêu sự bóng bẩy. Nội thất ưu tiên các hình khối hữu cơ (Organic shapes), sofa vải thô tự nhiên (Bouclé) mang tông màu của đất và cát, tạo ra một ốc đảo tĩnh lặng tách biệt khỏi nhịp sống đô thị.",
+    bullets: [
+      "Không gian được tối ưu hóa để phù hợp với nhu cầu sinh hoạt của gia chủ.",
+      "Sử dụng tông màu và vật liệu đặc trưng của phong cách hiện đại.",
+      "Mỗi chi tiết nội thất đều được lựa chọn kỹ lưỡng để tạo nên tổng thể hài hòa."
+    ],
+    highlightsHeader: "THÔNG TIN DỰ ÁN:",
+    highlights: [
+      "Loại hình: Nhà đất, chung cư và thương mại",
+      "Địa điểm: Hà Nội",
+      "Diện tích: Liên hệ",
+      "Thiết kế & thi công: NOU.Design"
+    ],
+    location: "Hà Nội",
+    area: "Liên hệ",
+    style: "HIEN_DAI",
+    mainImage: "/asset/anhweb/hien-dai/26-biet-thu-gamuda/khach bep (7).webp",
+    gallery: [
+      "/asset/anhweb/hien-dai/26-biet-thu-gamuda/10.webp",
+      "/asset/anhweb/hien-dai/26-biet-thu-gamuda/11.webp",
+      "/asset/anhweb/hien-dai/26-biet-thu-gamuda/3.webp",
+      "/asset/anhweb/hien-dai/26-biet-thu-gamuda/4.webp",
+      "/asset/anhweb/hien-dai/26-biet-thu-gamuda/7.webp",
+      "/asset/anhweb/hien-dai/26-biet-thu-gamuda/khach bep (7).webp",
+      "/asset/anhweb/hien-dai/26-biet-thu-gamuda/p master (3).webp"
+    ]
+  },
+  {
+    id: "34-chung-cu-6-element-110m2",
+    index: "25",
+    title: "CHUNG CƯ 6 ELEMENT 110m²",
+    tagline: "Dự án • Diện tích: 110 m²",
+    description: "Phương án ứng dụng giải pháp bố trí không gian mở liên hoàn (Open-plan concept) giữa Khách - Bếp - Ăn nhằm nhân đôi cảm giác rộng rãi. Điểm chạm thị giác được xử lý bằng các vật liệu có tính phản chiếu cao như kính xám khói, nẹp kim loại titan và đá nung kết (Sintered Stone) vân lớn. Hệ thống ánh sáng được kịch bản hóa (Lighting scenario) với các dải LED âm trần định hình tuyến tính, biến căn hộ thành một không gian lounge sang trọng vào ban đêm.",
+    bullets: [
+      "Không gian được tối ưu hóa để phù hợp với nhu cầu sinh hoạt của gia chủ.",
+      "Sử dụng tông màu và vật liệu đặc trưng của phong cách hiện đại.",
+      "Mỗi chi tiết nội thất đều được lựa chọn kỹ lưỡng để tạo nên tổng thể hài hòa."
+    ],
+    highlightsHeader: "THÔNG TIN DỰ ÁN:",
+    highlights: [
+      "Loại hình: Nhà đất, chung cư và thương mại",
+      "Địa điểm: Hà Nội",
+      "Diện tích: 110 m²",
+      "Thiết kế & thi công: NOU.Design"
+    ],
+    location: "Hà Nội",
+    area: "110 m²",
+    style: "HIEN_DAI",
+    mainImage: "/asset/anhweb/hien-dai/34-chung-cu-6-element-110m2/A0205991-Enhanced-NR.webp",
+    gallery: [
+      "/asset/anhweb/hien-dai/34-chung-cu-6-element-110m2/A0205991-Enhanced-NR.webp",
+      "/asset/anhweb/hien-dai/34-chung-cu-6-element-110m2/A0206012-Enhanced-NR.webp",
+      "/asset/anhweb/hien-dai/34-chung-cu-6-element-110m2/A0206018-Enhanced-NR.webp",
+      "/asset/anhweb/hien-dai/34-chung-cu-6-element-110m2/A0206027-Enhanced-NR.webp",
+      "/asset/anhweb/hien-dai/34-chung-cu-6-element-110m2/A0206060-Enhanced-NR.webp",
+      "/asset/anhweb/hien-dai/34-chung-cu-6-element-110m2/A0206123-Enhanced-NR.webp",
+      "/asset/anhweb/hien-dai/34-chung-cu-6-element-110m2/A0206162-Enhanced-NR.webp",
+      "/asset/anhweb/hien-dai/34-chung-cu-6-element-110m2/A0206193-Enhanced-NR.webp",
+      "/asset/anhweb/hien-dai/34-chung-cu-6-element-110m2/A0206208-Enhanced-NR.webp",
+      "/asset/anhweb/hien-dai/34-chung-cu-6-element-110m2/A0206223-Enhanced-NR.webp",
+      "/asset/anhweb/hien-dai/34-chung-cu-6-element-110m2/A0206238-Enhanced-NR.webp",
+      "/asset/anhweb/hien-dai/34-chung-cu-6-element-110m2/A0206244-Enhanced-NR.webp",
+      "/asset/anhweb/hien-dai/34-chung-cu-6-element-110m2/A0206247-Enhanced-NR.webp"
+    ]
+  }
 ];
