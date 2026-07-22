@@ -16,6 +16,9 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+ARG DEPLOYMENT_VERSION
+ENV DEPLOYMENT_VERSION=$DEPLOYMENT_VERSION
+
 # Next.js telemetry is disabled during the build
 ENV NEXT_TELEMETRY_DISABLED=1
 
