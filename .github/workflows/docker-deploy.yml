@@ -117,6 +117,10 @@ jobs:
       - docker
     runs-on: ubuntu-latest
 
+    concurrency:
+      group: webnhadat-server-deploy
+      cancel-in-progress: false
+
     permissions:
       contents: read
 
@@ -174,13 +178,7 @@ jobs:
                 CONTAINER_NAME="${PROJECT_NAME}-${SERVICE_NAME}-1"
             fi
 
-            if docker ps -a --format '{{.Names}}' | grep -Fxq "$CONTAINER_NAME"; then
-              docker rm -f "$CONTAINER_NAME"
-            fi
-
-            sh -c "$COMPOSE_CMD rm -fs $SERVICE_NAME" || true
-            
-            # Kéo image mới về và khởi động lại
+            # Kéo đủ image trước khi thay container để website cũ vẫn hoạt động nếu pull lỗi.
             sh -c "$COMPOSE_CMD pull $SERVICE_NAME"
 
             # Thu hồi cổng production từ container test cũ của cấu hình trước đây.
