@@ -1,65 +1,158 @@
 "use client";
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { X, Send, CheckCircle2, Sliders, Home, Layers } from 'lucide-react';
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
+import { X, Send, CheckCircle2, Layers } from 'lucide-react';
 
 interface ContactModalProps {
   isOpen: boolean;
   onClose: () => void;
   initialMaterial?: string;
+  initialStyle?: string;
+  initialArea?: number | string;
 }
 
-export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: ContactModalProps) {
+export default function ContactModal({
+  isOpen,
+  onClose,
+  initialMaterial = '',
+  initialStyle = '',
+  initialArea = '',
+}: ContactModalProps) {
+  const reduceMotion = useReducedMotion();
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [area, setArea] = useState<string>('');
   const [location, setLocation] = useState('');
-  const [material, setMaterial] = useState(initialMaterial || 'nordic-oak');
-  const [style, setStyle] = useState('minimalist');
+  const [material, setMaterial] = useState(initialMaterial);
+  const [style, setStyle] = useState(initialStyle);
   const [message, setMessage] = useState('');
+  const [website, setWebsite] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+  const dialogRef = React.useRef<HTMLDivElement>(null);
+  const requestControllerRef = React.useRef<AbortController | null>(null);
 
-  // Sync initial material if changed
+  // Reset every modal session so a previous success/error cannot leak into the next one.
   React.useEffect(() => {
-    if (initialMaterial) {
+    if (isOpen) {
       setMaterial(initialMaterial);
+      setStyle(initialStyle);
+      setArea(initialArea ? String(initialArea) : '');
+      setIsSuccess(false);
+      setSubmitError('');
+      return;
     }
-  }, [initialMaterial]);
+
+    requestControllerRef.current?.abort();
+    requestControllerRef.current = null;
+    setName('');
+    setPhone('');
+    setArea('');
+    setLocation('');
+    setMaterial('');
+    setStyle('');
+    setMessage('');
+    setWebsite('');
+    setIsSubmitting(false);
+    setIsSuccess(false);
+    setSubmitError('');
+  }, [initialArea, initialMaterial, initialStyle, isOpen]);
+
+  React.useEffect(() => {
+    if (!isOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    const returnFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    document.body.style.overflow = 'hidden';
+    const focusFrame = requestAnimationFrame(() => dialogRef.current?.focus());
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose();
+        return;
+      }
+      if (event.key !== 'Tab' || !dialogRef.current) return;
+
+      const focusable = Array.from(dialogRef.current.querySelectorAll<HTMLElement>('button, input, select, textarea, a[href], [tabindex]:not([tabindex="-1"])'))
+        .filter((element) => !element.hasAttribute('disabled'));
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      cancelAnimationFrame(focusFrame);
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = previousOverflow;
+      returnFocus?.focus();
+    };
+  }, [isOpen, onClose]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !phone || !area || !location) return;
+    if (!name || !phone || !area || !location) {
+      setSubmitError('Vui lòng điền đầy đủ các trường bắt buộc.');
+      return;
+    }
 
     setIsSubmitting(true);
+    setSubmitError('');
+    const controller = new AbortController();
+    requestControllerRef.current = controller;
+    const timeout = window.setTimeout(() => controller.abort(), 20_000);
 
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, phone, area, location, message }),
+        cache: 'no-store',
+        signal: controller.signal,
+        body: JSON.stringify({
+          name,
+          phone: phone.replace(/\s+/g, ''),
+          area,
+          location,
+          material,
+          style,
+          message,
+          source: window.location.pathname,
+          website,
+        }),
       });
 
+      const result = await res.json().catch(() => ({})) as { error?: string; success?: boolean };
       if (!res.ok) {
-        throw new Error('Lỗi gửi thông tin');
+        throw new Error(result.error || 'Chưa thể gửi thông tin.');
       }
 
       setIsSuccess(true);
     } catch (error) {
       console.error('Lỗi khi submit form:', error);
-      alert('Đã xảy ra lỗi khi gửi yêu cầu. Vui lòng thử lại sau.');
+      setSubmitError(
+        error instanceof DOMException && error.name === 'AbortError'
+          ? 'Kết nối mất quá nhiều thời gian. Vui lòng thử lại.'
+          : error instanceof Error
+            ? error.message
+            : 'Chưa thể gửi yêu cầu. Vui lòng kiểm tra kết nối và thử lại.',
+      );
     } finally {
+      window.clearTimeout(timeout);
+      if (requestControllerRef.current === controller) requestControllerRef.current = null;
       setIsSubmitting(false);
     }
   };
 
   const resetForm = () => {
-    setName('');
-    setPhone('');
-    setArea('');
-    setLocation('');
-    setMessage('');
-    setIsSuccess(false);
     onClose();
   };
 
@@ -69,7 +162,7 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
           {/* Backdrop */}
           <motion.div
-            initial={{ opacity: 0 }}
+            initial={reduceMotion ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
@@ -78,7 +171,12 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
 
           {/* Modal Content */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            ref={dialogRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="contact-dialog-title"
+            tabIndex={-1}
+            initial={reduceMotion ? false : { opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
@@ -88,7 +186,7 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
             <div className="p-6 border-b border-neutral-200 dark:border-neutral-800 flex justify-between items-center bg-[#f7f5f0] dark:bg-[#1a1a1a]">
               <div>
                 <span className="mono-tag text-xs text-neutral-500 dark:text-neutral-400 uppercase">NOU.Design</span>
-                <h3 className="text-2xl font-serif text-neutral-900 dark:text-neutral-100 font-medium">Để lại thông tin để chúng mình tư vấn nha</h3>
+                <h3 id="contact-dialog-title" className="text-2xl font-serif text-neutral-900 dark:text-neutral-100 font-medium">Để lại thông tin để chúng mình tư vấn nha</h3>
               </div>
               <button
                 onClick={onClose}
@@ -102,16 +200,39 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
 
             {/* Content Container */}
             <div className="flex-1 overflow-y-auto p-6 space-y-8">
+              <AnimatePresence mode="wait" initial={false}>
               {!isSuccess ? (
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <motion.form
+                  key="contact-form"
+                  onSubmit={handleSubmit}
+                  initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  className="space-y-6"
+                >
                   {/* Client Info */}
                   <div className="space-y-4">
+
+                    <div className="absolute -left-[9999px] h-px w-px overflow-hidden" aria-hidden="true">
+                      <label htmlFor="contact-website">Website</label>
+                      <input
+                        id="contact-website"
+                        type="text"
+                        tabIndex={-1}
+                        autoComplete="off"
+                        value={website}
+                        onChange={(event) => setWebsite(event.target.value)}
+                      />
+                    </div>
 
                     <div>
                       <label className="block text-xs font-medium text-neutral-600 dark:text-neutral-300 mb-1">Họ và tên của bạn *</label>
                       <input
                         type="text"
                         required
+                        minLength={2}
+                        maxLength={100}
+                        autoComplete="name"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder="Nguyễn Văn A"
@@ -125,6 +246,9 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
                         type="tel"
                         required
                         pattern="0(3|5|7|8|9)[0-9]{8}"
+                        maxLength={10}
+                        inputMode="numeric"
+                        autoComplete="tel"
                         title="Vui lòng nhập đúng định dạng số điện thoại Việt Nam (10 số, bắt đầu bằng 03, 05, 07, 08, hoặc 09)"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
@@ -139,6 +263,9 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
                         <input
                           type="number"
                           required
+                          min={1}
+                          max={100000}
+                          step="any"
                           value={area}
                           onChange={(e) => setArea(e.target.value)}
                           placeholder="Ví dụ: 80"
@@ -150,6 +277,9 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
                         <input
                           type="text"
                           required
+                          minLength={2}
+                          maxLength={120}
+                          autoComplete="address-level1"
                           value={location}
                           onChange={(e) => setLocation(e.target.value)}
                           placeholder="Hà Nội, TP.HCM..."
@@ -170,6 +300,7 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
                       <label className="block text-xs font-medium text-neutral-600 dark:text-neutral-300 mb-1">Mô tả định hướng thiết kế (tùy chọn)</label>
                       <textarea
                         rows={3}
+                        maxLength={2000}
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
                         placeholder="Hãy chia sẻ thêm về những mong muốn và ý tưởng cho ngôi nhà tương lai của bạn..."
@@ -182,6 +313,7 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
                   <button
                     type="submit"
                     disabled={isSubmitting}
+                    aria-busy={isSubmitting}
                     className="w-full bg-neutral-950 dark:bg-white text-white dark:text-black hover:bg-neutral-850 dark:hover:bg-neutral-200 py-4 px-6 rounded-md font-medium text-sm flex items-center justify-center gap-2 transition-all cursor-pointer shadow-md shadow-neutral-950/10 active:scale-98 disabled:opacity-55"
                     id="submit-consult-btn"
                   >
@@ -197,11 +329,26 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
                       </>
                     )}
                   </button>
-                </form>
+                  <AnimatePresence initial={false}>
+                    {submitError && (
+                      <motion.p
+                        role="alert"
+                        initial={reduceMotion ? false : { opacity: 0, y: -6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -6 }}
+                        className="text-sm text-red-700 dark:text-red-300"
+                      >
+                        {submitError}
+                      </motion.p>
+                    )}
+                  </AnimatePresence>
+                </motion.form>
               ) : (
                 <motion.div
-                  initial={{ scale: 0.9, opacity: 0 }}
+                  key="contact-success"
+                  initial={reduceMotion ? false : { scale: 0.9, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.96, opacity: 0 }}
                   className="h-full flex flex-col items-center justify-center text-center p-8 space-y-4"
                 >
                   <div className="w-16 h-16 bg-neutral-900 text-[#e9dcce] rounded-full flex items-center justify-center shadow-lg">
@@ -223,6 +370,7 @@ export default function ContactModal({ isOpen, onClose, initialMaterial = "" }: 
                   </button>
                 </motion.div>
               )}
+              </AnimatePresence>
             </div>
 
             {/* Footer */}

@@ -1,44 +1,72 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Document, Schema } from 'mongoose';
 
 export interface IContact extends Document {
   name: string;
   phone: string;
-  area?: string;
-  location?: string;
+  area: string;
+  location: string;
+  material?: string;
+  style?: string;
   message?: string;
+  source?: string;
+  emailSent: boolean;
+  emailStatus: 'pending' | 'sent' | 'failed' | 'skipped';
+  emailErrorCode?: string;
+  emailLastAttemptAt?: Date;
+  ipHash?: string;
+  submissionKey?: string;
   createdAt: Date;
+  updatedAt: Date;
 }
 
-const ContactSchema: Schema = new Schema({
+const ContactSchema = new Schema<IContact>({
   name: {
     type: String,
-    required: [true, 'Vui lòng nhập họ và tên'],
+    required: true,
     trim: true,
+    maxlength: 100,
   },
   phone: {
     type: String,
-    required: [true, 'Vui lòng nhập số điện thoại'],
-    match: [/^0(3|5|7|8|9)[0-9]{8}$/, 'Số điện thoại không hợp lệ'],
+    required: true,
+    match: /^0(3|5|7|8|9)[0-9]{8}$/,
     trim: true,
+    index: true,
   },
   area: {
     type: String,
-    required: [true, 'Vui lòng nhập diện tích'],
+    required: true,
     trim: true,
+    maxlength: 20,
   },
   location: {
     type: String,
-    required: [true, 'Vui lòng nhập tỉnh/thành phố'],
+    required: true,
     trim: true,
+    maxlength: 120,
   },
-  message: {
+  material: { type: String, trim: true, maxlength: 80 },
+  style: { type: String, trim: true, maxlength: 80 },
+  message: { type: String, trim: true, maxlength: 2_000 },
+  source: { type: String, trim: true, maxlength: 200 },
+  emailSent: { type: Boolean, default: false },
+  emailStatus: {
     type: String,
-    trim: true,
+    enum: ['pending', 'sent', 'failed', 'skipped'],
+    default: 'pending',
   },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
+  emailErrorCode: { type: String, maxlength: 80 },
+  emailLastAttemptAt: Date,
+  ipHash: { type: String, select: false, index: true },
+  submissionKey: { type: String, select: false, unique: true, sparse: true },
+}, {
+  timestamps: true,
+  versionKey: false,
 });
+
+ContactSchema.index({ ipHash: 1, createdAt: -1 });
+ContactSchema.index({ phone: 1, createdAt: -1 });
+ContactSchema.index({ createdAt: -1 });
+ContactSchema.index({ emailStatus: 1, createdAt: -1 });
 
 export default mongoose.models.Contact || mongoose.model<IContact>('Contact', ContactSchema);

@@ -36,3 +36,10 @@ export interface PhilosophyCard {
   description: string;
   image: string;
 }
+
+export const styleLabels: Record<string, string> = {
+  'HIEN_DAI': 'Hiện đại',
+  'JAPANDI': 'Japandi',
+  'WABISABI': 'Wabi-sabi',
+  'THUONG_MAI': 'Thương mại'
+};

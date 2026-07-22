@@ -4,17 +4,42 @@ import { useEffect } from "react";
 
 export default function ProtectionWrapper({ children }: { children: React.ReactNode }) {
   useEffect(() => {
+    const isCopyAllowedTarget = (target: EventTarget | null) =>
+      target instanceof Element && Boolean(target.closest('[data-allow-copy="true"]'));
+
+    const isCopyAllowedSelection = () => {
+      const selection = window.getSelection();
+      if (!selection || selection.isCollapsed || selection.rangeCount === 0) return false;
+
+      const commonAncestor = selection.getRangeAt(0).commonAncestorContainer;
+      const element =
+        commonAncestor.nodeType === Node.ELEMENT_NODE
+          ? (commonAncestor as Element)
+          : commonAncestor.parentElement;
+
+      return Boolean(element?.closest('[data-allow-copy="true"]'));
+    };
+
     // 1. Chống click chuột phải (Context menu)
     const handleContextMenu = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (target.tagName === "INPUT" || target.tagName === "TEXTAREA") return;
+      if (
+        target.tagName === "INPUT" ||
+        target.tagName === "TEXTAREA" ||
+        isCopyAllowedTarget(e.target)
+      ) return;
       e.preventDefault();
     };
 
     // 2. Chống copy và cắt (Copy, Cut)
     const handleCopyCut = (e: ClipboardEvent) => {
       const target = e.target as HTMLElement;
-      if (target.tagName === "INPUT" || target.tagName === "TEXTAREA") return;
+      if (
+        target.tagName === "INPUT" ||
+        target.tagName === "TEXTAREA" ||
+        isCopyAllowedTarget(e.target) ||
+        isCopyAllowedSelection()
+      ) return;
       e.preventDefault();
     };
 

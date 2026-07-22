@@ -2,12 +2,10 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: 'standalone',
-  typescript: {
-    ignoreBuildErrors: true,
-  },
+  deploymentId: process.env.DEPLOYMENT_VERSION,
+  poweredByHeader: false,
   images: {
-    unoptimized: true,
-    formats: ['image/avif', 'image/webp'],
+    formats: ['image/webp'],
     minimumCacheTTL: 31536000,
     remotePatterns: [
       {

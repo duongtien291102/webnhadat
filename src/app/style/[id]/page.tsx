@@ -9,7 +9,8 @@ import Footer from '../../../components/Footer';
 import ContactModal from '../../../components/ContactModal';
 import ProjectDetailModal from '../../../components/ProjectDetailModal';
 import { projects } from '../../../lib/projectsData';
-import { Project } from '../../../types';
+import { getProjectCardImage } from '../../../lib/projectImages';
+import { Project, styleLabels } from '../../../types';
 
 function CustomSelect({ label, value, options, onChange }: { label: string, value: string, options: {value: string, label: string}[], onChange: (val: string) => void }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -47,7 +48,7 @@ function CustomSelect({ label, value, options, onChange }: { label: string, valu
               <button
                 key={opt.value}
                 onClick={() => { onChange(opt.value); setIsOpen(false); }}
-                className={`w-full text-left px-4 py-3 text-sm transition-colors cursor-pointer ${value === opt.value ? 'bg-neutral-900 text-white' : 'text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900 dark:text-neutral-100'}`}
+                className={`w-full text-left px-4 py-3 text-sm transition-colors cursor-pointer ${value === opt.value ? 'bg-neutral-900 text-white dark:bg-white dark:text-neutral-900' : 'text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-white'}`}
               >
                 {opt.label}
               </button>
@@ -97,7 +98,7 @@ export default function StyleGalleryPage() {
         {/* Header and Filters */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 border-b border-neutral-100 dark:border-neutral-800 pb-12">
           <div className="space-y-4">
-            <span className="text-[10px] font-sans font-bold tracking-[0.2em] text-neutral-400 dark:text-neutral-300 uppercase">Bộ Sưu Tập</span>
+            <span className="text-[10px] font-sans font-bold tracking-[0.2em] text-neutral-600 dark:text-neutral-300 uppercase">Bộ Sưu Tập</span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif text-neutral-900 dark:text-neutral-100 font-normal leading-tight tracking-tight">
               {pageTitle}
             </h1>
@@ -125,12 +126,13 @@ export default function StyleGalleryPage() {
                 {/* Image Container */}
                 <div className="relative aspect-[4/3] overflow-hidden mb-5 rounded-sm bg-neutral-100 shadow-md">
                   <Image 
-                    src={project.mainImage} 
+                    src={getProjectCardImage(project)}
                     alt={project.title} 
                     fill
+                    unoptimized
+                    sizes="(max-width: 767px) 100vw, 50vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-1000 filter brightness-95 group-hover:brightness-90"
-                    referrerPolicy="no-referrer"
-                  />
+                    referrerPolicy="no-referrer" />
                   
                   {/* Minimalist Hover Indicator overlay */}
                   <div className="absolute inset-0 bg-neutral-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
@@ -143,10 +145,10 @@ export default function StyleGalleryPage() {
                 {/* Caption / Project Info */}
                 <div className="flex justify-between items-start pt-1 font-sans">
                   <div className="space-y-1">
-                    <h4 className="text-base font-serif font-medium text-neutral-900 dark:text-neutral-100 group-hover:text-neutral-700 transition-colors">
+                    <h2 className="text-base font-serif font-medium text-neutral-900 dark:text-neutral-100 group-hover:text-neutral-700 transition-colors">
                       {project.title}
-                    </h4>
-                    <p className="text-xs text-neutral-400 dark:text-neutral-300 leading-none">
+                    </h2>
+                    <p className="text-xs text-neutral-600 dark:text-neutral-300 leading-none">
                       {project.location} • {project.area}
                     </p>
                   </div>
@@ -157,9 +159,9 @@ export default function StyleGalleryPage() {
                         setFilterStyle(project.style);
                         window.scrollTo({ top: 0, behavior: 'smooth' });
                       }}
-                      className="inline-block text-[10px] font-sans font-medium tracking-widest text-white bg-neutral-900 hover:bg-black px-3 py-1.5 uppercase rounded-[2px] transition-colors cursor-pointer"
+                      className="inline-block text-[10px] font-sans font-medium tracking-widest text-white bg-neutral-900 dark:bg-white dark:text-neutral-900 hover:bg-black dark:hover:bg-neutral-200 px-3 py-1.5 uppercase rounded-[2px] transition-colors cursor-pointer"
                     >
-                      {project.style}
+                      {styleLabels[project.style] || project.style}
                     </button>
                   </div>
                 </div>
@@ -186,6 +188,7 @@ export default function StyleGalleryPage() {
         isOpen={isContactOpen}
         onClose={() => setIsContactOpen(false)}
         initialMaterial=""
+        initialStyle={filterStyle === 'ALL' ? '' : filterStyle}
       />
 
       {/* Real Project details slideshow modal */}

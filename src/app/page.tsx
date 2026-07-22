@@ -12,20 +12,28 @@ import Footer from '../components/Footer';
 export default function App() {
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [selectedMaterial, setSelectedMaterial] = useState('');
+  const [selectedStyle, setSelectedStyle] = useState('');
+  const [selectedArea, setSelectedArea] = useState<number | ''>('');
 
   const handleOpenContactWithMaterial = (materialId: string) => {
     setSelectedMaterial(materialId);
+    setSelectedStyle('');
+    setSelectedArea('');
     setIsContactOpen(true);
   };
 
   const handleOpenContactWithBudget = (details: { area: number; style: string; material: string }) => {
     // We could pre-configure other things if needed. For now, set material preference
     setSelectedMaterial(details.material);
+    setSelectedStyle(details.style);
+    setSelectedArea(details.area);
     setIsContactOpen(true);
   };
 
   const handleOpenGeneralContact = () => {
     setSelectedMaterial('');
+    setSelectedStyle('');
+    setSelectedArea('');
     setIsContactOpen(true);
   };
 
@@ -60,6 +68,8 @@ export default function App() {
         isOpen={isContactOpen}
         onClose={() => setIsContactOpen(false)}
         initialMaterial={selectedMaterial}
+        initialStyle={selectedStyle}
+        initialArea={selectedArea}
       />
     </div>
   );

@@ -1,9 +1,10 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { AlignRight, X } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import ThemeToggle from './ThemeToggle';
 
 interface NavbarProps {
@@ -14,18 +15,22 @@ interface NavbarProps {
 export default function Navbar({ onOpenContact, alwaysSolid = false }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const scrollSentinelRef = useRef<HTMLDivElement>(null);
+  const reduceMotion = useReducedMotion();
+  const pathname = usePathname();
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 80) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    const sentinel = scrollSentinelRef.current;
+    if (!sentinel || alwaysSolid) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsScrolled(!entry.isIntersecting),
+      { threshold: 0 }
+    );
+
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [alwaysSolid]);
 
   const navLinks = [
     { name: 'TRANG CHỦ', href: '/' },
@@ -37,12 +42,15 @@ export default function Navbar({ onOpenContact, alwaysSolid = false }: NavbarPro
 
   return (
     <>
+      <div ref={scrollSentinelRef} className="pointer-events-none absolute top-20 h-px w-px" aria-hidden="true" />
       <header
-        className={`fixed top-0 left-0 w-full z-40 transition-all duration-300 ${isScrolledActive
+        className={`select-text fixed top-0 left-0 w-full z-40 transition-[background-color,border-color,box-shadow,padding,backdrop-filter] duration-300 ease-out ${isScrolledActive
           ? 'bg-background/95 backdrop-blur-md py-4 shadow-sm border-b border-neutral-100 dark:border-neutral-800'
           : 'bg-gradient-to-b from-black/50 to-transparent py-6 text-white'
           }`}
         id="app-navbar"
+        data-allow-copy="true"
+        style={{ WebkitUserSelect: 'text', userSelect: 'text' }}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
           {/* Logo */}
@@ -56,42 +64,60 @@ export default function Navbar({ onOpenContact, alwaysSolid = false }: NavbarPro
               }
             }}
           >
-            <div className="relative w-10 h-10 transition-transform hover:scale-105">
+            <div className="relative w-12 h-12 transition-transform hover:scale-105">
               <Image
                 src="/logoNOU.jpg"
                 alt="NOU.Design Logo"
                 fill
-                className={`object-contain transition-all duration-300 ${isScrolledActive ? 'invert mix-blend-multiply dark:invert-0 dark:mix-blend-screen' : 'mix-blend-screen'}`}
+                className={`object-contain scale-[1.2] transition-all duration-300 ${isScrolledActive ? 'invert mix-blend-multiply dark:invert-0 dark:mix-blend-screen' : 'mix-blend-screen'}`}
               />
             </div>
             <div>
-              <h1
+              <span
                 className={`text-sm tracking-[0.25em] font-medium transition-colors ${isScrolledActive ? 'text-neutral-900 dark:text-neutral-100' : 'text-white'
                   }`}
               >
                 NOU.Design
-              </h1>
+              </span>
             </div>
           </Link>
 
           {/* Desktop Nav Links */}
           <nav className="hidden lg:flex items-center gap-10">
-            {navLinks.map((link) => (
-              <div key={link.name} className="relative group py-2">
-                <Link
-                  href={link.href}
-                  onClick={() => {
-                    if (window.location.pathname === link.href) {
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }
-                  }}
-                  className={`text-xs tracking-widest font-semibold hover:opacity-100 transition-opacity relative py-2 ${isScrolledActive ? 'text-neutral-700 dark:text-neutral-300 hover:text-black dark:hover:text-white opacity-80' : 'text-[#f5f1ea] hover:text-white opacity-85'
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
+              
+              return (
+                <div key={link.name} className="relative group py-2">
+                  <Link
+                    href={link.href}
+                    onClick={() => {
+                      if (pathname === link.href) {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }
+                    }}
+                    className={`text-xs tracking-widest font-semibold hover:opacity-100 transition-all relative py-2 block ${
+                      isScrolledActive
+                        ? isActive
+                          ? 'text-black dark:text-white opacity-100'
+                          : 'text-neutral-700 dark:text-neutral-300 hover:text-black dark:hover:text-white opacity-80'
+                        : isActive
+                          ? 'text-white opacity-100'
+                          : 'text-[#f5f1ea] hover:text-white opacity-85'
                     }`}
-                >
-                  {link.name}
-                </Link>
-              </div>
-            ))}
+                  >
+                    {link.name}
+                    <span 
+                      className={`absolute bottom-0 left-0 h-[1px] transition-all duration-300 ${
+                        isActive ? 'w-full' : 'w-0 group-hover:w-full'
+                      } ${
+                        isScrolledActive ? 'bg-black dark:bg-white' : 'bg-white'
+                      }`} 
+                    />
+                  </Link>
+                </div>
+              );
+            })}
           </nav>
 
           {/* Contact Button */}
@@ -132,38 +158,54 @@ export default function Navbar({ onOpenContact, alwaysSolid = false }: NavbarPro
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
+            initial={reduceMotion ? false : { opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-30 pt-24 pb-12 px-6 bg-[#f7f5f0] dark:bg-[#1a1a1a] flex flex-col justify-between overflow-y-auto"
+            className="select-text fixed inset-0 z-30 pt-24 pb-12 px-6 bg-[#f7f5f0] dark:bg-[#1a1a1a] flex flex-col justify-between overflow-y-auto"
             id="mobile-navigation-overlay"
+            data-allow-copy="true"
+            style={{ WebkitUserSelect: 'text', userSelect: 'text' }}
           >
             <div className="flex flex-col space-y-6 text-center pt-8">
-              {navLinks.map((link, idx) => (
-                <div key={link.name} className="flex flex-col border-b border-neutral-200 dark:border-neutral-800/50">
-                  <Link
-                    href={link.href}
-                    onClick={() => {
-                      setIsMobileMenuOpen(false);
-                      if (window.location.pathname === link.href) {
-                        setTimeout(() => {
-                          window.scrollTo({ top: 0, behavior: 'smooth' });
-                        }, 100);
-                      }
-                    }}
-                    className="text-lg tracking-widest font-serif font-medium text-neutral-800 dark:text-neutral-200 hover:text-black py-3"
-                  >
-                    <motion.span
-                      initial={{ opacity: 0, y: 15 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: idx * 0.05 }}
+              {navLinks.map((link, idx) => {
+                const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
+                return (
+                  <div key={link.name} className="flex flex-col border-b border-neutral-200 dark:border-neutral-800/50 relative overflow-hidden group">
+                    <Link
+                      href={link.href}
+                      onClick={() => {
+                        setIsMobileMenuOpen(false);
+                        if (pathname === link.href) {
+                          setTimeout(() => {
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }, 100);
+                        }
+                      }}
+                      className={`text-lg tracking-widest font-serif font-medium py-3 transition-colors ${
+                        isActive 
+                          ? 'text-black dark:text-white' 
+                          : 'text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white'
+                      }`}
                     >
-                      {link.name}
-                    </motion.span>
-                  </Link>
-                </div>
-              ))}
+                      <motion.span
+                        initial={reduceMotion ? false : { opacity: 0, y: 15 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: idx * 0.05 }}
+                        className="relative z-10"
+                      >
+                        {link.name}
+                      </motion.span>
+                      {isActive && (
+                        <motion.div
+                          layoutId="mobile-active-nav-indicator"
+                          className="absolute bottom-0 left-1/4 right-1/4 h-[2px] bg-black dark:bg-white"
+                        />
+                      )}
+                    </Link>
+                  </div>
+                );
+              })}
             </div>
 
             <div className="flex flex-col gap-4 mt-12 items-center">
@@ -173,7 +215,7 @@ export default function Navbar({ onOpenContact, alwaysSolid = false }: NavbarPro
                   setIsMobileMenuOpen(false);
                   onOpenContact();
                 }}
-                className="w-full max-w-sm bg-neutral-900 text-white font-semibold py-4 text-xs tracking-widest hover:bg-neutral-850 transition-all cursor-pointer shadow-lg shadow-neutral-950/10"
+                className="w-full max-w-sm bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 font-semibold py-4 text-xs tracking-widest hover:bg-neutral-850 dark:hover:bg-neutral-200 transition-all cursor-pointer shadow-lg shadow-neutral-950/10"
                 id="mobile-contact-btn"
               >
                 LIÊN HỆ THỦ CÔNG

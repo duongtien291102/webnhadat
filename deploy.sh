@@ -1,47 +1,156 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# Nhận tham số môi trường từ người dùng (test hoặc prod)
-ENV=$1
+set -Eeuo pipefail
 
-if [ "$ENV" != "prod" ] && [ "$ENV" != "test" ]; then
-    echo "❌ Lỗi: Vui lòng cung cấp môi trường (test hoặc prod)!"
-    echo "Ví dụ: ./deploy.sh test"
+APP_NAME="webnhadat"
+BRANCH="develop"
+HEALTH_URL="http://127.0.0.1:3000/"
+PREVIOUS_COMMIT=""
+ROLLING_BACK=false
+APP_ROOT=$(pwd -P)
+RELEASE_ROOT="${APP_ROOT}/.deploy"
+CURRENT_RELEASE="${RELEASE_ROOT}/current"
+PREVIOUS_RELEASE="${RELEASE_ROOT}/previous"
+NEXT_RELEASE="${RELEASE_ROOT}/next"
+RELEASE_ACTIVATED=false
+ENV_FILE="${APP_ROOT}/.env.production.local"
+DEPLOY_LOCK_FILE="${TMPDIR:-/tmp}/${APP_NAME}.deploy.lock"
+
+log() {
+  printf '\n%s\n' "$1"
+}
+
+acquire_deploy_lock() {
+  exec 9>"$DEPLOY_LOCK_FILE"
+  if ! flock -n 9; then
+    log "❌ Một tiến trình deploy khác đang chạy. Hãy đợi tiến trình đó hoàn tất rồi thử lại."
     exit 1
+  fi
+}
+
+load_runtime_environment() {
+  if [ -f "$ENV_FILE" ]; then
+    set -a
+    # shellcheck disable=SC1090
+    . "$ENV_FILE"
+    set +a
+  else
+    log "⚠️ Chưa có ${ENV_FILE}; email và các dịch vụ cần biến môi trường có thể không hoạt động."
+  fi
+}
+
+prepare_release() {
+  test -f .next/standalone/server.js
+
+  rm -rf "$NEXT_RELEASE"
+  mkdir -p "$NEXT_RELEASE/public" "$NEXT_RELEASE/.next/static"
+  cp -a .next/standalone/. "$NEXT_RELEASE/"
+  cp -a public/. "$NEXT_RELEASE/public/"
+  cp -a .next/static/. "$NEXT_RELEASE/.next/static/"
+}
+
+start_application() {
+  APP_RELEASE_PATH="$CURRENT_RELEASE" pm2 start ecosystem.config.js --update-env
+  pm2 save
+}
+
+activate_release() {
+  pm2 delete "$APP_NAME" > /dev/null 2>&1 || true
+  rm -rf "$PREVIOUS_RELEASE"
+
+  if [ -d "$CURRENT_RELEASE" ]; then
+    mv "$CURRENT_RELEASE" "$PREVIOUS_RELEASE"
+  fi
+
+  mv "$NEXT_RELEASE" "$CURRENT_RELEASE"
+  RELEASE_ACTIVATED=true
+  start_application
+}
+
+wait_for_health() {
+  local attempt
+  for attempt in {1..12}; do
+    if curl --fail --silent --show-error --max-time 5 "$HEALTH_URL" > /dev/null; then
+      return 0
+    fi
+    sleep 2
+  done
+  return 1
+}
+
+rollback() {
+  local exit_code=${1:-1}
+  local line_number=${2:-unknown}
+
+  if [ "$ROLLING_BACK" = true ] || [ -z "$PREVIOUS_COMMIT" ]; then
+    exit "$exit_code"
+  fi
+
+  ROLLING_BACK=true
+  trap - ERR
+  log "❌ Deploy lỗi tại dòng ${line_number}. Đang rollback về ${PREVIOUS_COMMIT}..."
+
+  rm -rf "$NEXT_RELEASE"
+
+  if [ "$RELEASE_ACTIVATED" = true ] && [ -d "$PREVIOUS_RELEASE" ]; then
+    pm2 delete "$APP_NAME" > /dev/null 2>&1 || true
+    rm -rf "$CURRENT_RELEASE"
+    mv "$PREVIOUS_RELEASE" "$CURRENT_RELEASE"
+    start_application
+  fi
+
+  git reset --hard "$PREVIOUS_COMMIT"
+
+  if wait_for_health; then
+    log "✅ Rollback thành công. Phiên bản cũ đang hoạt động bình thường."
+  else
+    log "❌ Rollback không vượt qua health check. Kiểm tra: pm2 logs ${APP_NAME}"
+  fi
+
+  exit "$exit_code"
+}
+
+trap 'rollback $? $LINENO' ERR
+
+acquire_deploy_lock
+
+log "🚀 Bắt đầu deploy..."
+
+if [ ! -f package.json ] || [ ! -d .git ]; then
+  log "❌ Hãy chạy script trong thư mục gốc của dự án."
+  exit 1
 fi
 
-echo "🚀 Bắt đầu quá trình Deploy cho môi trường: $ENV..."
-
-# Thiết lập biến dựa theo môi trường
-if [ "$ENV" == "prod" ]; then
-    BRANCH="main"
-    APP_NAME="webnhadat-prod"
-else
-    BRANCH="test"  # Hoặc bạn có thể dùng nhánh 'dev'
-    APP_NAME="webnhadat-test"
+if ! git diff-index --quiet HEAD --; then
+  log "❌ Máy chủ có thay đổi code chưa commit. Dừng deploy để tránh ghi đè dữ liệu."
+  git status --short
+  exit 1
 fi
 
-if [ ! -f "package.json" ]; then
-    echo "❌ Lỗi: Bạn đang không ở trong thư mục dự án (chưa thấy file package.json)!"
-    exit 1
-fi
+PREVIOUS_COMMIT=$(git rev-parse HEAD)
 
-echo "📦 1. Đang tải code mới nhất từ nhánh $BRANCH..."
-# git fetch origin
-# git checkout $BRANCH
-# git pull origin $BRANCH
-# Tạm thời dùng pull thông thường nếu bạn test trên cùng 1 máy
-git pull
+log "📦 1. Đồng bộ nhánh ${BRANCH}..."
+git fetch origin "$BRANCH"
+git checkout "$BRANCH"
+git merge --ff-only "origin/${BRANCH}"
 
-echo "📦 2. Đang cài đặt/cập nhật các thư viện..."
-npm install
+load_runtime_environment
+export NODE_ENV=production
 
-echo "🔨 3. Đang Build dự án Next.js..."
-npm run build
+log "📦 2. Cài dependency theo package-lock.json..."
+npm ci --include=dev
 
-echo "🔄 4. Khởi động lại ứng dụng với PM2 ($APP_NAME)..."
-pm2 restart $APP_NAME || pm2 start ecosystem.config.js --only $APP_NAME
+log "🔨 3. Type-check và build Next.js..."
+export DEPLOYMENT_VERSION
+DEPLOYMENT_VERSION=$(git rev-parse --short HEAD)
+NODE_OPTIONS="${NODE_OPTIONS:-} --max-old-space-size=${BUILD_NODE_HEAP_MB:-768}" npm run build
+prepare_release
 
-echo "✅ Đã lưu PM2 khởi động cùng hệ thống."
-pm2 save
+log "🔄 4. Kích hoạt bản standalone mới bằng PM2..."
+activate_release
 
-echo "🎉 DEPLOY $ENV THÀNH CÔNG! Website đã sẵn sàng."
+log "🩺 5. Kiểm tra ứng dụng..."
+wait_for_health
+
+trap - ERR
+log "🎉 DEPLOY THÀNH CÔNG! $(git rev-parse --short HEAD) đang phục vụ tại cổng 3000."

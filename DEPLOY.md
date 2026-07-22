@@ -1,4 +1,4 @@
-# HƯỚNG DẪN CẬP NHẬT CODE LÊN MÁY CHỦ (DEPLOY PROD)
+# HƯỚNG DẪN CẬP NHẬT CODE LÊN MÁY CHỦ MỚI (103.82.26.60)
 
 Mỗi khi bạn sửa code xong ở máy tính cá nhân và muốn đưa lên mạng, bạn chỉ cần làm theo đúng 2 bước sau:
 
@@ -11,16 +11,15 @@ git push origin develop
 ```
 
 ## Bước 2: Kéo code về máy chủ VPS
-Bạn mở PowerShell, đăng nhập vào máy chủ:
+Bạn mở PowerShell, đăng nhập vào máy chủ (sử dụng khóa bảo mật đã tạo, không cần nhập mật khẩu):
 ```bash
-ssh root@103.82.25.237
-```
-*(Nếu nó hỏi mật khẩu thì bạn copy và dán mã Token `ghp_...` hoặc mật khẩu máy chủ tùy vào việc bạn dùng kho Public hay Private nhé).*
-
-Sau khi vào được máy chủ (hiện `root@nouarchitects:~#`), bạn chỉ việc di chuyển vào thư mục code và chạy lệnh deploy:
-```bash
-cd webnhadat
-./deploy.sh prod
+ssh -i "$HOME/.ssh/noudesign_vps_2026" root@103.82.26.60
 ```
 
-Thế là xong! Bạn chỉ việc đợi khoảng 1 phút để máy tự động kéo code mới nhất từ Github về, build lại giao diện và F5 làm mới trang web. Trang web của bạn trên mạng sẽ ngay lập tức được cập nhật!
+Sau khi vào được máy chủ (hiện `root@ubuntu:~#`), bạn chỉ việc di chuyển vào thư mục code và chạy lệnh deploy:
+```bash
+cd /var/www/webnhadat
+bash ./deploy.sh
+```
+
+Thế là xong! Bạn chỉ việc đợi khoảng 1 phút để máy tự động kéo code mới nhất từ Github về, build lại giao diện và F5 làm mới trang web.

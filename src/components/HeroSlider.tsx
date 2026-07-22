@@ -1,7 +1,7 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { ChevronLeft, ChevronRight, ArrowRight, Play } from 'lucide-react';
 
 interface HeroSliderProps {
@@ -21,8 +21,8 @@ const slides: SlideData[] = [
   {
     id: 'oceanpark-haiau',
     title: 'BIỆT THỰ OCEANPARK',
-    tagline: 'Không gian sống được thiết kế với sự tinh tế và tiện nghi tối đa mang phong cách hiện đại.',
-    image: '/asset/anhweb/hiện đại/12. Biệt thự Oceanpark - Hải Âu 230m2/1.webp',
+    tagline: 'Không gian sống được thiết kế với sự tinh tế và tiện nghi tối đa, mang phong cách hiện đại cùng dấu ấn riêng đầy cuốn hút.',
+    image: '/asset/anhweb/hien-dai/12-biet-thu-oceanpark-hai-au-230m2/1.webp',
     meta: 'BIỆT THỰ • 230 M² • HÀ NỘI',
     href: '/project/12-biet-thu-oceanpark-hai-au-230m2',
   },
@@ -30,31 +30,31 @@ const slides: SlideData[] = [
     id: 'parkhome',
     title: 'CHUNG CƯ PARKHOME',
     tagline: 'Sự dung hòa hoàn hảo giữa phong cách Japandi ấm cúng và sự tối giản thanh lịch.',
-    image: '/asset/anhweb/japandi/4. Chung cư Parkhome - 145m2/1.webp',
+    image: '/asset/anhweb/japandi/4-chung-cu-parkhome-145m2/1.webp',
     meta: 'CHUNG CƯ • 145 M² • HÀ NỘI',
     href: '/project/4-chung-cu-parkhome-145m2',
   },
   {
-    id: 'oceanpark-r1',
-    title: 'OCEANPARK R1',
-    tagline: 'Tối ưu hóa công năng sinh hoạt trong một tổng thể hài hòa, nhẹ nhàng và ngập tràn ánh sáng.',
-    image: '/asset/anhweb/hiện đại/13. Oceanpark R1 87m2/1.webp',
-    meta: 'CHUNG CƯ • 87 M² • HÀ NỘI',
-    href: '/project/13-oceanpark-r1-87m2',
+    id: 'ecopark-duplex',
+    title: 'CHUNG CƯ ECOPARK DUPLEX',
+    tagline: 'Không gian duplex thoáng rộng, tinh giản và giàu ánh sáng với các lớp vật liệu hiện đại.',
+    image: '/asset/hero/chung-cu-ecopark-duplex.webp',
+    meta: 'CHUNG CƯ DUPLEX • ECOPARK',
+    href: '/style/HIEN_DAI',
   },
   {
-    id: 'nhapho-thanhhoa',
-    title: 'NHÀ PHỐ THANH HÓA',
-    tagline: 'Thiết kế tinh giản, vật liệu tự nhiên kết hợp cùng ánh sáng để tạo nên không gian Wabi-sabi thanh tịnh.',
-    image: '/asset/anhweb/wabi-sabi/17. Nhà phố - 5x20 3 tầng - Thanh Hóa/1.webp',
-    meta: 'NHÀ PHỐ • 5X20 • THANH HÓA',
-    href: '/project/17-nha-pho-5x20-3-tang-thanh-hoa',
+    id: 'matrix-one',
+    title: 'CHUNG CƯ MATRIX ONE',
+    tagline: 'Không gian hiện đại với vật liệu đá, ánh sáng ấm và những đường nét kiến trúc dứt khoát.',
+    image: '/asset/hero/chung-cu-matrix-one.webp',
+    meta: 'CHUNG CƯ • MATRIX ONE • HÀ NỘI',
+    href: '/project/8-chung-cu-matrix-one-125m2',
   },
   {
     id: 'chungcu-giaiphong',
     title: 'CHUNG CƯ 1277 GIẢI PHÓNG',
     tagline: 'Sự giao thoa hoàn hảo giữa phong cách Japandi ấm áp, hiện đại mang đến không gian sống yên bình.',
-    image: '/asset/anhweb/japandi/14. Chung cư 1277 Giải Phóng - 66m2/1.webp',
+    image: '/asset/anhweb/japandi/14-chung-cu-1277-giai-phong-66m2/1.webp',
     meta: 'CHUNG CƯ • 66 M² • HÀ NỘI',
     href: '/project/14-chung-cu-1277-giai-phong-66m2',
   },
@@ -62,13 +62,14 @@ const slides: SlideData[] = [
 
 export default function HeroSlider({ onOpenContact }: HeroSliderProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const touchStartX = useRef<number | null>(null);
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % slides.length);
-    }, 6500);
-    return () => clearInterval(timer);
-  }, []);
+    const nextSlide = slides[(currentIndex + 1) % slides.length];
+    const preload = new window.Image();
+    preload.src = nextSlide.image;
+  }, [currentIndex]);
 
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev - 1 + slides.length) % slides.length);
@@ -78,19 +79,31 @@ export default function HeroSlider({ onOpenContact }: HeroSliderProps) {
     setCurrentIndex((prev) => (prev + 1) % slides.length);
   };
 
+  const handleTouchEnd = (clientX: number) => {
+    if (touchStartX.current === null) return;
+    const distance = clientX - touchStartX.current;
+    if (Math.abs(distance) > 48) {
+      if (distance > 0) handlePrev();
+      else handleNext();
+    }
+    touchStartX.current = null;
+  };
+
   return (
-    <section className="relative h-screen min-h-[600px] w-full bg-black overflow-hidden" id="home">
-      {/* Background Images - Render all to prevent loading flash */}
-      {slides.map((slide, index) => (
+    <section
+      className="relative min-h-[100dvh] w-full bg-black overflow-hidden"
+      id="home"
+      onTouchStart={(event) => { touchStartX.current = event.touches[0]?.clientX ?? null; }}
+      onTouchEnd={(event) => handleTouchEnd(event.changedTouches[0]?.clientX ?? 0)}
+    >
+      {/* Background image crossfade */}
+      <AnimatePresence initial={false} mode="sync">
         <motion.div
-          key={slide.id}
+          key={slides[currentIndex].id}
           initial={false}
-          animate={{ 
-            opacity: index === currentIndex ? 1 : 0, 
-            scale: index === currentIndex ? 1 : (index > currentIndex ? 1.05 : 0.98),
-            zIndex: index === currentIndex ? 1 : 0
-          }}
-          transition={{ duration: 1.2, ease: [0.33, 1, 0.68, 1] }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={reduceMotion ? undefined : { opacity: 0, scale: 0.995 }}
+          transition={{ duration: reduceMotion ? 0 : 0.9, ease: [0.33, 1, 0.68, 1] }}
           className="absolute inset-0 w-full h-full pointer-events-none"
         >
           {/* Overlay Darkener */}
@@ -98,16 +111,16 @@ export default function HeroSlider({ onOpenContact }: HeroSliderProps) {
           <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/80 via-transparent to-neutral-950/20 z-10" />
           
           <Image
-            src={slide.image}
-            alt={slide.title}
+            src={slides[currentIndex].image}
+            alt={slides[currentIndex].title}
             fill
-            priority={index === 0}
+            priority={currentIndex === 0}
             sizes="100vw"
             className="object-cover object-center"
             referrerPolicy="no-referrer"
           />
         </motion.div>
-      ))}
+      </AnimatePresence>
 
       {/* Slide Visual Content Overlay */}
       <div className="absolute inset-0 z-20 flex flex-col justify-end pb-20 md:pb-28">
@@ -116,39 +129,30 @@ export default function HeroSlider({ onOpenContact }: HeroSliderProps) {
 
 
             {/* Giant Heading */}
-            <motion.div
+            <div
               key={`title-${currentIndex}`}
-              initial={{ y: 40, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.4, duration: 0.8 }}
             >
-              <h2 className="text-4xl md:text-6xl lg:text-7xl font-serif font-light text-white tracking-tight leading-none">
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-light text-white tracking-tight leading-none">
                 {slides[currentIndex].title}
-              </h2>
-            </motion.div>
+              </h1>
+            </div>
 
             {/* Sub-tagline */}
-            <motion.div
+            <div
               key={`tagline-${currentIndex}`}
-              initial={{ y: 30, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.6, duration: 0.8 }}
             >
               <p className="text-sm md:text-lg text-neutral-300 font-sans tracking-wide leading-relaxed font-light">
                 {slides[currentIndex].tagline}
               </p>
-            </motion.div>
+            </div>
 
             {/* Buttons Row */}
-            <motion.div
+            <div
               key={`buttons-${currentIndex}`}
-              initial={{ y: 30, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.8, duration: 0.8 }}
               className="flex flex-wrap gap-4 pt-4"
             >
               <a
-                href="#projects"
+                href={slides[currentIndex].href}
                 className="bg-white dark:bg-[#121212] hover:bg-neutral-150 text-neutral-900 dark:text-neutral-100 px-8 py-4 font-bold text-xs tracking-widest flex items-center gap-2 group transition-all rounded-sm shadow-lg shadow-black/20"
                 id="hero-view-project"
               >
@@ -161,9 +165,9 @@ export default function HeroSlider({ onOpenContact }: HeroSliderProps) {
                 className="border border-white/70 hover:border-white hover:bg-white dark:hover:bg-neutral-800/10 text-white px-8 py-4 font-bold text-xs tracking-widest transition-all rounded-sm cursor-pointer"
                 id="hero-request-consult"
               >
-                NHÂN TƯ VẤN
+                NHẬN TƯ VẤN
               </button>
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>

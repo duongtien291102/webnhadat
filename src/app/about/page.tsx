@@ -46,7 +46,7 @@ export default function AboutPage() {
           </div>
           <div className="lg:pt-4">
             <p className="text-base text-neutral-600 dark:text-neutral-300 font-light leading-relaxed max-w-lg">
-              <strong className="font-normal text-neutral-900 dark:text-neutral-100">NOU.Design STUDIO</strong> là một studio thiết kế kiến trúc và nội thất, theo đuổi triết lý tối giản Japandi. Chúng tôi tin rằng không gian sống nên là một tác phẩm nghệ thuật mang lại sự bình yên.
+              <strong className="font-normal text-neutral-900 dark:text-neutral-100">NOU.Design</strong> là một  đơn vịthiết kế kiến trúc và nội thất, theo đuổi triết lý tối giản Japandi. Chúng tôi tin rằng không gian sống nên là một tác phẩm nghệ thuật mang lại sự bình yên.
             </p>
           </div>
         </motion.div>
@@ -81,16 +81,16 @@ export default function AboutPage() {
             {/* Stats */}
             <div className="grid grid-cols-3 gap-6 pt-12 pb-4">
               <div className="space-y-1 text-left">
-                <div className="text-3xl md:text-4xl font-serif font-bold text-neutral-900 dark:text-neutral-100">12+</div>
+                <div className="text-3xl md:text-4xl font-serif font-bold text-neutral-900 dark:text-neutral-100">200+</div>
                 <div className="text-[10px] md:text-xs text-neutral-400 dark:text-neutral-300 tracking-widest font-sans uppercase font-semibold">Dự án</div>
               </div>
               <div className="space-y-1 text-left">
-                <div className="text-3xl md:text-4xl font-serif font-bold text-neutral-900 dark:text-neutral-100">5 năm</div>
+                <div className="text-3xl md:text-4xl font-serif font-bold text-neutral-900 dark:text-neutral-100">10 năm</div>
                 <div className="text-[10px] md:text-xs text-neutral-400 dark:text-neutral-300 tracking-widest font-sans uppercase font-semibold">Kinh nghiệm</div>
               </div>
               <div className="space-y-1 text-left">
-                <div className="text-3xl md:text-4xl font-serif font-bold text-neutral-900 dark:text-neutral-100">1</div>
-                <div className="text-[10px] md:text-xs text-neutral-400 dark:text-neutral-300 tracking-widest font-sans uppercase font-semibold">Thành phố</div>
+                <div className="text-3xl md:text-4xl font-serif font-bold text-neutral-900 dark:text-neutral-100">3</div>
+                <div className="text-[10px] md:text-xs text-neutral-400 dark:text-neutral-300 tracking-widest font-sans uppercase font-semibold">Triết lý thiết kế</div>
               </div>
             </div>
           </motion.div>
@@ -105,7 +105,7 @@ export default function AboutPage() {
           >
             <Image 
               src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=80" 
-              alt="Studio interior" 
+              alt="đơn vị interior" 
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover rounded-sm scale-100 hover:scale-105 transition-all duration-700 shadow-lg" 
@@ -214,7 +214,8 @@ export default function AboutPage() {
               <div className="md:col-span-7 space-y-4 border-l-2 border-neutral-900 pl-6">
                 <h4 className="text-3xl font-serif text-neutral-900 dark:text-neutral-100">Lê Minh Tiến</h4>
                 <p className="text-xs tracking-widest text-neutral-500 dark:text-neutral-400 uppercase font-semibold">Giám đốc / Kiến trúc sư trưởng</p>
-                <p className="text-base text-neutral-600 dark:text-neutral-300 font-light pt-2 leading-relaxed">Với hơn 10 năm kinh nghiệm trong kiến trúc cảnh quan và không gian, KTS Lê Minh Tiến mang đến góc nhìn hiện đại, tối giản nhưng đậm chất Á Đông trong từng nét phác thảo.</p>
+                <p className="text-base text-neutral-600 dark:text-neutral-300 font-light pt-2 leading-relaxed">Trong lĩnh vực kiến trúc, tôi mang đến những góc nhìn đa chiều, hiện đại, tối giản nhưng đậm chất tinh tế-sang trọng cho từng ngôi nhà.
+</p>
               </div>
             </motion.div>
 
@@ -240,7 +241,7 @@ export default function AboutPage() {
               <div className="md:col-span-7 md:order-1 space-y-4 border-l-2 md:border-l-0 md:border-r-2 border-neutral-900 pl-6 md:pl-0 md:pr-6 md:text-right">
                 <h4 className="text-3xl font-serif text-neutral-900 dark:text-neutral-100">Trần Mai Linh</h4>
                 <p className="text-xs tracking-widest text-neutral-500 dark:text-neutral-400 uppercase font-semibold">Nhà thiết kế Nội thất / Co-founder</p>
-                <p className="text-base text-neutral-600 dark:text-neutral-300 font-light pt-2 leading-relaxed">Là một người yêu thích cái đẹp tinh tế, KTS Trần Mai Linh thổi hồn vào các công trình qua nghệ thuật xếp đặt vật liệu, ánh sáng và triết lý Wabi-Sabi tự nhiên.</p>
+                <p className="text-base text-neutral-600 dark:text-neutral-300 font-light pt-2 leading-relaxed">với niềm đam mê và tình yêu của vẻ đẹp tinh tế, tôi mang tới cho căn nhà của từng gia chủ sự hài hoà, nhẹ nhàng ngay từ bước chọn lựa vật liệu, kết hợp ánh sáng và phối màu đối với từng không gian để đảm bảo sự đồng nhất trong căn nhà</p>
               </div>
             </motion.div>
           </div>
