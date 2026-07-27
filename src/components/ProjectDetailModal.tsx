@@ -1,8 +1,8 @@
 "use client";
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
-import { X, ChevronRight, ArrowLeft, ArrowRight, MapPin, Ruler } from 'lucide-react';
+import { X, ChevronRight, ArrowLeft, ArrowRight, MapPin, Ruler, Maximize2 } from 'lucide-react';
 import { Project, styleLabels } from '../types';
 import { getOrderedProjectImages } from '../lib/projectImages';
 
@@ -15,16 +15,31 @@ interface ProjectDetailModalProps {
 export default function ProjectDetailModal({ project, onClose, onOpenConsultation }: ProjectDetailModalProps) {
   const [activePhotoIndex, setActivePhotoIndex] = useState<number>(0);
   const [direction, setDirection] = useState(1);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
   const thumbnailStripRef = useRef<HTMLDivElement>(null);
   const touchStartX = useRef<number | null>(null);
+  const touchDidSwipe = useRef(false);
   const reduceMotion = useReducedMotion();
   const images = useMemo(() => project ? getOrderedProjectImages(project) : [], [project]);
+
+  const showPreviousPhoto = useCallback(() => {
+    if (!project || images.length === 0) return;
+    setDirection(-1);
+    setActivePhotoIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  }, [project, images.length]);
+
+  const showNextPhoto = useCallback(() => {
+    if (!project || images.length === 0) return;
+    setDirection(1);
+    setActivePhotoIndex((prev) => (prev + 1) % images.length);
+  }, [project, images.length]);
 
   // Reset photo index when project changes
   useEffect(() => {
     setActivePhotoIndex(0);
     setDirection(1);
+    setIsFullscreen(false);
   }, [project?.id]);
 
   useEffect(() => {
@@ -37,7 +52,19 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
     const focusFrame = requestAnimationFrame(() => dialogRef.current?.focus());
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
+        if (isFullscreen) {
+          setIsFullscreen(false);
+          return;
+        }
         onClose();
+        return;
+      }
+      if (isFullscreen && event.key === 'ArrowLeft') {
+        showPreviousPhoto();
+        return;
+      }
+      if (isFullscreen && event.key === 'ArrowRight') {
+        showNextPhoto();
         return;
       }
       if (event.key !== 'Tab' || !dialogRef.current) return;
@@ -64,24 +91,12 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
       document.body.style.overflow = previousOverflow;
       returnFocus?.focus();
     };
-  }, [project, onClose]);
+  }, [project, onClose, isFullscreen, showNextPhoto, showPreviousPhoto]);
 
   useEffect(() => {
     const activeThumbnail = thumbnailStripRef.current?.querySelector<HTMLElement>(`[data-thumbnail-index="${activePhotoIndex}"]`);
     activeThumbnail?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'nearest', inline: 'center' });
   }, [activePhotoIndex, reduceMotion]);
-
-  const showPreviousPhoto = () => {
-    if (!project || images.length === 0) return;
-    setDirection(-1);
-    setActivePhotoIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
-  };
-
-  const showNextPhoto = () => {
-    if (!project || images.length === 0) return;
-    setDirection(1);
-    setActivePhotoIndex((prev) => (prev + 1) % images.length);
-  };
 
   return (
     <AnimatePresence>
@@ -116,6 +131,7 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
               onTouchEnd={(event) => {
                 if (touchStartX.current === null) return;
                 const distance = (event.changedTouches[0]?.clientX ?? 0) - touchStartX.current;
+                touchDidSwipe.current = Math.abs(distance) > 48;
                 if (Math.abs(distance) > 48) {
                   if (distance > 0) showPreviousPhoto();
                   else showNextPhoto();
@@ -143,6 +159,21 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
                 </motion.div>
               </AnimatePresence>
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none z-10" />
+
+              {/* On phones, tapping the center of the image opens the fullscreen viewer. */}
+              <button
+                type="button"
+                aria-label="Phóng to ảnh toàn màn hình"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  if (touchDidSwipe.current) {
+                    touchDidSwipe.current = false;
+                    return;
+                  }
+                  setIsFullscreen(true);
+                }}
+                className="md:hidden absolute inset-x-[22%] inset-y-[18%] z-10 cursor-zoom-in"
+              />
 
               {/* Mobile-only close button floating over the photo */}
               <button
@@ -183,6 +214,21 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
               <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded text-[10px] text-white tracking-widest border border-white/15 uppercase font-sans z-20">
                 Góc chụp 0{activePhotoIndex + 1}
               </div>
+
+              {/* Fullscreen action stays visible without obscuring the image. */}
+              <button
+                type="button"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  setIsFullscreen(true);
+                }}
+                aria-label="Phóng to ảnh toàn màn hình"
+                title="Xem toàn màn hình"
+                className="absolute bottom-4 right-4 z-30 min-w-[44px] min-h-[44px] px-3 bg-black/60 hover:bg-black/80 backdrop-blur-md border border-white/20 text-white flex items-center justify-center gap-2 rounded-full transition-colors cursor-zoom-in"
+              >
+                <Maximize2 size={18} />
+                <span className="hidden lg:inline text-[10px] font-semibold tracking-widest uppercase">Phóng to</span>
+              </button>
             </div>
 
             {/* Clickable thumbnail selector row  */}
@@ -284,6 +330,83 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
             </div>
           </div>
         </motion.div>
+
+        <AnimatePresence>
+          {isFullscreen && (
+            <motion.div
+              role="dialog"
+              aria-modal="true"
+              aria-label={`Xem toàn màn hình: ${project.title}`}
+              initial={reduceMotion ? false : { opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 bg-black flex items-center justify-center"
+              onClick={() => setIsFullscreen(false)}
+            >
+              <motion.div
+                key={images[activePhotoIndex]}
+                initial={reduceMotion ? false : { opacity: 0, scale: 0.985 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: reduceMotion ? 0 : 0.25 }}
+                className="absolute inset-0"
+                onClick={(event) => event.stopPropagation()}
+              >
+                <Image
+                  src={images[activePhotoIndex]}
+                  alt={`${project.title} - ảnh toàn màn hình ${activePhotoIndex + 1}`}
+                  fill
+                  priority
+                  sizes="100vw"
+                  className="object-contain select-none"
+                  referrerPolicy="no-referrer"
+                />
+              </motion.div>
+
+              <button
+                type="button"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  setIsFullscreen(false);
+                }}
+                aria-label="Đóng chế độ toàn màn hình"
+                className="absolute top-4 right-4 md:top-6 md:right-6 z-20 min-w-[48px] min-h-[48px] bg-black/65 hover:bg-white hover:text-black border border-white/25 text-white flex items-center justify-center rounded-full transition-colors cursor-pointer"
+              >
+                <X size={22} />
+              </button>
+
+              {images.length > 1 && (
+                <>
+                  <button
+                    type="button"
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      showPreviousPhoto();
+                    }}
+                    aria-label="Ảnh trước"
+                    className="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 z-20 min-w-[48px] min-h-[48px] bg-black/65 hover:bg-white hover:text-black border border-white/25 text-white flex items-center justify-center rounded-full transition-colors cursor-pointer"
+                  >
+                    <ArrowLeft size={22} />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      showNextPhoto();
+                    }}
+                    aria-label="Ảnh sau"
+                    className="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 z-20 min-w-[48px] min-h-[48px] bg-black/65 hover:bg-white hover:text-black border border-white/25 text-white flex items-center justify-center rounded-full transition-colors cursor-pointer"
+                  >
+                    <ArrowRight size={22} />
+                  </button>
+                </>
+              )}
+
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 bg-black/65 border border-white/20 text-white rounded-full px-4 py-2 text-[11px] tracking-widest">
+                {activePhotoIndex + 1} / {images.length}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.div>
       )}
     </AnimatePresence>
