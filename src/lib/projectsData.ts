@@ -1,6 +1,10 @@
 import { Project } from '../types';
+import { newJapandiProjects } from './newJapandiProjects';
+import { newModernAndWabiProjects } from './newModernAndWabiProjects';
 
 export const projects: Project[] = [
+  ...newModernAndWabiProjects,
+  ...newJapandiProjects,
   {
     id: "10-cai-tao-nha-lao-cai-4-3x19",
     index: "01",

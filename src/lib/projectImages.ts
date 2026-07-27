@@ -1,9 +1,19 @@
 import type { Project } from '../types';
+import { newModernAndWabiProjectIds } from './newModernAndWabiProjects';
 
 const USE_MAIN_IMAGE_AS_CARD = new Set([
   '10-cai-tao-nha-lao-cai-4-3x19',
   '12-biet-thu-oceanpark-hai-au-230m2',
   '13-oceanpark-r1-87m2',
+  '26-biet-thu-gamuda',
+  '34-chung-cu-6-element-110m2',
+  '24-nha-dat-noi-that-8-2x11-4',
+  '25-nha-dat-ngoc-thuy-6-8x10',
+  '29-chung-cu-ct36-xuan-la',
+  '35-chung-cu-ho-guom-plaza-140m2',
+  '36-chung-cu-282-nguyen-huy-tuong',
+  '41-nha-dat-long-bien-4x14',
+  '44-nha-dat-6x22',
 ]);
 
 const PROJECTS_REQUIRING_NATURAL_ORDER = new Set([
@@ -51,6 +61,8 @@ export function getOrderedProjectImages(project: Project) {
 }
 
 export function getProjectCardImage(project: Project) {
-  if (USE_MAIN_IMAGE_AS_CARD.has(project.id)) return project.mainImage;
+  if (USE_MAIN_IMAGE_AS_CARD.has(project.id) || newModernAndWabiProjectIds.has(project.id)) {
+    return project.mainImage;
+  }
   return `/asset/project-thumbnails/${project.id}.webp`;
 }
