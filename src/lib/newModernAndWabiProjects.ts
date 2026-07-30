@@ -26,7 +26,7 @@ const metadata: ProjectMetadata[] = [
     location: 'Lạng Sơn',
     style: 'WABISABI',
     assetStyle: 'wabi-sabi',
-    folder: 'nhà phố lạng sơn 4,5 x 15',
+    folder: '49-nha-pho-lang-son-4-5x15',
     cover: '1a.webp',
   },
   {

@@ -15,7 +15,7 @@ const projectFolders = [
   ['wabi-sabi', '33. Nhà đất Vinh'],
   ['wabi-sabi', '37. Chung cư HH2C Linh Đàm - 75m2'],
   ['wabi-sabi', '46. Chung cư The 90 - Láng'],
-  ['wabi-sabi', 'nhà phố lạng sơn 4,5 x 15'],
+  ['wabi-sabi', '49-nha-pho-lang-son-4-5x15'],
 ];
 
 function walk(directory, baseDirectory = directory) {
