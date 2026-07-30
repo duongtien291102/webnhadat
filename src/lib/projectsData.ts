@@ -1,6 +1,7 @@
 import { Project } from '../types';
 import { newJapandiProjects } from './newJapandiProjects';
 import { newModernAndWabiProjects } from './newModernAndWabiProjects';
+import { safeEncodeURI } from './projectImages';
 
 const featuredProjectIds = new Set([
   '49-nha-pho-lang-son-4-5x15',
@@ -8,7 +9,7 @@ const featuredProjectIds = new Set([
 ]);
 const recentlyAddedProjects = [...newModernAndWabiProjects, ...newJapandiProjects];
 
-export const projects: Project[] = [
+const rawProjects: Project[] = [
   ...recentlyAddedProjects.filter((project) => featuredProjectIds.has(project.id)),
   ...recentlyAddedProjects.filter((project) => !featuredProjectIds.has(project.id)),
   {
@@ -1134,3 +1135,9 @@ export const projects: Project[] = [
     ]
   }
 ];
+
+export const projects: Project[] = rawProjects.map((p) => ({
+  ...p,
+  mainImage: safeEncodeURI(p.mainImage),
+  gallery: (p.gallery || []).map(safeEncodeURI),
+}));

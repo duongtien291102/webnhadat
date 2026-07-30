@@ -47,12 +47,22 @@ function getImagePriority(projectId: string, image: string) {
   return 20;
 }
 
+export function safeEncodeURI(url: string): string {
+  if (!url) return url;
+  try {
+    return encodeURI(decodeURI(url));
+  } catch {
+    return encodeURI(url);
+  }
+}
+
 export function getOrderedProjectImages(project: Project) {
-  const images = Array.from(new Set([project.mainImage, ...project.gallery].filter(Boolean)));
+  const rawImages = Array.from(new Set([project.mainImage, ...project.gallery].filter(Boolean)));
+  const images = rawImages.map(safeEncodeURI);
 
   if (!PROJECTS_REQUIRING_NATURAL_ORDER.has(project.id)) return images;
 
-  const cover = project.mainImage;
+  const cover = safeEncodeURI(project.mainImage);
   const remainingImages = images.filter((image) => image !== cover).sort((left, right) => {
     const priorityDifference = getImagePriority(project.id, left) - getImagePriority(project.id, right);
     return priorityDifference || compareNaturally(left, right);
@@ -63,7 +73,7 @@ export function getOrderedProjectImages(project: Project) {
 
 export function getProjectCardImage(project: Project) {
   if (USE_MAIN_IMAGE_AS_CARD.has(project.id) || newModernAndWabiProjectIds.has(project.id)) {
-    return project.mainImage;
+    return safeEncodeURI(project.mainImage);
   }
-  return `/asset/project-thumbnails/${project.id}.webp`;
+  return safeEncodeURI(`/asset/project-thumbnails/${project.id}.webp`);
 }
