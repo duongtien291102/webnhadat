@@ -19,6 +19,17 @@ const imageManifest = generatedImages as Record<string, string[]>;
 
 const metadata: ProjectMetadata[] = [
   {
+    id: '49-nha-pho-lang-son-4-5x15',
+    index: '45',
+    title: 'NHÀ PHỐ LẠNG SƠN 4.5×15',
+    area: '4.5×15 m',
+    location: 'Lạng Sơn',
+    style: 'WABISABI',
+    assetStyle: 'wabi-sabi',
+    folder: 'nhà phố lạng sơn 4,5 x 15',
+    cover: '1a.webp',
+  },
+  {
     id: '38-nha-dat-bac-giang',
     index: '33',
     title: 'NHÀ ĐẤT BẮC GIANG',

@@ -14,6 +14,7 @@ const USE_MAIN_IMAGE_AS_CARD = new Set([
   '36-chung-cu-282-nguyen-huy-tuong',
   '41-nha-dat-long-bien-4x14',
   '44-nha-dat-6x22',
+  '49-chung-cu-oceanpark-1',
 ]);
 
 const PROJECTS_REQUIRING_NATURAL_ORDER = new Set([

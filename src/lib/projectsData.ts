@@ -2,9 +2,15 @@ import { Project } from '../types';
 import { newJapandiProjects } from './newJapandiProjects';
 import { newModernAndWabiProjects } from './newModernAndWabiProjects';
 
+const featuredProjectIds = new Set([
+  '49-nha-pho-lang-son-4-5x15',
+  '49-chung-cu-oceanpark-1',
+]);
+const recentlyAddedProjects = [...newModernAndWabiProjects, ...newJapandiProjects];
+
 export const projects: Project[] = [
-  ...newModernAndWabiProjects,
-  ...newJapandiProjects,
+  ...recentlyAddedProjects.filter((project) => featuredProjectIds.has(project.id)),
+  ...recentlyAddedProjects.filter((project) => !featuredProjectIds.has(project.id)),
   {
     id: "10-cai-tao-nha-lao-cai-4-3x19",
     index: "01",
