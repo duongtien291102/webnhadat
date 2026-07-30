@@ -27,7 +27,7 @@ const metadata: ProjectMetadata[] = [
     style: 'WABISABI',
     assetStyle: 'wabi-sabi',
     folder: '49-nha-pho-lang-son-4-5x15',
-    cover: '1a.webp',
+    cover: '2a.webp',
   },
   {
     id: '38-nha-dat-bac-giang',
