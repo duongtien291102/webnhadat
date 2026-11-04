@@ -27,6 +27,7 @@ export default function ContactModal({
   const [style, setStyle] = useState(initialStyle);
   const [message, setMessage] = useState('');
   const [website, setWebsite] = useState('');
+  const [agreedToPolicy, setAgreedToPolicy] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [submitError, setSubmitError] = useState('');
@@ -39,6 +40,7 @@ export default function ContactModal({
       setMaterial(initialMaterial);
       setStyle(initialStyle);
       setArea(initialArea ? String(initialArea) : '');
+      setAgreedToPolicy(false);
       setIsSuccess(false);
       setSubmitError('');
       return;
@@ -54,6 +56,7 @@ export default function ContactModal({
     setStyle('');
     setMessage('');
     setWebsite('');
+    setAgreedToPolicy(false);
     setIsSubmitting(false);
     setIsSuccess(false);
     setSubmitError('');
@@ -105,6 +108,11 @@ export default function ContactModal({
       return;
     }
 
+    if (!agreedToPolicy) {
+      setSubmitError('Vui lòng đồng ý với chính sách bảo vệ dữ liệu cá nhân trước khi gửi yêu cầu.');
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitError('');
     const controller = new AbortController();
@@ -127,6 +135,7 @@ export default function ContactModal({
           message,
           source: window.location.pathname,
           website,
+          consent: agreedToPolicy,
         }),
       });
 
@@ -307,6 +316,36 @@ export default function ContactModal({
                         className="w-full px-4 py-3 bg-white dark:bg-[#121212] border border-neutral-200 dark:border-neutral-800 rounded-md focus:outline-none focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 transition-all text-sm resize-none"
                       />
                     </div>
+                  </div>
+
+                  {/* Consent Flow Checkbox */}
+                  <div className="pt-2">
+                    <label
+                      htmlFor="consent-checkbox"
+                      className="flex items-start gap-2.5 cursor-pointer text-xs text-neutral-600 dark:text-neutral-400 select-none leading-relaxed"
+                    >
+                      <input
+                        id="consent-checkbox"
+                        type="checkbox"
+                        required
+                        checked={agreedToPolicy}
+                        onChange={(e) => setAgreedToPolicy(e.target.checked)}
+                        className="mt-0.5 h-4 w-4 shrink-0 rounded border-neutral-300 dark:border-neutral-700 text-neutral-900 focus:ring-neutral-900 accent-neutral-900 dark:accent-white cursor-pointer"
+                      />
+                      <span>
+                        Tôi đồng ý cung cấp thông tin liên hệ để NOU.Design tư vấn thiết kế và báo giá dịch vụ theo{' '}
+                        <a
+                          href="/chinh-sach-bao-mat"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-neutral-900 dark:text-neutral-100 underline underline-offset-2 hover:text-black dark:hover:text-white font-medium"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          Chính sách bảo vệ dữ liệu cá nhân
+                        </a>
+                        . *
+                      </span>
+                    </label>
                   </div>
 
                   {/* Submit Button */}

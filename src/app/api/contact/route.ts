@@ -20,6 +20,7 @@ type ContactPayload = {
   message?: unknown;
   source?: unknown;
   website?: unknown;
+  consent?: unknown;
 };
 
 function text(value: unknown, maxLength: number) {
@@ -114,6 +115,10 @@ export async function POST(request: Request) {
 
   if (!Number.isFinite(areaNumber) || areaNumber <= 0 || areaNumber > 100_000) {
     return json({ error: 'Diện tích phải lớn hơn 0 và nhỏ hơn 100.000 m².' }, 400);
+  }
+
+  if (payload.consent !== true) {
+    return json({ error: 'Vui lòng đồng ý với chính sách bảo vệ dữ liệu cá nhân trước khi gửi yêu cầu.' }, 400);
   }
 
   try {

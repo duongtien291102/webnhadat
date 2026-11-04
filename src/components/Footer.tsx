@@ -2,7 +2,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Instagram, Facebook, Mail, Phone, MapPin, Globe } from 'lucide-react';
+import { Instagram, Facebook, Mail, Phone, MapPin, Globe, FileText } from 'lucide-react';
 
 const TiktokIcon = ({ size = 18, className = "" }) => (
   <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -99,6 +99,11 @@ export default function Footer() {
                   Hồ sơ năng lực
                 </Link>
               </li>
+              <li>
+                <Link href="/chinh-sach-bao-mat" className="hover:text-white transition-colors duration-200 block">
+                  Chính sách bảo vệ dữ liệu cá nhân
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -132,6 +137,12 @@ export default function Footer() {
                   tiktok.com/@nou.design
                 </a>
               </li>
+              <li className="flex items-start gap-2.5">
+                <FileText size={15} className="text-neutral-500 dark:text-neutral-400 shrink-0 mt-0.5" />
+                <span>
+                  Mã số doanh nghiệp / MST: 0110825316
+                </span>
+              </li>
             </ul>
           </div>
 
@@ -141,8 +152,12 @@ export default function Footer() {
 
       {/* Underbar footer row */}
       <div className="max-w-7xl mx-auto px-6 md:px-12 mt-10 md:mt-16 pt-6 md:pt-8 border-t border-neutral-900/60 flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] text-neutral-400">
-        <div>
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
           <span>Thiết kế bởi đội ngũ thiết kế NOU.Design</span>
+          <span className="hidden md:inline text-neutral-700">•</span>
+          <Link href="/chinh-sach-bao-mat" className="hover:text-neutral-200 transition-colors underline-offset-4 hover:underline">
+            Chính sách bảo vệ dữ liệu cá nhân
+          </Link>
         </div>
         <div>
           <span>© 2026 NOU.Design. All rights reserved.</span>
