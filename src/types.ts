@@ -18,10 +18,13 @@ export interface Project {
   highlightsHeader: string;
   highlights: string[];
   mainImage: string;
+  cardImage?: string;
   gallery: string[];
   area: string;
   location: string;
   style: string;
+  featuredOnHome?: boolean;
+  sortOrder?: number;
 }
 
 export interface Step {
@@ -35,6 +38,42 @@ export interface PhilosophyCard {
   iconName: string;
   description: string;
   image: string;
+}
+
+export interface HeroSlide {
+  id: string;
+  title: string;
+  tagline: string;
+  image: string;
+  meta: string;
+  href: string;
+}
+
+export interface FounderMember {
+  id: string;
+  name: string;
+  role: string;
+  bio: string;
+  image: string;
+}
+
+export interface SiteSettingsData {
+  heroSlides: HeroSlide[];
+  introduction: {
+    beforeImage: string;
+    beforeLabel: string;
+    afterImage: string;
+    afterLabel: string;
+    philosophyCards: PhilosophyCard[];
+  };
+  materials: Material[];
+  about: {
+    storyImage: string;
+    founders: FounderMember[];
+    teamGroupTitle: string;
+    teamGroupDescription: string;
+    teamGroupImage: string;
+  };
 }
 
 export const styleLabels: Record<string, string> = {

@@ -16,7 +16,8 @@ module.exports = {
       env: {
         NODE_ENV: "production",
         HOSTNAME: "0.0.0.0",
-        PORT: 3000
+        PORT: 3000,
+        UPLOAD_DIR: process.env.UPLOAD_DIR || path.resolve(__dirname, "uploads")
       }
     }
   ]

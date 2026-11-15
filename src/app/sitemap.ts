@@ -1,9 +1,12 @@
-import { MetadataRoute } from 'next'
-import { projects } from '@/lib/projectsData'
+import { MetadataRoute } from 'next';
+import { getProjectsData } from '@/lib/siteData';
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://noudesign.vn'
-  
+export const dynamic = 'force-dynamic';
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const baseUrl = 'https://noudesign.vn';
+  const projects = await getProjectsData();
+
   const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
@@ -47,14 +50,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly',
       priority: 0.8,
     },
-  ]
+  ];
 
-  const projectRoutes: MetadataRoute.Sitemap = projects.map((project) => ({
-    url: `${baseUrl}/project/${project.id}`,
-    changeFrequency: 'monthly',
-    priority: 0.7,
-    images: [`${baseUrl}${project.mainImage}`],
-  }))
+  const projectRoutes: MetadataRoute.Sitemap = projects.map((project) => {
+    const imageUrl = project.mainImage.startsWith('http')
+      ? project.mainImage
+      : `${baseUrl}${project.mainImage}`;
 
-  return [...staticRoutes, ...projectRoutes]
+    return {
+      url: `${baseUrl}/project/${project.id}`,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+      images: [imageUrl],
+    };
+  });
+
+  return [...staticRoutes, ...projectRoutes];
 }

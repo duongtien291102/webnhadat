@@ -2,25 +2,20 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import ProjectPageShell from '@/components/ProjectPageShell';
-import { projects } from '@/lib/projectsData';
-import { getOrderedProjectImages } from '@/lib/projectImages';
+import { getOrderedProjectImages, isUploadedImageUrl, safeEncodeURI } from '@/lib/projectImages';
+import { getProjectByIdData } from '@/lib/siteData';
 import { styleLabels } from '@/types';
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 type ProjectPageProps = {
   params: Promise<{ id: string }>;
 };
 
-function getProject(id: string) {
-  return projects.find((project) => project.id === id);
-}
-
-export function generateStaticParams() {
-  return projects.map((project) => ({ id: project.id }));
-}
-
 export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
   const { id } = await params;
-  const project = getProject(id);
+  const project = await getProjectByIdData(id);
   if (!project) notFound();
 
   const canonical = `/project/${project.id}`;
@@ -42,10 +37,11 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
   const { id } = await params;
-  const project = getProject(id);
+  const project = await getProjectByIdData(id);
   if (!project) notFound();
 
   const gallery = getOrderedProjectImages(project);
+  const heroImage = safeEncodeURI(project.mainImage);
 
   return (
     <ProjectPageShell>
@@ -65,9 +61,10 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
           <div className="relative w-full aspect-[16/9] max-h-[78vh] bg-neutral-900">
             <Image
-              src={project.mainImage}
+              src={heroImage}
               alt={project.title}
               fill
+              unoptimized={isUploadedImageUrl(heroImage)}
               priority
               sizes="100vw"
               className="object-cover"
@@ -113,6 +110,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                     src={image}
                     alt={`${project.title} - hình ảnh ${index + 1}`}
                     fill
+                    unoptimized={isUploadedImageUrl(image)}
                     sizes="(max-width: 768px) 100vw, 50vw"
                     className="object-cover"
                   />

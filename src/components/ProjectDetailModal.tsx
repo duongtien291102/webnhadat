@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { X, ChevronRight, ArrowLeft, ArrowRight, MapPin, Ruler, Maximize2 } from 'lucide-react';
 import { Project, styleLabels } from '../types';
-import { getOrderedProjectImages } from '../lib/projectImages';
+import { getOrderedProjectImages, isUploadedImageUrl } from '../lib/projectImages';
 
 interface ProjectDetailModalProps {
   project: Project | null;
@@ -153,6 +153,7 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
                     src={images[activePhotoIndex]}
                     alt={`Gallery angle ${activePhotoIndex + 1} of ${project.title}`}
                     fill
+                    unoptimized={isUploadedImageUrl(images[activePhotoIndex])}
                     sizes="(max-width: 768px) 100vw, 60vw"
                     className="object-cover"
                     referrerPolicy="no-referrer" />
@@ -250,6 +251,7 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
                     src={thumb}
                     alt="thumbnail"
                     fill
+                    unoptimized={isUploadedImageUrl(thumb)}
                     sizes="80px"
                     className="object-cover"
                     referrerPolicy="no-referrer" />
@@ -355,6 +357,7 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
                   src={images[activePhotoIndex]}
                   alt={`${project.title} - ảnh toàn màn hình ${activePhotoIndex + 1}`}
                   fill
+                  unoptimized={isUploadedImageUrl(images[activePhotoIndex])}
                   priority
                   sizes="100vw"
                   className="object-contain select-none"

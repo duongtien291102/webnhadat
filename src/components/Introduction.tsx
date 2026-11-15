@@ -3,10 +3,17 @@ import React, { useState, useRef } from 'react';
 import Image from 'next/image';
 import { motion, useMotionValue, useTransform } from 'motion/react';
 import { Compass, Sun, Home, MoveHorizontal } from 'lucide-react';
-import { PhilosophyCard } from '../types';
+import { defaultSiteSettings } from '../lib/defaultSiteSettings';
+import { isUploadedImageUrl } from '../lib/projectImages';
+import type { SiteSettingsData } from '../types';
 import Reveal from './Reveal';
 
-export default function Introduction() {
+interface IntroductionProps {
+  data?: SiteSettingsData['introduction'];
+}
+
+export default function Introduction({ data }: IntroductionProps) {
+  const introData = data || defaultSiteSettings.introduction;
   const [sliderValue, setSliderValue] = useState(50);
   const sliderPosition = useMotionValue(50);
   const sliderWidth = useTransform(sliderPosition, (value) => `${value}%`);
@@ -20,26 +27,9 @@ export default function Introduction() {
     { value: '3', label: 'Triết lý thiết kế' },
   ];
 
-  const philosophyCards: PhilosophyCard[] = [
-    {
-      title: 'Vật liệu thật',
-      iconName: 'compass',
-      description: 'Sử dụng vật liệu tự nhiên để tôn vinh vẻ đẹp nguyên bản của thiết kế.',
-      image: '/asset/anhweb/japandi/4-chung-cu-parkhome-145m2/2.webp',
-    },
-    {
-      title: 'Ánh sáng',
-      iconName: 'sun',
-      description: 'Tối đa hóa ánh sáng tự nhiên và thông gió, mang lại không gian sống thoáng đãng và trong lành.',
-      image: '/asset/anhweb/hien-dai/12-biet-thu-oceanpark-hai-au-230m2/2.webp',
-    },
-    {
-      title: 'Sự sống',
-      iconName: 'home',
-      description: 'Tạo ra một hệ sinh thái trong không gian, nơi con người và thiên nhiên hòa quyện.',
-      image: '/asset/anhweb/wabi-sabi/17-nha-pho-5x20-3-tang-thanh-hoa/3.webp',
-    },
-  ];
+  const philosophyCards = introData.philosophyCards.length > 0
+    ? introData.philosophyCards
+    : defaultSiteSettings.introduction.philosophyCards;
 
   const renderIcon = (name: string) => {
     switch (name) {
@@ -147,15 +137,16 @@ export default function Introduction() {
             {/* Before Stage (CAD Blueprint) */}
             <div className="absolute inset-0 w-full h-full">
               <Image 
-                src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1200&q=80" 
+                src={introData.beforeImage} 
                 alt="CAD Architectural Draft" 
                 fill
+                unoptimized={isUploadedImageUrl(introData.beforeImage)}
                 sizes="(max-width: 1280px) 100vw, 1280px"
                 className="object-cover object-center grayscale opacity-80"
                 referrerPolicy="no-referrer"
               />
               <div className="absolute left-6 top-6 bg-black/60 backdrop-blur-md px-3 py-1.5 text-[10px] text-[#f5f1ea] border border-white/10 tracking-widest">
-                SKETCH • BẢN VẼ SƠ PHÁC
+                {introData.beforeLabel}
               </div>
             </div>
 
@@ -166,15 +157,16 @@ export default function Introduction() {
             >
               <div className="absolute inset-0 w-full h-full min-w-[320px] md:min-w-[768px] lg:min-w-[1200px]">
                 <Image 
-                  src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80" 
+                  src={introData.afterImage} 
                   alt="Finished Architectural Rendering" 
                   fill
+                  unoptimized={isUploadedImageUrl(introData.afterImage)}
                   sizes="(max-width: 1280px) 100vw, 1280px"
                   className="object-cover object-center"
                   referrerPolicy="no-referrer"
                 />
                 <div className="absolute right-6 top-6 bg-neutral-900 px-3 py-1.5 text-[10px] text-[#e9dcce] border border-neutral-700 tracking-widest whitespace-nowrap">
-                  REALITY • KHÔNG GIAN BÀN GIAO
+                  {introData.afterLabel}
                 </div>
               </div>
             </motion.div>
@@ -219,6 +211,7 @@ export default function Introduction() {
                     src={card.image}
                     alt={card.title}
                     fill
+                    unoptimized={isUploadedImageUrl(card.image)}
                     sizes="(max-width: 768px) 100vw, 33vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                     referrerPolicy="no-referrer"

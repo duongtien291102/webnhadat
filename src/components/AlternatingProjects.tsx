@@ -4,13 +4,13 @@ import Image from 'next/image';
 import { ArrowRight, ArrowLeft } from 'lucide-react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { Project } from '../types';
-import { projects } from '../lib/projectsData';
-import { getOrderedProjectImages } from '../lib/projectImages';
+import { getOrderedProjectImages, isUploadedImageUrl } from '../lib/projectImages';
 import ProjectDetailModal from './ProjectDetailModal';
 import Reveal from './Reveal';
 
 interface AlternatingProjectsProps {
   onOpenConsultation: () => void;
+  projects: Project[];
 }
 
 const ProjectImageSlider = ({ project, onClick }: { project: Project, onClick: () => void }) => {
@@ -77,6 +77,7 @@ const ProjectImageSlider = ({ project, onClick }: { project: Project, onClick: (
             src={images[currentIndex]}
             alt={`${project.title} - ảnh ${currentIndex + 1}`}
             fill
+            unoptimized={isUploadedImageUrl(images[currentIndex])}
             sizes="(max-width: 1024px) 100vw, 50vw"
             className="object-cover brightness-95 transition-[transform,filter] duration-700 group-hover:scale-105 group-hover:brightness-90"
             referrerPolicy="no-referrer" />
@@ -106,8 +107,16 @@ const ProjectImageSlider = ({ project, onClick }: { project: Project, onClick: (
   );
 };
 
-export default function AlternatingProjects({ onOpenConsultation }: AlternatingProjectsProps) {
+export default function AlternatingProjects({ onOpenConsultation, projects }: AlternatingProjectsProps) {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const displayProjects = useMemo(() => {
+    const featured = projects.filter((project) => project.featuredOnHome);
+    if (featured.length >= 4) return featured;
+    return [
+      ...featured,
+      ...projects.filter((project) => !project.featuredOnHome).slice(0, 4 - featured.length),
+    ];
+  }, [projects]);
 
   return (
     <section className="py-24 space-y-24 md:space-y-36 bg-background" id="projects">
@@ -126,7 +135,7 @@ export default function AlternatingProjects({ onOpenConsultation }: AlternatingP
 
         {/* Dynamic Alternating Project Blocks */}
         <div className="space-y-28 md:space-y-40">
-          {projects.slice(0, 4).map((project, index) => {
+          {displayProjects.map((project, index) => {
             const isEven = index % 2 === 0;
             return (
               <Reveal

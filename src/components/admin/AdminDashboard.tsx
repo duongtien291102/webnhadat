@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import {
   Badge,
   Button,
@@ -17,7 +16,7 @@ import {
   Search24Regular,
 } from '@fluentui/react-icons';
 import type { AdminContact, AdminContactFilters } from '@/lib/admin/contacts';
-import AdminLogoutButton from './AdminLogoutButton';
+import AdminNavHeader from './AdminNavHeader';
 
 type DashboardProps = {
   contacts: AdminContact[];
@@ -101,18 +100,7 @@ export default function AdminDashboard({ contacts, summary, pagination, filters 
       data-allow-copy="true"
       style={{ WebkitUserSelect: 'text', userSelect: 'text' }}
     >
-      <header className="border-b border-neutral-200 bg-white">
-        <div className="mx-auto flex min-h-18 max-w-[1440px] items-center justify-between gap-4 px-4 py-3 md:px-8">
-          <div className="flex min-w-0 items-center gap-3">
-            <Image src="/logoNOU.jpg" alt="NOU.Design" width={44} height={44} className="h-11 w-11 object-contain" />
-            <div className="min-w-0">
-              <p className="truncate text-sm font-bold tracking-[0.14em] text-neutral-950">NOU.Design</p>
-              <p className="truncate text-xs text-neutral-500">Quản trị liên hệ</p>
-            </div>
-          </div>
-          <AdminLogoutButton />
-        </div>
-      </header>
+      <AdminNavHeader />
 
       <div className="mx-auto max-w-[1440px] space-y-6 px-4 py-6 md:px-8 md:py-9">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">

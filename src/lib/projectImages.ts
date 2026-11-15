@@ -47,8 +47,13 @@ function getImagePriority(projectId: string, image: string) {
   return 20;
 }
 
+export function isUploadedImageUrl(url: string | null | undefined): boolean {
+  return Boolean(url && url.startsWith('/api/uploads/'));
+}
+
 export function safeEncodeURI(url: string): string {
   if (!url) return url;
+  if (isUploadedImageUrl(url)) return url;
   try {
     return encodeURI(decodeURI(url));
   } catch {
@@ -60,7 +65,9 @@ export function getOrderedProjectImages(project: Project) {
   const rawImages = Array.from(new Set([project.mainImage, ...project.gallery].filter(Boolean)));
   const images = rawImages.map(safeEncodeURI);
 
-  if (!PROJECTS_REQUIRING_NATURAL_ORDER.has(project.id)) return images;
+  if (project.sortOrder !== undefined || !PROJECTS_REQUIRING_NATURAL_ORDER.has(project.id)) {
+    return images;
+  }
 
   const cover = safeEncodeURI(project.mainImage);
   const remainingImages = images.filter((image) => image !== cover).sort((left, right) => {
@@ -72,6 +79,9 @@ export function getOrderedProjectImages(project: Project) {
 }
 
 export function getProjectCardImage(project: Project) {
+  if (project.cardImage) {
+    return safeEncodeURI(project.cardImage);
+  }
   if (USE_MAIN_IMAGE_AS_CARD.has(project.id) || newModernAndWabiProjectIds.has(project.id)) {
     return safeEncodeURI(project.mainImage);
   }

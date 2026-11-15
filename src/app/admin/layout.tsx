@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import AdminProvider from '@/components/admin/AdminProvider';
 
 export const metadata: Metadata = {
-  title: 'Quản trị liên hệ',
+  title: 'Quản trị hệ thống | NOU.Design',
   description: 'Khu vực quản trị nội bộ của NOU.Design.',
   robots: {
     index: false,

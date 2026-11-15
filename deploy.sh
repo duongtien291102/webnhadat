@@ -42,6 +42,7 @@ load_runtime_environment() {
 prepare_release() {
   test -f .next/standalone/server.js
 
+  mkdir -p "${APP_ROOT}/uploads"
   rm -rf "$NEXT_RELEASE"
   mkdir -p "$NEXT_RELEASE/public" "$NEXT_RELEASE/.next/static"
   cp -a .next/standalone/. "$NEXT_RELEASE/"
