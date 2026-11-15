@@ -73,5 +73,13 @@ export async function requireAdminSession() {
 
 export async function deleteAdminSession() {
   const cookieStore = await cookies();
-  cookieStore.delete(COOKIE_NAME);
+  cookieStore.set(COOKIE_NAME, '', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    maxAge: 0,
+    expires: new Date(0),
+    path: '/',
+    priority: 'high',
+  });
 }
