@@ -40,7 +40,14 @@ async function convertToWebp(dir) {
         console.log(`⏳ Đang chuyển đổi: ${file} -> .webp`);
         try {
           await sharp(fullPath)
-            .webp({ quality: 80 }) // Nén 80% để giữ chất lượng tốt nhưng giảm dung lượng mạnh
+            .rotate()
+            .resize({
+              width: 2048,
+              height: 2048,
+              fit: 'inside',
+              withoutEnlargement: true,
+            })
+            .webp({ quality: 80 }) // Nén 80% và giới hạn cạnh dài 2048px để tối ưu tốc độ tải web
             .toFile(newPath);
           
           console.log(`✅ Thành công: ${path.basename(newPath)}`);

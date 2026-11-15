@@ -25,6 +25,7 @@ import {
 import type { FounderMember, HeroSlide, Material, SiteSettingsData } from '@/types';
 import AdminImageField from './AdminImageField';
 import AdminNavHeader from './AdminNavHeader';
+import AdminStatusPopup from './AdminStatusPopup';
 
 interface AdminSiteSettingsManagerProps {
   initialSettings: SiteSettingsData;
@@ -717,6 +718,8 @@ export default function AdminSiteSettingsManager({ initialSettings }: AdminSiteS
           </Button>
         </div>
       </form>
+
+      <AdminStatusPopup status={statusMessage} onClose={() => setStatusMessage(null)} />
     </main>
   );
 }

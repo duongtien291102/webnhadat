@@ -2,7 +2,7 @@
 
 import { useId, useRef, useState } from 'react';
 import { Button, Input, Spinner } from '@fluentui/react-components';
-import { Image as ImageIcon, Upload } from 'lucide-react';
+import { Check, Copy, Image as ImageIcon, Upload } from 'lucide-react';
 import { uploadAdminImages } from './uploadClient';
 
 interface AdminImageFieldProps {
@@ -25,7 +25,19 @@ export default function AdminImageField({
   const inputId = useId();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [copied, setCopied] = useState(false);
   const [error, setError] = useState('');
+
+  async function handleCopyUrl() {
+    if (!value) return;
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
+    } catch {
+      setError('Không thể sao chép đường dẫn.');
+    }
+  }
 
   async function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
     const files = event.target.files;
@@ -90,14 +102,27 @@ export default function AdminImageField({
         )}
       </div>
 
-      <Input
-        id={inputId}
-        value={value}
-        onChange={(_, data) => onChange(data.value)}
-        placeholder="/api/uploads/... hoặc đường dẫn ảnh"
-        size="small"
-        className="!w-full"
-      />
+      <div className="flex items-center gap-2">
+        <Input
+          id={inputId}
+          value={value}
+          readOnly
+          onFocus={(event) => event.target.select()}
+          placeholder="Chưa có đường dẫn ảnh"
+          size="small"
+          className="!flex-1 !bg-neutral-50 !text-neutral-600"
+        />
+        <Button
+          type="button"
+          appearance="secondary"
+          size="small"
+          icon={copied ? <Check size={14} /> : <Copy size={14} />}
+          onClick={handleCopyUrl}
+          disabled={!value}
+        >
+          {copied ? 'Đã copy' : 'Copy'}
+        </Button>
+      </div>
 
       {hint && <p className="text-xs text-neutral-500">{hint}</p>}
       {error && (

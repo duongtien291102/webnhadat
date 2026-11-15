@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
-import { X, ChevronRight, ArrowLeft, ArrowRight, MapPin, Ruler, Maximize2 } from 'lucide-react';
+import { X, ChevronRight, ArrowLeft, ArrowRight, MapPin, Ruler, Maximize2, Loader2 } from 'lucide-react';
 import { Project, styleLabels } from '../types';
 import { getOrderedProjectImages, isUploadedImageUrl } from '../lib/projectImages';
 
@@ -16,12 +16,21 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
   const [activePhotoIndex, setActivePhotoIndex] = useState<number>(0);
   const [direction, setDirection] = useState(1);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [loadedImageSrc, setLoadedImageSrc] = useState<string | null>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
   const thumbnailStripRef = useRef<HTMLDivElement>(null);
   const touchStartX = useRef<number | null>(null);
   const touchDidSwipe = useRef(false);
   const reduceMotion = useReducedMotion();
   const images = useMemo(() => project ? getOrderedProjectImages(project) : [], [project]);
+  const activeImageSrc = images[activePhotoIndex] ?? '';
+  const isMainImageLoading = Boolean(activeImageSrc && loadedImageSrc !== activeImageSrc);
+  const preloadIndices = useMemo(() => {
+    if (images.length <= 1) return [];
+    const prevIndex = activePhotoIndex === 0 ? images.length - 1 : activePhotoIndex - 1;
+    const nextIndex = (activePhotoIndex + 1) % images.length;
+    return Array.from(new Set([prevIndex, nextIndex])).filter((idx) => idx !== activePhotoIndex);
+  }, [images.length, activePhotoIndex]);
 
   const showPreviousPhoto = useCallback(() => {
     if (!project || images.length === 0) return;
@@ -139,9 +148,17 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
                 touchStartX.current = null;
               }}
             >
+              {isMainImageLoading && (
+                <div
+                  aria-live="polite"
+                  className="absolute inset-0 z-10 flex items-center justify-center bg-neutral-950/70 pointer-events-none"
+                >
+                  <Loader2 size={28} className="animate-spin text-white/75" />
+                </div>
+              )}
               <AnimatePresence initial={false} custom={direction}>
                 <motion.div
-                  key={images[activePhotoIndex]}
+                  key={activeImageSrc}
                   custom={direction}
                   initial={reduceMotion ? false : { opacity: 0, x: direction * 24 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -150,15 +167,34 @@ export default function ProjectDetailModal({ project, onClose, onOpenConsultatio
                   className="absolute inset-0"
                 >
                   <Image
-                    src={images[activePhotoIndex]}
+                    src={activeImageSrc}
                     alt={`Gallery angle ${activePhotoIndex + 1} of ${project.title}`}
                     fill
-                    unoptimized={isUploadedImageUrl(images[activePhotoIndex])}
+                    priority
+                    unoptimized={isUploadedImageUrl(activeImageSrc)}
                     sizes="(max-width: 768px) 100vw, 60vw"
                     className="object-cover"
-                    referrerPolicy="no-referrer" />
+                    referrerPolicy="no-referrer"
+                    onLoad={() => setLoadedImageSrc(activeImageSrc)}
+                    onError={() => setLoadedImageSrc(activeImageSrc)} />
                 </motion.div>
               </AnimatePresence>
+              {preloadIndices.length > 0 && (
+                <div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-0 -z-10 overflow-hidden">
+                  {preloadIndices.map((idx) => (
+                    <Image
+                      key={images[idx]}
+                      src={images[idx]}
+                      alt=""
+                      fill
+                      loading="eager"
+                      unoptimized={isUploadedImageUrl(images[idx])}
+                      sizes="(max-width: 768px) 100vw, 60vw"
+                      referrerPolicy="no-referrer"
+                    />
+                  ))}
+                </div>
+              )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none z-10" />
 
               {/* On phones, tapping the center of the image opens the fullscreen viewer. */}

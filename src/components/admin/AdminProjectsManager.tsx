@@ -31,6 +31,7 @@ import { getProjectCardImage } from '@/lib/projectImages';
 import { styleLabels, type Project } from '@/types';
 import AdminImageField from './AdminImageField';
 import AdminNavHeader from './AdminNavHeader';
+import AdminStatusPopup from './AdminStatusPopup';
 import { uploadAdminImages } from './uploadClient';
 
 interface AdminProjectsManagerProps {
@@ -894,6 +895,8 @@ export default function AdminProjectsManager({ initialProjects }: AdminProjectsM
           </form>
         </div>
       </div>
+
+      <AdminStatusPopup status={statusMessage} onClose={() => setStatusMessage(null)} />
     </main>
   );
 }
