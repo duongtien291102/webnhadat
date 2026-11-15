@@ -1,10 +1,21 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ExternalLink } from 'lucide-react';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogBody,
+  DialogContent,
+  DialogSurface,
+  DialogTitle,
+} from '@fluentui/react-components';
+import { AlertTriangle, ExternalLink } from 'lucide-react';
 import AdminLogoutButton from './AdminLogoutButton';
+import { ADMIN_UPLOAD_ERROR_EVENT, type AdminUploadErrorDetail } from './uploadClient';
 
 const navItems = [
   { href: '/admin/lien-he', label: 'Khách hàng liên hệ' },
@@ -14,6 +25,19 @@ const navItems = [
 
 export default function AdminNavHeader() {
   const pathname = usePathname();
+  const [uploadAlert, setUploadAlert] = useState<AdminUploadErrorDetail | null>(null);
+
+  useEffect(() => {
+    function handleUploadError(event: Event) {
+      const detail = (event as CustomEvent<AdminUploadErrorDetail>).detail;
+      if (detail?.message) {
+        setUploadAlert(detail);
+      }
+    }
+
+    window.addEventListener(ADMIN_UPLOAD_ERROR_EVENT, handleUploadError);
+    return () => window.removeEventListener(ADMIN_UPLOAD_ERROR_EVENT, handleUploadError);
+  }, []);
 
   return (
     <header className="sticky top-0 z-30 border-b border-neutral-200 bg-white/95 backdrop-blur-sm">
@@ -79,6 +103,25 @@ export default function AdminNavHeader() {
           );
         })}
       </nav>
+
+      <Dialog open={Boolean(uploadAlert)} onOpenChange={(_, data) => { if (!data.open) setUploadAlert(null); }}>
+        <DialogSurface className="!max-w-md !rounded-2xl !p-6">
+          <DialogBody>
+            <DialogTitle className="!flex !items-center !gap-2.5 !text-base !font-semibold !text-red-700">
+              <AlertTriangle className="h-5 w-5 shrink-0 text-red-600" aria-hidden />
+              <span>{uploadAlert?.title || 'Không thể tải ảnh lên'}</span>
+            </DialogTitle>
+            <DialogContent className="!pt-2 !text-sm !leading-6 !text-neutral-700">
+              {uploadAlert?.message}
+            </DialogContent>
+            <DialogActions className="!pt-4">
+              <Button appearance="primary" onClick={() => setUploadAlert(null)}>
+                Đã hiểu
+              </Button>
+            </DialogActions>
+          </DialogBody>
+        </DialogSurface>
+      </Dialog>
     </header>
   );
 }
