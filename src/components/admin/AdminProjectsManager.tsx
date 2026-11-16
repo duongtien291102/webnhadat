@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   Badge,
   Button,
@@ -102,9 +102,20 @@ export default function AdminProjectsManager({ initialProjects }: AdminProjectsM
   const [replacingIndex, setReplacingIndex] = useState<number | null>(null);
   const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
+  const editorFormRef = useRef<HTMLFormElement>(null);
   const galleryInputRef = useRef<HTMLInputElement>(null);
   const replaceInputRef = useRef<HTMLInputElement>(null);
   const pendingReplaceIndexRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (!isDirty) return;
+    function handleBeforeUnload(event: BeforeUnloadEvent) {
+      event.preventDefault();
+      event.returnValue = '';
+    }
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [isDirty]);
 
   const filteredProjects = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
@@ -130,8 +141,18 @@ export default function AdminProjectsManager({ initialProjects }: AdminProjectsM
     return window.confirm('Bạn có thay đổi chưa lưu ở dự án hiện tại. Chuyển sang thao tác khác và bỏ thay đổi?');
   }
 
+  function scrollToEditorOnMobile() {
+    if (typeof window === 'undefined' || window.innerWidth >= 1024) return;
+    requestAnimationFrame(() => {
+      editorFormRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+
   function handleSelectProject(project: Project) {
-    if (!isCreating && project.id === selectedId) return;
+    if (!isCreating && project.id === selectedId) {
+      scrollToEditorOnMobile();
+      return;
+    }
     if (!confirmDiscardChanges()) return;
 
     setIsCreating(false);
@@ -140,6 +161,7 @@ export default function AdminProjectsManager({ initialProjects }: AdminProjectsM
     setSyncCardWithMain(!project.cardImage || project.cardImage === project.mainImage);
     setIsDirty(false);
     setStatusMessage(null);
+    scrollToEditorOnMobile();
   }
 
   function handleStartCreate() {
@@ -151,6 +173,7 @@ export default function AdminProjectsManager({ initialProjects }: AdminProjectsM
     setSyncCardWithMain(true);
     setIsDirty(false);
     setStatusMessage(null);
+    scrollToEditorOnMobile();
   }
 
   function handleMainImageChange(newUrl: string) {
@@ -432,7 +455,7 @@ export default function AdminProjectsManager({ initialProjects }: AdminProjectsM
 
   return (
     <main
-      className="min-h-[100dvh] bg-[#f4f4f1] text-[#20201f]"
+      className={`min-h-[100dvh] bg-[#f4f4f1] text-[#20201f] ${isDirty ? 'pb-20' : ''}`}
       data-allow-copy="true"
       style={{ WebkitUserSelect: 'text', userSelect: 'text' }}
     >
@@ -554,7 +577,7 @@ export default function AdminProjectsManager({ initialProjects }: AdminProjectsM
           </Card>
 
           {/* Right Column: Project Editor */}
-          <form onSubmit={handleSaveProject} className="space-y-6">
+          <form ref={editorFormRef} onSubmit={handleSaveProject} className="space-y-6 scroll-mt-24">
             <Card appearance="outline" className="!rounded-xl !border-neutral-200 !bg-white !p-5 md:!p-6">
               <div className="flex flex-wrap items-center justify-between gap-4 border-b border-neutral-200 pb-4">
                 <div>
@@ -895,6 +918,27 @@ export default function AdminProjectsManager({ initialProjects }: AdminProjectsM
           </form>
         </div>
       </div>
+
+      {isDirty && (
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-amber-200 bg-amber-50/95 px-4 py-3 shadow-lg backdrop-blur-sm md:px-8">
+          <div className="mx-auto flex max-w-[1440px] flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-2 text-xs font-medium text-amber-950 sm:text-sm">
+              <AlertCircle size={16} className="shrink-0 text-amber-600" />
+              <span>Bạn có thay đổi chưa lưu. Bấm lưu để cập nhật lên website.</span>
+            </div>
+            <Button
+              type="button"
+              appearance="primary"
+              size="medium"
+              icon={isSaving ? <Spinner size="tiny" /> : <Save size={16} />}
+              disabled={isSaving}
+              onClick={() => editorFormRef.current?.requestSubmit()}
+            >
+              {isSaving ? 'Đang lưu...' : isCreating ? 'Đăng dự án mới' : 'Lưu thay đổi'}
+            </Button>
+          </div>
+        </div>
+      )}
 
       <AdminStatusPopup status={statusMessage} onClose={() => setStatusMessage(null)} />
     </main>

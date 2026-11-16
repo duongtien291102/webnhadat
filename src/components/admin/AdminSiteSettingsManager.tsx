@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   Badge,
   Button,
@@ -44,11 +44,28 @@ function moveItem<T>(list: T[], index: number, direction: -1 | 1): T[] {
 }
 
 export default function AdminSiteSettingsManager({ initialSettings }: AdminSiteSettingsManagerProps) {
+  const formRef = useRef<HTMLFormElement>(null);
   const [settings, setSettings] = useState<SiteSettingsData>(initialSettings);
   const [activeTab, setActiveTab] = useState<SettingsTab>('hero');
   const [isDirty, setIsDirty] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  useEffect(() => {
+    if (!isDirty) return;
+    function handleBeforeUnload(event: BeforeUnloadEvent) {
+      event.preventDefault();
+      event.returnValue = '';
+    }
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [isDirty]);
+
+  function scrollToNewItem(domId: string) {
+    requestAnimationFrame(() => {
+      document.getElementById(domId)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  }
 
   function updateSettings(updater: (prev: SiteSettingsData) => SiteSettingsData) {
     setSettings((prev) => updater(prev));
@@ -110,10 +127,16 @@ export default function AdminSiteSettingsManager({ initialSettings }: AdminSiteS
       meta: 'NỘI THẤT • HÀ NỘI',
       href: '/style/all',
     };
+    const nextCount = settings.heroSlides.length + 1;
     updateSettings((prev) => ({
       ...prev,
       heroSlides: [...prev.heroSlides, newSlide],
     }));
+    setStatusMessage({
+      type: 'success',
+      text: `Đã thêm Slide #${nextCount} ở cuối danh sách. Nhớ bấm "Lưu thay đổi" để cập nhật lên website.`,
+    });
+    scrollToNewItem(`hero-slide-${newSlide.id}`);
   }
 
   function addMaterial() {
@@ -126,10 +149,16 @@ export default function AdminSiteSettingsManager({ initialSettings }: AdminSiteS
       details: 'Chi tiết đặc tính và ứng dụng của vật liệu.',
       highlights: ['Bền bỉ', 'Thẩm mỹ tự nhiên'],
     };
+    const nextCount = settings.materials.length + 1;
     updateSettings((prev) => ({
       ...prev,
       materials: [...prev.materials, newMaterial],
     }));
+    setStatusMessage({
+      type: 'success',
+      text: `Đã thêm Vật liệu #${nextCount}. Nhớ bấm "Lưu thay đổi" để cập nhật lên website.`,
+    });
+    scrollToNewItem(`material-${newMaterial.id}`);
   }
 
   function addFounder() {
@@ -140,6 +169,7 @@ export default function AdminSiteSettingsManager({ initialSettings }: AdminSiteS
       bio: 'Giới thiệu ngắn về vai trò và triết lý thiết kế.',
       image: settings.about.founders[0]?.image || '',
     };
+    const nextCount = settings.about.founders.length + 1;
     updateSettings((prev) => ({
       ...prev,
       about: {
@@ -147,17 +177,22 @@ export default function AdminSiteSettingsManager({ initialSettings }: AdminSiteS
         founders: [...prev.about.founders, newFounder],
       },
     }));
+    setStatusMessage({
+      type: 'success',
+      text: `Đã thêm Thành viên #${nextCount}. Nhớ bấm "Lưu thay đổi" để cập nhật lên website.`,
+    });
+    scrollToNewItem(`founder-${newFounder.id}`);
   }
 
   return (
     <main
-      className="min-h-[100dvh] bg-[#f4f4f1] text-[#20201f]"
+      className={`min-h-[100dvh] bg-[#f4f4f1] text-[#20201f] ${isDirty ? 'pb-20' : ''}`}
       data-allow-copy="true"
       style={{ WebkitUserSelect: 'text', userSelect: 'text' }}
     >
       <AdminNavHeader />
 
-      <form onSubmit={handleSave} className="mx-auto max-w-[1440px] space-y-6 px-4 py-6 md:px-8 md:py-8">
+      <form ref={formRef} onSubmit={handleSave} className="mx-auto max-w-[1440px] space-y-6 px-4 py-6 md:px-8 md:py-8">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
             <div className="flex items-center gap-2.5">
@@ -218,7 +253,12 @@ export default function AdminSiteSettingsManager({ initialSettings }: AdminSiteS
             </div>
 
             {settings.heroSlides.map((slide, index) => (
-              <Card key={slide.id} appearance="outline" className="!rounded-xl !border-neutral-200 !bg-white !p-5">
+              <Card
+                key={slide.id}
+                id={`hero-slide-${slide.id}`}
+                appearance="outline"
+                className="!rounded-xl !border-neutral-200 !bg-white !p-5 scroll-mt-24"
+              >
                 <div className="mb-4 flex flex-wrap items-center justify-between gap-2 border-b border-neutral-100 pb-3">
                   <span className="text-sm font-semibold text-neutral-900">Slide #{index + 1}</span>
                   <div className="flex items-center gap-1">
@@ -453,7 +493,12 @@ export default function AdminSiteSettingsManager({ initialSettings }: AdminSiteS
 
             <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
               {settings.materials.map((material, index) => (
-                <Card key={material.id} appearance="outline" className="!rounded-xl !border-neutral-200 !bg-white !p-5">
+                <Card
+                  key={material.id}
+                  id={`material-${material.id}`}
+                  appearance="outline"
+                  className="!rounded-xl !border-neutral-200 !bg-white !p-5 scroll-mt-24"
+                >
                   <div className="mb-4 flex items-center justify-between border-b border-neutral-100 pb-3">
                     <span className="text-sm font-semibold text-neutral-900">
                       Vật liệu #{index + 1}: {material.vietnameseName}
@@ -551,7 +596,11 @@ export default function AdminSiteSettingsManager({ initialSettings }: AdminSiteS
 
               <div className="mt-5 space-y-5">
                 {settings.about.founders.map((founder, index) => (
-                  <div key={founder.id} className="rounded-xl border border-neutral-200 p-4">
+                  <div
+                    key={founder.id}
+                    id={`founder-${founder.id}`}
+                    className="rounded-xl border border-neutral-200 p-4 scroll-mt-24"
+                  >
                     <div className="mb-3 flex items-center justify-between">
                       <span className="text-sm font-semibold text-neutral-900">Thành viên #{index + 1}</span>
                       <div className="flex items-center gap-1">
@@ -718,6 +767,27 @@ export default function AdminSiteSettingsManager({ initialSettings }: AdminSiteS
           </Button>
         </div>
       </form>
+
+      {isDirty && (
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-amber-200 bg-amber-50/95 px-4 py-3 shadow-lg backdrop-blur-sm md:px-8">
+          <div className="mx-auto flex max-w-[1440px] flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-2 text-xs font-medium text-amber-950 sm:text-sm">
+              <AlertCircle size={16} className="shrink-0 text-amber-600" />
+              <span>Bạn có thay đổi chưa lưu. Bấm lưu để cập nhật lên website.</span>
+            </div>
+            <Button
+              type="button"
+              appearance="primary"
+              size="medium"
+              icon={isSaving ? <Spinner size="tiny" /> : <Save size={16} />}
+              disabled={isSaving}
+              onClick={() => formRef.current?.requestSubmit()}
+            >
+              {isSaving ? 'Đang lưu...' : 'Lưu thay đổi'}
+            </Button>
+          </div>
+        </div>
+      )}
 
       <AdminStatusPopup status={statusMessage} onClose={() => setStatusMessage(null)} />
     </main>
